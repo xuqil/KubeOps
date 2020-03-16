@@ -1,69 +1,62 @@
-from django.shortcuts import HttpResponse
-from django.views.decorators.http import require_http_methods
-from django.contrib.auth.hashers import make_password, check_password
-import json
+from django.contrib.auth.hashers import check_password
 
 from rest_framework.views import APIView
+from rest_framework import viewsets
+from rest_framework import mixins
+from rest_framework import generics
 from rest_framework.response import Response
-from rest_framework.decorators import authentication_classes
 
-from .models import UserInfo
+from rbac import models
 from utils.jwt_token import create_token
+from rbac import serializers
 
 
-@require_http_methods(["POST"])
-@authentication_classes([])
-def register(request):
-    # 添加用户
-    username = request.POST.get('username')
-    password = request.POST.get('password')
-    email = request.POST.get('email')
-    mobile = request.POST.get('mobile')
-    content = {'data': {}, 'msg': '', 'status': 200}
-    if username is not None and password is not None:
-        if UserInfo.objects.filter(username=username).first():
-            content['msg'] = '用户已注册'
-            content['status'] = 400
-            return HttpResponse(json.dumps(content), content_type='application/json;charset = utf-8')
-        try:
-            if email is not None and mobile is not None:
-                obj = UserInfo.objects.create(username=username, password=make_password(password), email=email,
-                                              mobile=mobile)
-                obj.save()
-            if email is not None and mobile is None:
-                obj = UserInfo.objects.create(username=username, password=make_password(password), email=email)
-                obj.save()
-            if email is None and mobile is not None:
-                obj = UserInfo.objects.create(username=username, password=make_password(password), mobile=mobile)
-                obj.save()
-            else:
-                obj = UserInfo.objects.create(username=username, password=make_password(password))
-                obj.save()
-        except Exception as e:
-            print(e)
-            content['msg'] = '注册失败'
-            content['status'] = 400
-            return HttpResponse(json.dumps(content), content_type='application/json;charset = utf-8')
-        content['msg'] = '注册成功'
-        content['status'] = 200
-        return HttpResponse(json.dumps(content), content_type='application/json;charset = utf-8')
-    content['msg'] = '注册失败'
-    content['status'] = 400
-    return HttpResponse(json.dumps(content), content_type='application/json;charset = utf-8')
+class UsersCreateView(mixins.CreateModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
+    """
+    添加用户
+    """
+    queryset = models.UserInfo.objects.all()
+    authentication_classes = []
+    serializer_class = serializers.UserCreateSerializer
 
 
 class LoginView(APIView):
+    """
+    用户登录
+    """
     authentication_classes = []
 
     def post(self, request, *args, **kwargs):
         """ 用户登录 """
         username = request.POST.get('username')
         password = request.POST.get('password')
-        if not UserInfo.objects.filter(username=username).first():
+        obj = models.UserInfo.objects.filter(username=username).first()
+        if not obj:
             return Response({'msg': '用户或密码错误', 'status': 400})
-        db_password = UserInfo.objects.filter(username=username).first().password
+        db_password = models.UserInfo.objects.filter(username=username).first().password
         if not check_password(password=password, encoded=db_password):
             return Response({'msg': '用户或密码错误', 'status': 400})
         token = create_token({'username': username})
         return Response({'msg': '登录成功', 'status': 200, 'token': token})
 
+
+class UsersListUpdateView(viewsets.ModelViewSet):
+    """
+    多个用户信息的改和查
+    """
+    queryset = models.UserInfo.objects.all()
+    serializer_class = serializers.UserListSerializer
+
+
+class Test(mixins.UpdateModelMixin, viewsets.GenericViewSet):
+    queryset = models.UserInfo.objects.all()
+    serializer_class = serializers.UserUpdateSerializer
+
+
+class PermissionTest(APIView):
+    def get(self, request, *args, **kwargs):
+        obj = models.UserInfo.objects.filter(pk=13).first()
+        print(type(obj.roles))
+        print(obj.roles)
+        print(obj.roles.permissions.values())
+        return Response({'msg': 'ok'})

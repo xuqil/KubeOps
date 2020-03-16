@@ -13,10 +13,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.urls import path
-from rbac import views
+from django.urls import path, re_path, include
 
 urlpatterns = [
-    path('register/', views.register),
-    path('login/', views.LoginView.as_view()),
+    re_path(r'^api/(?P<version>[v1|v2]+)/', include('rbac.urls', namespace='rbac')),
 ]

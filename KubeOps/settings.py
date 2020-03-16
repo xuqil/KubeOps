@@ -18,7 +18,6 @@ import pymysql
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -30,7 +29,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -41,10 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'rbac'
+    'rbac',
+    'corsheaders',  # Django跨域解决
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  # corsheaders跨域
+    'django.middleware.common.CommonMiddleware',  # corsheaders跨域
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -53,6 +54,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# 跨域CORS设置
+# CORS_ORIGIN_ALLOW_ALL = False  # 默认为False，如果为True则允许所有连接
+CORS_ORIGIN_WHITELIST = (  # 配置允许访问的白名单
+    'http://localhost:8080',
+    'http://127.0.0.1:8080',
+)
 
 ROOT_URLCONF = 'KubeOps.urls'
 
@@ -75,7 +83,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'KubeOps.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
@@ -92,7 +99,6 @@ DATABASES = {
         'HOST': '127.0.0.1'
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -112,7 +118,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
@@ -124,18 +129,19 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
-
+# USE_TZ = True
+# 数据库存储使用时间，True时间会被存为UTC的时间
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
 
-
 # rest framework配置
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'utils.authorization.MyAuthentication'
-    ]
+    # 'DEFAULT_AUTHENTICATION_CLASSES': [
+    #     'utils.authorization.MyAuthentication'
+    # ]
+    'DEFAULT_PAGINATION_CLASS': 'utils.pagination.MyPageNumberPagination'
 }

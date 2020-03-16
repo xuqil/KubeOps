@@ -7,23 +7,20 @@ class UserInfo(models.Model):
     用户信息
     """
     # 用户名称
-    username = models.CharField(max_length=20, unique=True)
+    username = models.CharField(max_length=20, unique=True, verbose_name='账号')
     # 密码
-    password = models.CharField(max_length=100)
+    password = models.CharField(max_length=100, verbose_name='密码')
     # 联系方式
-    mobile = models.CharField(max_length=11, blank=True)
+    mobile = models.CharField(max_length=11, blank=True, verbose_name='电话')
     # 邮箱
-    email = models.EmailField(max_length=50, blank=True)
-    # 部门
-    department = models.ForeignKey("Organization", null=True, blank=True, on_delete=models.CASCADE)
-    # 职位
-    position = models.CharField(max_length=50, blank=True,)
-    # 上级主管
-    superior = models.ForeignKey("self", null=True, blank=True, on_delete=models.CASCADE)
+    email = models.EmailField(max_length=50, blank=True, verbose_name='邮箱')
     # 角色
-    roles = models.ManyToManyField("Role", null=True, blank=True)
+    roles = models.ForeignKey("Role", null=True, blank=True, verbose_name='角色', on_delete=models.CASCADE,
+                              related_name='user_roles')
+    # 状态
+    active = models.BooleanField(default=True)
     # 加入时间
-    create_time = models.DateTimeField(auto_now_add=True)
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name='加入时间')
 
     class Meta:
         db_table = 'user_info'
@@ -37,9 +34,9 @@ class Permission(models.Model):
     """
     权限
     """
-    name = models.CharField(max_length=30, unique=True)
+    name = models.CharField(max_length=30, unique=True, verbose_name='权限')
     # 权限代码
-    code = models.CharField(max_length=100, unique=True)
+    code = models.CharField(max_length=100, unique=True, verbose_name='权限代号')
 
     def __str__(self):
         return self.name
@@ -53,52 +50,34 @@ class Role(models.Model):
     """
     角色
     """
-    name = models.CharField(max_length=32, unique=True)
+    name = models.CharField(max_length=32, unique=True, verbose_name='角色')
     # 角色代码
-    code = models.CharField(max_length=100, unique=True)
+    code = models.CharField(max_length=100, unique=True, verbose_name='角色代号')
     # 权限
-    permissions = models.ManyToManyField("Permission", null=True, blank=True)
+    permissions = models.ManyToManyField("Permission", blank=True, verbose_name='权限')
     # 描述
-    desc = models.CharField(max_length=50, blank=True)
-
-    class Meta:
-        db_table = 'role'
-
-
-class Organization(models.Model):
-    """
-    组织架构
-    """
-    organization_type_choices = (
-        ("company", "公司"),
-        ("department", "部门")
-    )
-    name = models.CharField(max_length=60)
-    # 类型
-    type = models.CharField(max_length=20, choices=organization_type_choices, default="company")
-    # 父类组织
-    pid = models.ForeignKey("self", null=True, blank=True, on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = 'organization'
+    desc = models.CharField(max_length=50, blank=True, verbose_name='描述')
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        db_table = 'role'
 
 
 class Menu(models.Model):
     """
     菜单
     """
-    name = models.CharField(max_length=30, unique=True)
+    name = models.CharField(max_length=30, unique=True, verbose_name='名称')
     # 图标
-    icon = models.CharField(max_length=50, blank=True)
+    icon = models.CharField(max_length=50, blank=True, verbose_name='图标')
     # 路径
-    path = models.CharField(max_length=158, blank=True)
+    path = models.CharField(max_length=158, blank=True, verbose_name='路径')
     # 排序
-    sort = models.IntegerField(blank=True)
+    sort = models.IntegerField(blank=True, verbose_name='排序')
     # 上级菜单
-    pid = models.ForeignKey("self", null=True, blank=True, on_delete=models.CASCADE)
+    pid = models.ForeignKey("self", null=True, blank=True, on_delete=models.CASCADE, verbose_name='上级菜单')
 
     def __str__(self):
         return self.name
