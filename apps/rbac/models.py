@@ -15,7 +15,7 @@ class UserInfo(models.Model):
     # 邮箱
     email = models.EmailField(max_length=50, blank=True, verbose_name='邮箱')
     # 角色
-    roles = models.ForeignKey("Role", null=True, blank=True, verbose_name='角色', on_delete=models.CASCADE,
+    roles = models.ForeignKey("Role", null=True, blank=True, default=1, verbose_name='角色', on_delete=models.CASCADE,
                               related_name='user_roles')
     # 状态
     active = models.BooleanField(default=True)

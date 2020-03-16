@@ -1,7 +1,8 @@
 from rest_framework import serializers
-from rbac import models
-from django.contrib.auth.hashers import make_password
 from rest_framework.validators import UniqueValidator
+from django.contrib.auth.hashers import make_password
+
+from rbac import models
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
@@ -15,8 +16,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.UserInfo
-        fields = ['id', 'username', 'password', 'mobile', 'email',
-                  'department', 'position', 'roles']
+        fields = ['id', 'username', 'password', 'mobile', 'email', 'roles']
 
     def create(self, validated_data):
         validated_data['password'] = make_password(validated_data['password'])
@@ -29,19 +29,13 @@ class UserListSerializer(serializers.ModelSerializer):
     """
     用户列表的序列化
     """
-    roles = serializers.SerializerMethodField()
-
-    def get_roles(self, row):
-        try:
-            role_obj = row.roles.name
-        except Exception:
-            return
-        return role_obj
+    username = serializers.CharField(required=False)
+    active = serializers.BooleanField(required=False)
+    roles = serializers.CharField(required=False, error_messages={'msg': '请创建该角色'})
 
     class Meta:
         model = models.UserInfo
         fields = ['id', 'username', 'mobile', 'email', 'create_time', 'active', 'roles']
-        depth = 1
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):
