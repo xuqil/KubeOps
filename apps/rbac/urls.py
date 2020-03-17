@@ -12,8 +12,6 @@ router.register(r'test', views.Test)  # 测试
 
 urlpatterns = [
     path('login/', views.LoginView.as_view()),
-    path('permission/', views.PermissionTest.as_view()),
-
 
     path('', include(router.urls)),
 

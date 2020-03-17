@@ -3,21 +3,20 @@ from django.contrib.auth.hashers import check_password
 from rest_framework.views import APIView
 from rest_framework import viewsets
 from rest_framework import mixins
-from rest_framework import generics
 from rest_framework.response import Response
 
-from rbac import models
+from rbac.models import *
 from utils.jwt_token import create_token
-from rbac import serializers
+from rbac.serializers import userSerializers
 
 
 class UsersCreateView(mixins.CreateModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
     """
     添加用户
     """
-    queryset = models.UserInfo.objects.all()
+    queryset = UserProfile.objects.all()
     authentication_classes = []
-    serializer_class = serializers.UserCreateSerializer
+    serializer_class = userSerializers.UserCreateSerializer
 
 
 class LoginView(APIView):
@@ -30,13 +29,19 @@ class LoginView(APIView):
         """ 用户登录 """
         username = request.POST.get('username')
         password = request.POST.get('password')
-        obj = models.UserInfo.objects.filter(username=username).first()
-        if not obj:
+        user_obj = UserProfile.objects.filter(username=username).first()
+        if not user_obj:
             return Response({'msg': '用户或密码错误', 'status': 400})
-        db_password = models.UserInfo.objects.filter(username=username).first().password
+        db_password = UserProfile.objects.filter(username=username).first().password
         if not check_password(password=password, encoded=db_password):
             return Response({'msg': '用户或密码错误', 'status': 400})
-        token = create_token({'username': username})
+        permissions = user_obj.roles.all().values('permissions__action', 'permissions__path')
+        paths = []
+        actions = []
+        for i in permissions:
+            paths.append(i.get('permissions__path', ''))
+            actions.append(i.get('permissions__action', ''))
+        token = create_token({'username': username, 'paths': paths, 'actions': actions})
         return Response({'msg': '登录成功', 'status': 200, 'token': token})
 
 
@@ -44,19 +49,11 @@ class UsersListUpdateView(viewsets.ModelViewSet):
     """
     多个用户信息的改和查
     """
-    queryset = models.UserInfo.objects.all()
-    serializer_class = serializers.UserListSerializer
+    queryset = UserProfile.objects.all()
+    serializer_class = userSerializers.UserListSerializer
 
 
 class Test(mixins.UpdateModelMixin, viewsets.GenericViewSet):
-    queryset = models.UserInfo.objects.all()
-    serializer_class = serializers.UserUpdateSerializer
+    queryset = UserProfile.objects.all()
+    serializer_class = userSerializers.UserUpdateSerializer
 
-
-class PermissionTest(APIView):
-    def get(self, request, *args, **kwargs):
-        obj = models.UserInfo.objects.filter(pk=13).first()
-        print(type(obj.roles))
-        print(obj.roles)
-        print(obj.roles.permissions.values())
-        return Response({'msg': 'ok'})

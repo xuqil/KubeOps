@@ -10,12 +10,12 @@ class UserCreateSerializer(serializers.ModelSerializer):
     创建用户序列化
     """
     username = serializers.CharField(required=True, allow_blank=False, help_text='用户名', label='用户名', validators=[
-        UniqueValidator(queryset=models.UserInfo.objects.all(), message='用户已存在')])
+        UniqueValidator(queryset=models.UserProfile.objects.all(), message='用户已存在')])
     password = serializers.CharField(required=True, write_only=True, help_text='密码', label='密码',
                                      style={'input_type': 'password'})
 
     class Meta:
-        model = models.UserInfo
+        model = models.UserProfile
         fields = ['id', 'username', 'password', 'mobile', 'email', 'roles']
 
     def create(self, validated_data):
@@ -31,11 +31,14 @@ class UserListSerializer(serializers.ModelSerializer):
     """
     username = serializers.CharField(required=False)
     active = serializers.BooleanField(required=False)
-    roles = serializers.CharField(required=False, error_messages={'msg': '请创建该角色'})
+    roles = serializers.SerializerMethodField()
+
+    def get_roles(self, obj):
+        return obj.roles.values()
 
     class Meta:
-        model = models.UserInfo
-        fields = ['id', 'username', 'mobile', 'email', 'create_time', 'active', 'roles']
+        model = models.UserProfile
+        fields = ['id', 'username', 'mobile', 'email', 'c_time', 'active', 'roles']
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):
@@ -44,5 +47,5 @@ class UserUpdateSerializer(serializers.ModelSerializer):
     """
 
     class Meta:
-        model = models.UserInfo
+        model = models.UserProfile
         fields = ['username', 'mobile', 'email', 'active', 'roles']
