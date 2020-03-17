@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from rbac.models import *
 from utils.jwt_token import create_token
 from rbac.serializers import userSerializers
+from rbac.serializers import rolesSerializers
 
 
 class UsersCreateView(mixins.CreateModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
@@ -53,7 +54,16 @@ class UsersListUpdateView(viewsets.ModelViewSet):
     serializer_class = userSerializers.UserListSerializer
 
 
-class Test(mixins.UpdateModelMixin, viewsets.GenericViewSet):
-    queryset = UserProfile.objects.all()
-    serializer_class = userSerializers.UserUpdateSerializer
+class RoleView(viewsets.ModelViewSet):
+    """
+    角色管理
+    """
+    queryset = Role.objects.all()
+    serializer_class = rolesSerializers.RoleListSerializer
 
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return rolesSerializers.RoleListSerializer
+        elif self.action == 'retrieve':
+            return rolesSerializers.RoleRetrieveSerializer
+        return rolesSerializers.RoleModifySerializer

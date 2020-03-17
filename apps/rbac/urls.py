@@ -7,7 +7,8 @@ app_name = 'rbac'
 router = DefaultRouter()
 router.register(r'users', views.UsersListUpdateView)
 router.register(r'user', views.UsersCreateView)  # 用户注册
-router.register(r'test', views.Test)  # 测试
+router.register(r'roles', views.RoleView)  # 用户注册
+# router.register(r'test', views.Test)  # 测试
 
 
 urlpatterns = [
