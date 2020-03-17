@@ -7,7 +7,8 @@ from rest_framework.response import Response
 
 from rbac.models import *
 from utils.jwt_token import create_token
-from rbac.serializers import userSerializers, rolesSerializers, permissionsSerializers
+from rbac.serializers import userSerializers, rolesSerializers, permissionsSerializers, menuSerializers
+from utils.pagination import MenuPagination
 
 
 class UsersCreateView(mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin,
@@ -81,4 +82,40 @@ class PermissionView(viewsets.ModelViewSet):
     权限管理
     """
     queryset = Permissions.objects.all()
-    serializer_class = permissionsSerializers.PermissionListSerializer
+    serializer_class = permissionsSerializers.PermissionSerializer
+
+
+class MenuView(viewsets.ModelViewSet):
+    """
+    菜单管理
+    """
+    pagination_class = MenuPagination
+    permission_classes = []
+    queryset = Menu.objects.all().order_by('sort')
+    serializer_class = menuSerializers.MenuSerializer
+
+
+class MenuTreeView(APIView):
+    """
+    菜单树
+    """
+
+    def get(self, request, *args, **kwargs):
+        queryset = Menu.objects.all()
+        serializer = menuSerializers.MenuSerializer(queryset, many=True)
+        tree_dict = {}
+        tree_data = []
+        try:
+            for item in serializer.data:
+                tree_dict[item['id']] = item
+            for i in tree_dict:
+                if tree_dict[i]['pid']:
+                    pid = tree_dict[i]['pid']
+                    parent = tree_dict[pid]
+                    parent.setdefault('children', []).append(tree_dict[i])
+                else:
+                    tree_data.append(tree_dict[i])
+            results = tree_data
+        except KeyError:
+            results = serializer.data
+        return Response(results)

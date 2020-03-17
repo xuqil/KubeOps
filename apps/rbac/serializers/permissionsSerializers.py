@@ -3,9 +3,9 @@ from rest_framework import serializers
 from rbac.models import Permissions
 
 
-class PermissionListSerializer(serializers.ModelSerializer):
+class PermissionSerializer(serializers.ModelSerializer):
     """
-    角色列表序列化
+    权限列化
     """
 
     class Meta:

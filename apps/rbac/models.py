@@ -7,7 +7,9 @@ class Menu(models.Model):
     """
     title = models.CharField(verbose_name='菜单', max_length=32)
     icon = models.CharField(verbose_name='图标', max_length=32)
+    path = models.CharField(verbose_name="链接地址", blank=True, max_length=100)
     sort = models.IntegerField(verbose_name='排序', blank=True)
+    pid = models.ForeignKey("self", verbose_name="父级菜单", null=True, blank=True, on_delete=models.SET_NULL)
 
     class Meta:
         ordering = ['sort']
@@ -23,11 +25,6 @@ class Permissions(models.Model):
     title = models.CharField(verbose_name='标题', max_length=32)
     path = models.CharField(verbose_name='含正则的URL', max_length=128)
     action = models.CharField(verbose_name='动作', max_length=16, default='')
-    pid = models.ForeignKey(verbose_name='默认选中权限', to='Permissions', related_name='ps', null=True, blank=True,
-                            help_text="对于无法作为菜单的URL，可以为其选择一个可以作为菜单的权限，那么访问时，则默认选中此权限",
-                            limit_choices_to={'menu__isnull': False}, on_delete=models.CASCADE)
-    menu = models.ForeignKey(verbose_name='菜单', to='Menu', null=True, blank=True, help_text='null表示非菜单',
-                             on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['id']
