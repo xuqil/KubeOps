@@ -5,9 +5,10 @@ from rest_framework.routers import DefaultRouter
 app_name = 'rbac'
 
 router = DefaultRouter()
-router.register(r'users', views.UsersListUpdateView)
-router.register(r'user', views.UsersCreateView)  # 用户注册
-router.register(r'roles', views.RoleView)  # 用户注册
+router.register(r'users', views.UsersListUpdateView)  # 用户管理
+router.register(r'user', views.UsersCreateView)  # 用户注册和更新
+router.register(r'roles', views.RoleView)  # 权限管理
+router.register(r'permissions', views.PermissionView)  # 权限管理
 # router.register(r'test', views.Test)  # 测试
 
 

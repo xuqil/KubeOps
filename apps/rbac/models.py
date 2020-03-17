@@ -16,14 +16,14 @@ class Menu(models.Model):
         return self.title
 
 
-class Permission(models.Model):
+class Permissions(models.Model):
     """
     权限表
     """
     title = models.CharField(verbose_name='标题', max_length=32)
     path = models.CharField(verbose_name='含正则的URL', max_length=128)
     action = models.CharField(verbose_name='动作', max_length=16, default='')
-    pid = models.ForeignKey(verbose_name='默认选中权限', to='Permission', related_name='ps', null=True, blank=True,
+    pid = models.ForeignKey(verbose_name='默认选中权限', to='Permissions', related_name='ps', null=True, blank=True,
                             help_text="对于无法作为菜单的URL，可以为其选择一个可以作为菜单的权限，那么访问时，则默认选中此权限",
                             limit_choices_to={'menu__isnull': False}, on_delete=models.CASCADE)
     menu = models.ForeignKey(verbose_name='菜单', to='Menu', null=True, blank=True, help_text='null表示非菜单',
@@ -41,7 +41,7 @@ class Role(models.Model):
     角色
     """
     title = models.CharField(verbose_name='角色名称', max_length=32)
-    permissions = models.ManyToManyField(verbose_name='拥有的所有权限', to='Permission', blank=True)
+    permissions = models.ManyToManyField(verbose_name='拥有的所有权限', to='Permissions', blank=True)
     desc = models.CharField(verbose_name='描述', max_length=50, blank=True)
 
     class Meta:

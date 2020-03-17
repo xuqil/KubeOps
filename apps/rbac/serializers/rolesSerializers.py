@@ -1,7 +1,6 @@
 from rest_framework import serializers
-from rest_framework.validators import UniqueValidator
 
-from rbac import models
+from rbac.models import Role
 
 
 class RoleListSerializer(serializers.ModelSerializer):
@@ -10,7 +9,7 @@ class RoleListSerializer(serializers.ModelSerializer):
     """
 
     class Meta:
-        model = models.Role
+        model = Role
         fields = ['id', 'title', 'desc']
         depth = 1
 
@@ -21,7 +20,7 @@ class RoleModifySerializer(serializers.ModelSerializer):
     """
 
     class Meta:
-        model = models.Role
+        model = Role
         fields = '__all__'
 
 
@@ -31,6 +30,6 @@ class RoleRetrieveSerializer(serializers.ModelSerializer):
     """
 
     class Meta:
-        model = models.Role
+        model = Role
         fields = '__all__'
         depth = 1

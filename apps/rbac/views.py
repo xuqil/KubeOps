@@ -7,8 +7,7 @@ from rest_framework.response import Response
 
 from rbac.models import *
 from utils.jwt_token import create_token
-from rbac.serializers import userSerializers
-from rbac.serializers import rolesSerializers
+from rbac.serializers import userSerializers, rolesSerializers, permissionsSerializers
 
 
 class UsersCreateView(mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin,
@@ -75,3 +74,11 @@ class RoleView(viewsets.ModelViewSet):
         elif self.action == 'retrieve':
             return rolesSerializers.RoleRetrieveSerializer
         return rolesSerializers.RoleModifySerializer
+
+
+class PermissionView(viewsets.ModelViewSet):
+    """
+    权限管理
+    """
+    queryset = Permissions.objects.all()
+    serializer_class = permissionsSerializers.PermissionListSerializer
