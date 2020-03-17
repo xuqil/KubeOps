@@ -45,6 +45,8 @@ class UserUpdateSerializer(serializers.ModelSerializer):
     """
     修改用户信息
     """
+    username = serializers.CharField(required=True, allow_blank=False, help_text='用户名', label='用户名', validators=[
+        UniqueValidator(queryset=models.UserProfile.objects.all(), message='用户已存在')])
 
     class Meta:
         model = models.UserProfile

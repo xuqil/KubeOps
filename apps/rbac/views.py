@@ -11,12 +11,14 @@ from rbac.serializers import userSerializers
 from rbac.serializers import rolesSerializers
 
 
-class UsersCreateView(mixins.CreateModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
+class UsersCreateView(mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin,
+                      viewsets.GenericViewSet):
     """
-    添加用户
+    添加用户，修改本人信息
     """
     queryset = UserProfile.objects.all()
     authentication_classes = []
+    permission_classes = []
     serializer_class = userSerializers.UserCreateSerializer
 
 
@@ -25,6 +27,7 @@ class LoginView(APIView):
     用户登录
     """
     authentication_classes = []
+    permission_classes = []
 
     def post(self, request, *args, **kwargs):
         """ 用户登录 """
@@ -52,6 +55,11 @@ class UsersListUpdateView(viewsets.ModelViewSet):
     """
     queryset = UserProfile.objects.all()
     serializer_class = userSerializers.UserListSerializer
+
+    def get_serializer_class(self):
+        if self.action == 'partial_update' or self.action == 'update':
+            return userSerializers.UserUpdateSerializer
+        return userSerializers.UserListSerializer
 
 
 class RoleView(viewsets.ModelViewSet):
