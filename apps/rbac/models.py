@@ -7,7 +7,7 @@ class Menu(models.Model):
     """
     title = models.CharField(verbose_name='菜单', max_length=32)
     icon = models.CharField(verbose_name='图标', max_length=32)
-    path = models.CharField(verbose_name="链接地址", blank=True, max_length=100)
+    path = models.CharField(verbose_name="链接地址", help_text="如果有子菜单，不需要填写该字段", blank=True, max_length=100)
     sort = models.IntegerField(verbose_name='排序', blank=True)
     pid = models.ForeignKey("self", verbose_name="父级菜单", null=True, blank=True, on_delete=models.SET_NULL)
 
