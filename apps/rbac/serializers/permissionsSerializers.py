@@ -10,4 +10,4 @@ class PermissionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Permissions
-        fields = ['id', 'title', 'path', 'action', 'pid']
+        fields = '__all__'

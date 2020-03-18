@@ -45,8 +45,9 @@ class LoginView(APIView):
         for i in permissions:
             paths.append(i.get('permissions__path', ''))
             actions.append(i.get('permissions__action', ''))
+        pk = user_obj.id
         token = create_token({'username': username, 'paths': paths, 'actions': actions})
-        return Response({'msg': '登录成功', 'status': 200, 'token': token})
+        return Response({'id': pk, 'username': username, 'status': 200, 'token': token})
 
 
 class UsersListUpdateView(viewsets.ModelViewSet):
