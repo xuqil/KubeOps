@@ -57,10 +57,36 @@ class UsersListUpdateView(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
     serializer_class = userSerializers.UserListSerializer
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.flag = 0
+
     def get_serializer_class(self):
         if self.action == 'partial_update' or self.action == 'update':
+            if self.flag == 1:
+                return userSerializers.UserUpdateActiveSerializer
+            elif self.flag == 2:
+                return userSerializers.UserUpdateRolesSerializer
+            elif self.flag == 3:
+                return userSerializers.UserUpdateOtherActiveSerializer
             return userSerializers.UserUpdateSerializer
         return userSerializers.UserListSerializer
+
+    def update(self, request, *args, **kwargs):
+        if request.data.get('active') is not None:
+            self.flag = 1
+        elif request.data.get('roles') is not None:
+            self.flag = 2
+        elif request.data.get('mobile') is not None:
+            self.flag = 3
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        if getattr(instance, '_prefetched_objects_cache', None):
+            instance._prefetched_objects_cache = {}
+        return Response(serializer.data)
 
 
 class RoleView(viewsets.ModelViewSet):

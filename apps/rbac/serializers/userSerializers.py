@@ -43,10 +43,37 @@ class UserUpdateSerializer(serializers.ModelSerializer):
     """
     修改用户信息
     """
-    username = serializers.CharField(required=False, read_only=True, allow_blank=False, help_text='用户名', label='用户名',
-                                     validators=[UniqueValidator(queryset=UserProfile.objects.all(), message='用户已存在')])
-    active = serializers.BooleanField(required=False, allow_null=True)
 
     class Meta:
         model = UserProfile
-        fields = ['id', 'username', 'mobile', 'email', 'active', 'roles']
+        fields = ['username', 'mobile', 'email', 'active', 'roles']
+
+
+class UserUpdateRolesSerializer(serializers.ModelSerializer):
+    """
+    修改用户角色信息
+    """
+
+    class Meta:
+        model = UserProfile
+        fields = ['roles']
+
+
+class UserUpdateActiveSerializer(serializers.ModelSerializer):
+    """
+    修改用户状态信息
+    """
+
+    class Meta:
+        model = UserProfile
+        fields = ['active']
+
+
+class UserUpdateOtherActiveSerializer(serializers.ModelSerializer):
+    """
+    修改用户其他信息
+    """
+
+    class Meta:
+        model = UserProfile
+        fields = ['mobile', 'email']
