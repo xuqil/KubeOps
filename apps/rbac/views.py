@@ -71,10 +71,8 @@ class RoleView(viewsets.ModelViewSet):
     serializer_class = rolesSerializers.RoleListSerializer
 
     def get_serializer_class(self):
-        if self.action == 'list':
+        if self.action == 'list' or self.action == 'retrieve':
             return rolesSerializers.RoleListSerializer
-        elif self.action == 'retrieve':
-            return rolesSerializers.RoleRetrieveSerializer
         return rolesSerializers.RoleModifySerializer
 
 

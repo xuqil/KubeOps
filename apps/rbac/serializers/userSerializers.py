@@ -29,8 +29,6 @@ class UserListSerializer(serializers.ModelSerializer):
     """
     用户列表的序列化
     """
-    username = serializers.CharField(required=False)
-    active = serializers.BooleanField(required=False)
     roles = serializers.SerializerMethodField()
 
     def get_roles(self, obj):
@@ -45,8 +43,9 @@ class UserUpdateSerializer(serializers.ModelSerializer):
     """
     修改用户信息
     """
-    username = serializers.CharField(required=False, read_only=True, allow_blank=False, help_text='用户名', label='用户名', validators=[
-        UniqueValidator(queryset=UserProfile.objects.all(), message='用户已存在')])
+    username = serializers.CharField(required=False, read_only=True, allow_blank=False, help_text='用户名', label='用户名',
+                                     validators=[UniqueValidator(queryset=UserProfile.objects.all(), message='用户已存在')])
+    active = serializers.BooleanField(required=False, allow_null=True)
 
     class Meta:
         model = UserProfile
