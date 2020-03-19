@@ -143,9 +143,9 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'utils.authorization.MyAuthentication'
     ],
-    # # 权限认证
-    # 'DEFAULT_PERMISSION_CLASSES': [
-    #     'utils.permissions.MyPermission',
-    # ],
+    # 权限认证
+    'DEFAULT_PERMISSION_CLASSES': [
+        'utils.permissions.MyPermission',
+    ],
     'DEFAULT_PAGINATION_CLASS': 'utils.pagination.MyPageNumberPagination'
 }
