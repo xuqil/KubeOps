@@ -4,6 +4,7 @@ from rest_framework.views import APIView
 from rest_framework import viewsets
 from rest_framework import mixins
 from rest_framework.response import Response
+from rest_framework.generics import UpdateAPIView
 
 from rbac.models import *
 from utils.jwt_token import create_token
@@ -20,6 +21,37 @@ class UsersCreateView(mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.R
     authentication_classes = []
     permission_classes = []
     serializer_class = userSerializers.UserCreateSerializer
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.flag = 0
+
+    def get_serializer_class(self):
+        if self.action == 'partial_update' or self.action == 'update':
+            if self.flag == 1:
+                return userSerializers.UserUpdateOtherActiveSerializer
+            return userSerializers.UserCreateSerializer
+        return userSerializers.UserCreateSerializer
+
+    def update(self, request, *args, **kwargs):
+        if request.data.get('password') is None and request.data.get('username') is not None:
+            self.flag = 1
+        result = super(UsersCreateView, self).update(request, *args, **kwargs)
+        return result
+
+
+class UpdatePasswordView(UpdateAPIView):
+    """
+    修改登录用户密码
+    提示：通过token获取用户信息
+    """
+    serializer_class = userSerializers.UserUpdatePasswordSerializer
+    model = UserProfile
+
+    def get_object(self, queryset=None):
+        username = self.request.user.get('data').get('username')
+        user_obj = UserProfile.objects.filter(username=username).first()
+        return user_obj
 
 
 class LoginView(APIView):
@@ -79,14 +111,8 @@ class UsersListUpdateView(viewsets.ModelViewSet):
             self.flag = 2
         elif request.data.get('mobile') is not None:
             self.flag = 3
-        partial = kwargs.pop('partial', False)
-        instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
-        serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
-        if getattr(instance, '_prefetched_objects_cache', None):
-            instance._prefetched_objects_cache = {}
-        return Response(serializer.data)
+        result = super(UsersListUpdateView, self).update(request, *args, **kwargs)
+        return result
 
 
 class RoleView(viewsets.ModelViewSet):

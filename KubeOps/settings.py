@@ -140,9 +140,9 @@ STATIC_URL = '/static/'
 
 # rest framework配置
 REST_FRAMEWORK = {
-    # 'DEFAULT_AUTHENTICATION_CLASSES': [
-    #     'utils.authorization.MyAuthentication'
-    # ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'utils.authorization.MyAuthentication'
+    ],
     # # 权限认证
     # 'DEFAULT_PERMISSION_CLASSES': [
     #     'utils.permissions.MyPermission',

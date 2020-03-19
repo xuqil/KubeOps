@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import make_password, check_password
 
 from rbac.models import UserProfile
 
@@ -16,11 +16,36 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserProfile
-        fields = ['id', 'username', 'password', 'mobile', 'email', 'roles']
+        fields = ['id', 'username', 'password', 'mobile', 'email']
 
     def create(self, validated_data):
         validated_data['password'] = make_password(validated_data['password'])
         user = super(UserCreateSerializer, self).create(validated_data=validated_data)
+        user.save()
+        return user
+
+
+class UserUpdatePasswordSerializer(serializers.ModelSerializer):
+    """
+    修改用户密码序列化
+    """
+    old_password = serializers.CharField(required=True, max_length=100)
+    password = serializers.CharField(required=True, max_length=100)
+
+    class Meta:
+        model = UserProfile
+        fields = ['password', 'old_password']
+
+    def validate(self, data):
+        username = self.context.get('request').user.get('data').get('username')
+        user_password = UserProfile.objects.filter(username=username).first().password
+        if not check_password(data.get('old_password'), user_password):
+            raise serializers.ValidationError({'old_password': '密码错误.'})
+        return data
+
+    def update(self, instance, validated_data):
+        validated_data['password'] = make_password(validated_data['password'])
+        user = super(UserUpdatePasswordSerializer, self).update(instance, validated_data=validated_data)
         user.save()
         return user
 
@@ -73,7 +98,9 @@ class UserUpdateOtherActiveSerializer(serializers.ModelSerializer):
     """
     修改用户其他信息
     """
+    username = serializers.CharField(required=True, allow_blank=False, help_text='用户名', label='用户名', validators=[
+        UniqueValidator(queryset=UserProfile.objects.all(), message='用户已存在')])
 
     class Meta:
         model = UserProfile
-        fields = ['mobile', 'email']
+        fields = ['username', 'mobile', 'email']

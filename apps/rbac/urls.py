@@ -14,6 +14,7 @@ router.register(r'menu', views.MenuView, basename='menu')  # 菜单管理
 
 urlpatterns = [
     path('login/', views.LoginView.as_view()),
+    path('password/', views.UpdatePasswordView.as_view()),
     path('menu/tree/', views.MenuTreeView.as_view()),
 
     path('', include(router.urls)),
