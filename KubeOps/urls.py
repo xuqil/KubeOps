@@ -19,4 +19,5 @@ from django.contrib import admin
 urlpatterns = [
     path('admin/', admin.site.urls),
     re_path(r'^api/(?P<version>[v1|v2]+)/', include('rbac.urls', namespace='rbac')),
+    re_path(r'^api/(?P<version>[v1|v2]+)/', include('assets.urls', namespace='assets')),
 ]

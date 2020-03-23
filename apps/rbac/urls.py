@@ -1,10 +1,10 @@
 from django.urls import path, include
 from rbac import views
-from rest_framework.routers import DefaultRouter
+from rest_framework.routers import SimpleRouter
 
 app_name = 'rbac'
 
-router = DefaultRouter()
+router = SimpleRouter()
 router.register(r'users', views.UsersListUpdateView, basename='users')  # 用户管理
 router.register(r'user', views.UsersCreateView, basename='user')  # 用户注册和更新
 router.register(r'roles', views.RoleView, basename='roles')  # 权限管理
