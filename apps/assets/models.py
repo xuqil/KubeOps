@@ -38,7 +38,7 @@ class AssetsAbstract(models.Model):
     shelves_date = models.CharField(verbose_name='上架日期', blank=True, max_length=50)
     maintenance_date = models.CharField(verbose_name='维保日期', blank=True, max_length=50)
     sn = models.CharField(verbose_name='资产SN', max_length=50, blank=True)
-    model = models.CharField( verbose_name='资产型号', max_length=100, blank=True)
+    model = models.CharField(verbose_name='资产型号', max_length=100, blank=True)
     brand = models.CharField(verbose_name='资产品牌', max_length=100, blank=True)
     device_type = models.CharField(verbose_name='设备类型', blank=True, max_length=50)
     status = models.CharField(verbose_name='服务器状态', max_length=50, default='使用中')
@@ -82,3 +82,6 @@ class ServerAssets(AssetsAbstract, DateAbstract):
     class Meta:
         verbose_name = '服务器资产表'
         verbose_name_plural = '服务器资产表'
+
+    def __str__(self):
+        return self.ip

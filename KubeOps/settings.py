@@ -98,7 +98,11 @@ DATABASES = {
         'USER': 'kubeops',
         'PASSWORD': '19218xql',
         'PORT': '3306',
-        'HOST': '127.0.0.1'
+        'HOST': '127.0.0.1',
+        'TEST': {
+            'CHARSET': 'utf8',
+            'COLLATION': 'utf8_general_ci'
+        }
     }
 }
 

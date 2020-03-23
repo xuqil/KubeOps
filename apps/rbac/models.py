@@ -13,6 +13,8 @@ class Menu(models.Model):
 
     class Meta:
         ordering = ['sort']
+        verbose_name = '菜单'
+        verbose_name_plural = '菜单'
 
     def __str__(self):
         return self.title
@@ -28,6 +30,8 @@ class Permissions(models.Model):
 
     class Meta:
         ordering = ['id']
+        verbose_name = '权限'
+        verbose_name_plural = '权限'
 
     def __str__(self):
         return self.title
@@ -43,6 +47,8 @@ class Role(models.Model):
 
     class Meta:
         ordering = ['id']
+        verbose_name = '角色'
+        verbose_name_plural = '角色'
 
     def __str__(self):
         return self.title
@@ -62,6 +68,8 @@ class UserProfile(models.Model):
 
     class Meta:
         ordering = ['c_time']
+        verbose_name = '用户'
+        verbose_name_plural = '用户'
 
     def __str__(self):
         return self.username
