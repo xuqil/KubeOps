@@ -1,3 +1,7 @@
 from django.contrib import admin
+from .models import ServerAssets, IDC, Tags
 
-# Register your models here.
+
+admin.site.register(IDC)
+admin.site.register(Tags)
+admin.site.register(ServerAssets)
