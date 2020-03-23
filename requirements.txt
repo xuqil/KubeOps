@@ -1,7 +1,8 @@
-PyJWT
 asgiref==3.2.5
 Django==3.0.4
+django-cors-headers==3.2.1
 djangorestframework==3.11.0
+PyJWT==1.7.1
 PyMySQL==0.9.3
 pytz==2019.3
 sqlparse==0.3.1

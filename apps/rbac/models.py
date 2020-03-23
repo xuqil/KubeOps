@@ -57,7 +57,7 @@ class UserProfile(models.Model):
     email = models.CharField(verbose_name='邮箱', max_length=32, blank=True)
     mobile = models.CharField(verbose_name='电话', max_length=32, blank=True)
     active = models.BooleanField(verbose_name="状态", default=True, blank=True)
-    roles = models.ManyToManyField(verbose_name='拥有的所有角色', to='Role', null=True, blank=True)
+    roles = models.ManyToManyField(verbose_name='拥有的所有角色', to='Role', blank=True)
     c_time = models.DateTimeField(verbose_name='加入时间', auto_now_add=True)
 
     class Meta:

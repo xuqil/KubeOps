@@ -39,8 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'rbac',
     'corsheaders',  # Django跨域解决
+    'rbac',
+    'assets',
+    'webssh'
 ]
 
 MIDDLEWARE = [
@@ -93,7 +95,7 @@ DATABASES = {
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'kubeops',
-        'USER': 'root',
+        'USER': 'kubeops',
         'PASSWORD': '19218xql',
         'PORT': '3306',
         'HOST': '127.0.0.1'
