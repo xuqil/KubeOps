@@ -6,7 +6,7 @@ class DateAbstract(models.Model):
     时间公共继承模型
     """
     c_time = models.DateTimeField(verbose_name='创建时间', auto_now_add=True)
-    u_time = models.DateTimeField(verbose_name='更新时间', auto_now_add=True)
+    u_time = models.DateTimeField(verbose_name='更新时间', auto_now=True)
 
     class Meta:
         abstract = True
@@ -42,7 +42,7 @@ class AssetsAbstract(models.Model):
     brand = models.CharField(verbose_name='资产品牌', max_length=100, blank=True)
     device_type = models.CharField(verbose_name='设备类型', blank=True, max_length=50)
     status = models.CharField(verbose_name='服务器状态', max_length=50, default='使用中')
-    idc = models.ForeignKey(IDC, verbose_name='IDC', on_delete=models.CASCADE, blank=True)
+    idc = models.ForeignKey(IDC, verbose_name='IDC', on_delete=models.CASCADE, null=True, blank=True)
     cabinet = models.CharField(verbose_name='所在机柜', max_length=100, blank=True)
 
     class Meta:
@@ -68,8 +68,8 @@ class ServerAssets(AssetsAbstract, DateAbstract):
     """
     主机
     """
-    ip = models.GenericIPAddressField(verbose_name='服务器IP', max_length=120, null=True)
-    hostname = models.CharField(verbose_name='主机名称', max_length=100, blank=True, default='localhost')
+    ip = models.GenericIPAddressField(verbose_name='服务器IP', max_length=120, null=True, unique=True)
+    hostname = models.CharField(verbose_name='主机名称', max_length=100, default='localhost')
     type = models.CharField(verbose_name='服务器类型', max_length=100, blank=True)
     auth_type = models.CharField(verbose_name='登录类型', max_length=100, blank=True)
     app_env = models.CharField(verbose_name='应用环境', max_length=100, blank=True)
@@ -77,7 +77,7 @@ class ServerAssets(AssetsAbstract, DateAbstract):
     os_version = models.CharField(verbose_name='操作系统版本', max_length=100, blank=True)
     username = models.CharField(verbose_name='服务器用户名', max_length=100, blank=True)
     password = models.CharField(verbose_name='服务器密码', max_length=100, blank=True)
-    port = models.CharField(verbose_name='服务器端口号', blank=True, max_length=30)
+    port = models.CharField(verbose_name='服务器端口号', max_length=30, blank=True)
 
     class Meta:
         verbose_name = '服务器资产表'

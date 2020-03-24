@@ -8,7 +8,7 @@ app_name = 'assets'
 router = DefaultRouter()
 router.register(r'tags', views.TagsView, basename='tags')
 router.register(r'idc', views.IDCView, basename='idc')
-router.register(r'server_assets', views.ServerAssetsView, basename='server_assets')
+router.register(r'servers', views.ServerAssetsView, basename='servers')
 
 
 urlpatterns = [
