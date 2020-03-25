@@ -4,6 +4,7 @@ from six import StringIO
 import os
 import json
 import base64
+
 from KubeOps.settings import TMP_DIR
 from webssh.utils.ssh import SSH
 
@@ -19,9 +20,6 @@ class WebSSH(WebsocketConsumer):
         status 为 1 时, message 为具体的错误信息
         status 为 0 时, message 为 ssh 返回的数据, 前端页面将获取 ssh 返回的数据并写入终端页面
     """
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.ssh = ''
 
     def connect(self):
         """

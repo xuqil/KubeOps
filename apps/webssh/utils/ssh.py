@@ -14,7 +14,6 @@ class SSH:
         """
         self.websocket = websocket
         self.message = message
-        self.channel = ''
 
     def connect(self, host, user, password=None, ssh_key=None, port=22, timeout=30,
                 term='xterm', pty_width=80, pty_height=24):
@@ -32,7 +31,7 @@ class SSH:
         :return:
         """
         try:
-            # 建立一个ssh client对象
+            # 建立一个sshclient对象
             ssh_client = paramiko.SSHClient()
             # 允许将信任的主机自动加入到host_allow 列表
             ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
