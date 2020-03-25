@@ -21,6 +21,10 @@ class WebSSH(WebsocketConsumer):
         status 为 0 时, message 为 ssh 返回的数据, 前端页面将获取 ssh 返回的数据并写入终端页面
     """
 
+    def __init__(self, *args, **kwargs):
+        super(WebSSH, self).__init__(*args, **kwargs)
+        self.ssh = SSH(websocket=self, message=self.message)
+
     def connect(self):
         """
         打开websocket连接，通过前端传入的参数尝试连接ssh主机
@@ -49,8 +53,6 @@ class WebSSH(WebsocketConsumer):
             password = base64.b64decode(password).decode('utf-8')
         else:
             password = None
-
-        self.ssh = SSH(websocket=self, message=self.message)
 
         ssh_connect_dict = {
             'host': host,
