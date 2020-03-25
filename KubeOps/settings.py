@@ -18,6 +18,11 @@ import pymysql
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 
+# 存放key文件
+TMP_DIR = os.path.join(BASE_DIR, 'tmp')
+if not os.path.isdir(TMP_DIR):
+    os.makedirs(TMP_DIR)
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
