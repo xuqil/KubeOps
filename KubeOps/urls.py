@@ -20,4 +20,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     re_path(r'^api/(?P<version>[v1|v2]+)/', include('rbac.urls', namespace='rbac')),
     re_path(r'^api/(?P<version>[v1|v2]+)/', include('assets.urls', namespace='assets')),
+    re_path(r'^api/(?P<version>[v1|v2]+)/', include('webssh.urls', namespace='webssh')),
 ]

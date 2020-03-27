@@ -10,7 +10,6 @@ from webssh.utils.ssh import SSH
 
 
 class WebSSH(WebsocketConsumer):
-    message = {'status': 0, 'message': None}
     """
     status：
         0： ssh连接正常，websocket正常
@@ -23,7 +22,7 @@ class WebSSH(WebsocketConsumer):
 
     def __init__(self, *args, **kwargs):
         super(WebSSH, self).__init__(*args, **kwargs)
-        self.ssh = SSH(websocket=self, message=self.message)
+        self.ssh = SSH(websocket=self, message={'status': 0, 'message': None})
 
     def connect(self):
         """
@@ -66,16 +65,18 @@ class WebSSH(WebsocketConsumer):
 
         if auth == 'key':
             ssh_key_file = os.path.join(TMP_DIR, ssh_key_name)
-            with open(ssh_key_file, 'r') as f:
-                ssh_key = f.read()
+            try:
+                with open(ssh_key_file, 'r') as f:
+                    ssh_key = f.read()
+                string_io = StringIO()
+                string_io.write(ssh_key)
+                string_io.flush()
+                string_io.seek(0)
+                ssh_connect_dict['ssh_key'] = string_io
 
-            string_io = StringIO()
-            string_io.write(ssh_key)
-            string_io.flush()
-            string_io.seek(0)
-            ssh_connect_dict['ssh_key'] = string_io
-
-            os.remove(ssh_key_file)
+                os.remove(ssh_key_file)
+            except Exception:
+                self.disconnect(self)
 
         self.ssh.connect(**ssh_connect_dict)
 
