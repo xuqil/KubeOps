@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'rbac',
     'assets',
     'webssh',
-    'monitor'
+    'monitor',
+    'deployment'
 ]
 
 MIDDLEWARE = [
