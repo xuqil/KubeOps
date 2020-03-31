@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'corsheaders',  # Django跨域解决
     'rbac',
     'assets',
-    'webssh'
+    'webssh',
+    'monitor'
 ]
 
 MIDDLEWARE = [
