@@ -74,6 +74,8 @@ class NetWork:
     def __init__(self, net):
         self.net = net
         self.stats = []
+        self.rx()
+        self.tx()
 
     def rx(self):
         """
@@ -106,20 +108,16 @@ class NetWork:
         流量
         :return:
         """
+        rx_stat = list(self.stats)
         self.rx()
         self.tx()
-        while True:
-            time.sleep(1)
-            rx_stat = list(self.stats)
-            self.rx()
-            self.tx()
-            rx = float(self.stats[0])
-            rx_out = rx_stat[0]
-            tx = float(self.stats[1])
-            tx_out = rx_stat[1]
-            rx_rate = round((rx - rx_out) / 1024 / 1024, 3)
-            tx_rate = round((tx - tx_out) / 1024 / 1024, 3)
-            print(rx_rate, 'MB   ', tx_rate, 'MB')
+        rx = float(self.stats[0])
+        rx_out = rx_stat[0]
+        tx = float(self.stats[1])
+        tx_out = rx_stat[1]
+        rx_rate = round((rx - rx_out) / 1024 / 1024, 3)
+        tx_rate = round((tx - tx_out) / 1024 / 1024, 3)
+        return {'rx_rate': rx_rate, 'tx_rate': tx_rate}
 
 
 def get_ip(ifname):
@@ -128,3 +126,14 @@ def get_ip(ifname):
     """
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     return socket.inet_ntoa(fcntl.ioctl(s.fileno(), 0x8915, struct.pack('256s', bytes(ifname[:15], 'utf-8')))[20:24])
+
+
+def get_net_name():
+    """
+    获取本机网卡名称
+    """
+    net = net_info()
+    network_name = ''
+    for i in net.values():
+        network_name = i[1]
+    return network_name
