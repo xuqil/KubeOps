@@ -114,5 +114,4 @@ class MemoryView(APIView):
             'Buffers': buffers,
             'Cached': cached,
         }
-        print(context)
         return Response(context)

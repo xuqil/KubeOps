@@ -23,6 +23,11 @@ TMP_DIR = os.path.join(BASE_DIR, 'tmp')
 if not os.path.isdir(TMP_DIR):
     os.makedirs(TMP_DIR)
 
+# 存放sftp临时文件
+SFTP_DIR = os.path.join(BASE_DIR, 'sftp_tmp')
+if not os.path.isdir(SFTP_DIR):
+    os.makedirs(SFTP_DIR)
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -50,7 +55,8 @@ INSTALLED_APPS = [
     'assets',
     'webssh',
     'monitor',
-    'deployment'
+    'deployment',
+    'file'
 ]
 
 MIDDLEWARE = [
