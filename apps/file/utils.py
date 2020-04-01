@@ -23,3 +23,19 @@ def ssh_get(ip, port, username, password, local_path, remote_path):
     sftp = paramiko.SFTPClient.from_transport(trans)
     sftp.get(remotepath=remote_path, localpath=local_path)
     trans.close()
+
+
+def file_iterator(file_name, chunk_size=512):
+    """
+    大型文件迭代读取
+    """
+    try:
+        with open(file_name, 'rb') as f:
+            while True:
+                data = f.read(chunk_size)
+                if data:
+                    yield data
+                else:
+                    break
+    except IOError as e:
+        print(e)

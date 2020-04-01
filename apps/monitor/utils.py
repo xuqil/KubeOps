@@ -1,5 +1,4 @@
 from collections import OrderedDict
-import time
 import socket, struct, fcntl
 
 
