@@ -23,4 +23,5 @@ urlpatterns = [
     re_path(r'^api/(?P<version>[v1|v2]+)/', include('webssh.urls', namespace='webssh')),
     re_path(r'^api/(?P<version>[v1|v2]+)/', include('monitor.urls', namespace='monitor')),
     re_path(r'^api/(?P<version>[v1|v2]+)/', include('file.urls', namespace='file')),
+    re_path(r'^api/(?P<version>[v1|v2]+)/wiki/', include('wiki.urls', namespace='wiki')),
 ]

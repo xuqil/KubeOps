@@ -56,7 +56,8 @@ INSTALLED_APPS = [
     'webssh',
     'monitor',
     'deployment',
-    'file'
+    'file',
+    'wiki',
 ]
 
 MIDDLEWARE = [
