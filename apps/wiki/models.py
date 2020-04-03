@@ -31,7 +31,7 @@ class Post(models.Model):
     u_time = models.DateTimeField(verbose_name='更新时间', auto_now=True)
     excerpt = models.CharField(max_length=200, blank=True, verbose_name="文章摘要")
     views = models.PositiveIntegerField(default=0, verbose_name="阅读量")
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name="类别")
+    category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.CASCADE, verbose_name="类别")
     tags = models.ManyToManyField(Tag, blank=True, verbose_name="标签")
     author = models.ForeignKey(UserProfile, on_delete=models.CASCADE, verbose_name="作者")
 
@@ -46,6 +46,11 @@ class Post(models.Model):
     def increase_views(self):
         self.views += 1
         self.save(update_fields=['views'])
+
+    def save(self, *args, **kwargs):
+        if not self.excerpt:
+            self.excerpt = self.body[:150] + '...'
+        super(Post, self).save(*args, **kwargs)
 
 
 class Comment(models.Model):
