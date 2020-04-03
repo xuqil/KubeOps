@@ -4,8 +4,8 @@ from rest_framework.routers import SimpleRouter, DefaultRouter
 
 app_name = 'wiki'
 
-# router = SimpleRouter()
-router = DefaultRouter()
+router = SimpleRouter()
+# router = DefaultRouter()
 router.register(r'posts', views.PostViewSet, basename='posts')
 router.register(r'tags', views.TagViewSet, basename='tags')
 router.register(r'categories', views.CategoryViewSet, basename='categories')
