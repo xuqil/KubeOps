@@ -1,4 +1,5 @@
 from django.contrib.auth.hashers import check_password
+from collections import defaultdict
 
 from rest_framework.views import APIView
 from rest_framework import viewsets
@@ -71,14 +72,15 @@ class LoginView(APIView):
         db_password = UserProfile.objects.filter(username=username).first().password
         if not check_password(password=password, encoded=db_password):
             return Response({'msg': '用户或密码错误', 'status': 400})
-        permissions = user_obj.roles.all().values('permissions__action', 'permissions__path')
-        paths = []
-        actions = []
-        for i in permissions:
-            paths.append(i.get('permissions__path', ''))
-            actions.append(i.get('permissions__action', ''))
+        permissions_list = user_obj.roles.all().values('permissions__action', 'permissions__path')
+        permissions = defaultdict(list)
+        for i in permissions_list:
+            permissions[i.get('permissions__path')].append(i.get('permissions__action'))
+        for key in permissions.keys():
+            permissions[key] = list(set(permissions[key]))
         pk = user_obj.id
-        token = create_token({'username': username, 'paths': paths, 'actions': actions})
+        token = create_token({'username': username, 'permissions': permissions},
+                             1440)
         return Response({'id': pk, 'username': username, 'status': 200, 'token': token})
 
 
