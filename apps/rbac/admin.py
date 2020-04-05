@@ -6,3 +6,7 @@ admin.site.register(UserProfile)
 admin.site.register(Role)
 admin.site.register(Permissions)
 admin.site.register(Menu)
+
+# 修改网页title和站点header。
+admin.site.site_title = "KubeOps后台管理"
+admin.site.site_header = "KubeOps"

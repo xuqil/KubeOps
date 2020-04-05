@@ -37,11 +37,12 @@ SECRET_KEY = 'qrq=wh0&7v0%o88k-!3i^c+8@ou%g96qoc#%%r8*1bsoy*bj%2'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
 INSTALLED_APPS = [
+    'simpleui',
     'channels',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -156,10 +157,22 @@ USE_L10N = True
 # 数据库存储使用时间，True时间会被存为UTC的时间
 USE_TZ = False
 
+# 指定simpleui默认的主题,指定一个文件名，相对路径就从simpleui的theme目录读取
+SIMPLEUI_DEFAULT_THEME = 'admin.lte.css'
+SIMPLEUI_HOME_INFO = False
+SIMPLEUI_ICON = {
+    'Wiki': 'fab fa-wikipedia-w',
+    'Assets': 'fas fa-database',
+    '服务器资产表': 'fas fa-list',
+    '背景颜色': 'fas fa-th',
+    '角色': 'fas fa-users',
+}
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 # rest framework配置
 REST_FRAMEWORK = {
