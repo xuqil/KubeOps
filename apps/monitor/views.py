@@ -28,26 +28,16 @@ class SystemLoadView(APIView):
     """
     获取系统负载
     """
-
     def get(self, request, *args, **kwargs):
-        this_time = []
-        result1 = []
-        result5 = []
-        result15 = []
-        for _ in range(7):
-            time.sleep(1)
-            load_v1 = utils.load_stat()['lavg_1']
-            load_v5 = utils.load_stat()['lavg_5']
-            load_v15 = utils.load_stat()['lavg_15']
-            this_time.append(now_time())
-            result1.append(load_v1)
-            result5.append(load_v5)
-            result15.append(load_v15)
+        load_v1 = utils.load_stat()['lavg_1']
+        load_v5 = utils.load_stat()['lavg_5']
+        load_v15 = utils.load_stat()['lavg_15']
+        this_time = now_time()
         context = {
             'time': this_time,
-            'load_v1': result1,
-            'load_v5': result5,
-            'load_v15': result15
+            'load_v1': load_v1,
+            'load_v5': load_v5,
+            'load_v15': load_v15
         }
         return Response(context)
 
