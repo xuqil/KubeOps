@@ -65,6 +65,31 @@ class NamespaceView(APIView):
             context['status'] = 400
         return Response(context)
 
+    def post(self, request, *args, **kwargs):
+        namespace = request.data.get('namespace')
+        context = {'status': 200, 'msg': '创建成功'}
+        try:
+            body = client.V1Namespace(api_version='v1', kind='Namespace', metadata={'name': namespace})
+            ret = v1.create_namespace(body=body)
+            if ret.status.phase == 'Active':
+                return Response(context)
+        except Exception as e:
+            print(e)
+            context['status'] = 400
+            context['msg'] = '创建失败'
+        return Response(context)
+
+    def delete(self, request, *args, **kwargs):
+        namespace = request.data.get('namespace')
+        context = {'status': 200, 'msg': '删除成功'}
+        try:
+            v1.delete_namespace(name=namespace)
+        except Exception as e:
+            print(e)
+            context['status'] = 400
+            context['msg'] = '删除失败'
+        return Response(context)
+
 
 class PodViews(APIView):
     """
