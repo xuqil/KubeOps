@@ -5,7 +5,6 @@ from kubernetes import client, config
 
 from settings.models import BackgroundSettings
 from settings.serializers.color import BackgroundSettingsSerializer
-from settings.serializers.pod import PodSerializers
 from utils.pagination import MyPageNumberPagination
 
 config.load_kube_config()
@@ -53,12 +52,15 @@ class NamespaceView(APIView):
 
     def get(self, request, *args, **kwargs):
         context = {'status': 200, 'msg': '获取成功', 'results': ''}
-        results = []
         try:
             ret = v1.list_namespace()
+            tmp_context = []
             for i in ret.items:
-                results.append(i.metadata.name)
-            context['results'] = results
+                tmp_dict = dict()
+                tmp_dict['name'] = i.metadata.name
+                tmp_dict['status'] = i.status.phase
+                tmp_context.append(tmp_dict)
+            context['results'] = tmp_context
         except Exception as e:
             print(e)
             context['msg'] = '获取失败'
@@ -80,7 +82,8 @@ class NamespaceView(APIView):
         return Response(context)
 
     def delete(self, request, *args, **kwargs):
-        namespace = request.data.get('namespace')
+        query_params = request.query_params.dict()
+        namespace = query_params.get('namespace')
         context = {'status': 200, 'msg': '删除成功'}
         try:
             v1.delete_namespace(name=namespace)
@@ -90,36 +93,3 @@ class NamespaceView(APIView):
             context['msg'] = '删除失败'
         return Response(context)
 
-
-class PodViews(APIView):
-    """
-    Pod
-    """
-
-    def get(self, request, *args, **kwargs):
-        namespace = request.data.get('namespace')
-        context = {}
-        try:
-            if namespace:
-                ret = v1.list_namespaced_pod(namespace=namespace)
-            else:
-                ret = v1.list_pod_for_all_namespaces(watch=False)
-            tmp_context = []
-            for i in ret.items:
-                tmp_dict = dict()
-                tmp_dict['pod_ip'] = i.status.pod_ip
-                tmp_dict['namespace'] = i.metadata.namespace
-                tmp_dict['name'] = i.metadata.name
-                tmp_dict['host_ip'] = i.status.host_ip
-                tmp_dict['status'] = i.status.phase
-                tmp_context.append(tmp_dict)
-            paginator = MyPageNumberPagination()
-            page_publish_list = paginator.paginate_queryset(tmp_context, self.request, view=self)
-            ps = PodSerializers(page_publish_list, many=True)
-            response = paginator.get_paginated_response(ps.data)
-            return response
-        except Exception as e:
-            context['status'] = 400
-            context['msg'] = e
-            context['results'] = ''
-        return Response(context)
