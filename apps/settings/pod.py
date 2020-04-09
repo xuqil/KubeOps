@@ -112,3 +112,29 @@ class DetailPodView(APIView):
             context['status'] = 400
             context['msg'] = e
         return Response(context)
+
+    def post(self, request, *args, **kwargs):
+        import yaml
+        context = {'status': 200, 'msg': '部署成功!', 'results': ''}
+        namespace = request.data.get('namespace', 'default')
+        try:
+            body = yaml.safe_load(request.data.get('body'))
+            deploy_type = body.get('kind')
+            print(deploy_type)
+            if deploy_type != 'Pod':
+                context['status'] = 400
+                context['msg'] = '部署类型错误!'
+                return Response(context)
+        except Exception as e:
+            print(e)
+            context['status'] = 400
+            context['msg'] = e
+            return Response(context)
+        print("ok")
+        try:
+            v1.create_namespaced_pod(namespace=namespace, body=body)
+        except Exception as e:
+            print(e)
+            context['status'] = 400
+            context['msg'] = e
+        return Response(context)

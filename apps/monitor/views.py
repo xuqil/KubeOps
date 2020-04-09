@@ -58,8 +58,7 @@ class HostIPView(APIView):
     """
 
     def get(self, request, *args, **kwargs):
-        network_name = utils.get_net_name()
-        ip = utils.get_ip(network_name)
+        ip = utils.get_all_ip()
         return Response({'ip': ip})
 
 

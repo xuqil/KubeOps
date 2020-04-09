@@ -1,5 +1,6 @@
 from collections import OrderedDict
 import socket, struct, fcntl
+from subprocess import Popen, PIPE
 
 
 def cpu_info():
@@ -125,6 +126,15 @@ def get_ip(ifname):
     """
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     return socket.inet_ntoa(fcntl.ioctl(s.fileno(), 0x8915, struct.pack('256s', bytes(ifname[:15], 'utf-8')))[20:24])
+
+
+def get_all_ip():
+    p = Popen("hostname -I", shell=True, stdout=PIPE)
+    data = str(p.stdout.read(), encoding='UTF-8')
+    ip_list = data.split(' ')
+    if "\n" in ip_list:
+        ip_list.remove("\n")
+    return ip_list
 
 
 def get_net_name():
