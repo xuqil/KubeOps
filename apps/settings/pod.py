@@ -75,3 +75,40 @@ class DetailPodView(APIView):
             context['status'] = 400
             context['msg'] = '删除失败'
         return Response(context)
+
+    def put(self, request, *args, **kwargs):
+        import json
+        name = request.data.get('name')
+        namespace = request.data.get('namespace', 'default')
+        body = request.data.get('body')
+        if isinstance(body, str):
+            body = json.loads(request.data.get('body'))
+        else:
+            pass
+        metadata = body.get('metadata', '')
+        spec = body.get('spec', '')
+        context = {'status': 200, 'msg': '更新成功!', 'results': ''}
+        try:
+            old_resp = v1.read_namespaced_pod(name=name, namespace=namespace)
+            old_resp.metadata.annotations = metadata.get('annotations')
+            old_resp.metadata.labels = metadata.get('labels')
+            old_resp.metadata.name = metadata.get('name')
+            old_resp.metadata.namespace = metadata.get('namespace')
+
+            old_resp.spec.affinity = spec.get('affinity')
+            for i in range(len(old_resp.spec.containers)):
+                old_resp.spec.containers[i].args = spec.get('containers')[i].get('args')
+                old_resp.spec.containers[i].command = spec.get('containers')[i].get('command')
+                old_resp.spec.containers[i].env = spec.get('containers')[i].get('env')
+                old_resp.spec.containers[i].env_from = spec.get('containers')[i].get('env_from')
+                old_resp.spec.containers[i].image = spec.get('containers')[i].get('image')
+                old_resp.spec.containers[i].image_pull_policy = spec.get('containers')[i].get('image_pull_policy')
+                old_resp.spec.containers[i].lifecycle = spec.get('containers')[i].get('lifecycle')
+                old_resp.spec.containers[i].liveness_probe = spec.get('containers')[i].get('liveness_probe')
+                old_resp.spec.containers[i].name = spec.get('containers')[i].get('name')
+            v1.replace_namespaced_pod(name=name, namespace=namespace, body=old_resp)
+        except Exception as e:
+            print(e)
+            context['status'] = 400
+            context['msg'] = e
+        return Response(context)
