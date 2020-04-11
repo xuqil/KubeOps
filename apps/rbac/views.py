@@ -72,6 +72,8 @@ class LoginView(APIView):
         db_password = UserProfile.objects.filter(username=username).first().password
         if not check_password(password=password, encoded=db_password):
             return Response({'msg': '用户或密码错误', 'status': 400})
+        if user_obj.active is False:
+            return Response({'msg': '该用户已被禁止登录!', 'status': 400})
         permissions_list = user_obj.roles.all().values('permissions__action', 'permissions__path')
         permissions = defaultdict(list)
         for i in permissions_list:
