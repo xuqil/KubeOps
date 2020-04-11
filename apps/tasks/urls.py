@@ -13,5 +13,6 @@ router.register('clocked_schedule', views.ClockedScheduleView, basename='clocked
 router.register('crontab_schedule', views.CrontabScheduleView, basename='crontab_schedule')
 
 urlpatterns = [
+    path('task/', views.TasksView.as_view()),
     path('', include(router.urls))
 ]

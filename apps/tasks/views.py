@@ -1,15 +1,31 @@
 from __future__ import absolute_import, unicode_literals
-from django.http import JsonResponse
+from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
-
+from rest_framework.response import Response
+from celery import current_app
+# 注册任务
 from apps.tasks import tasks
 
 from tasks.serializer.serializer import *
 
 
-def index(request, *args, **kwargs):
-    res = tasks.add.delay(1, 3)
-    return JsonResponse({'status': 'successful', 'task_id': res.task_id})
+class TasksView(APIView):
+    """
+    获取任务列表
+    """
+    celery_app = current_app
+
+    def get(self, request, *args, **kwargs):
+        context = {'status': 200, 'msg': '获取任务成功', 'results': ''}
+        try:
+            tasks_list = list(sorted(name for name in self.celery_app.tasks
+                                     if not name.startswith('celery.')))
+            context['results'] = tasks_list
+        except Exception as e:
+            print(e)
+            context['status'] = 400
+            context['msg'] = '获取任务失败!'
+        return Response(context)
 
 
 class PeriodicTaskView(ModelViewSet):
