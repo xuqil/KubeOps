@@ -52,14 +52,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',  # Django跨域解决
+    'django_celery_beat',
     'rbac',
     'assets',
     'webssh',
     'monitor',
-    'deployment',
     'file',
     'wiki',
     'settings',
+    'tasks'
 ]
 
 MIDDLEWARE = [
@@ -155,9 +156,16 @@ USE_I18N = True
 
 USE_L10N = True
 
-# USE_TZ = True
+USE_TZ = True
 # 数据库存储使用时间，True时间会被存为UTC的时间
-USE_TZ = False
+# USE_TZ = False
+
+# CELERY配置
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'  # Broker配置，使用Redis作为消息中间件
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'  # BACKEND配置
+CELERY_RESULT_SERIALIZER = 'json'  # 结果序列化方案
+CELERY_TIMEZONE = 'Asia/Shanghai'
+
 
 # 指定simpleui默认的主题,指定一个文件名，相对路径就从simpleui的theme目录读取
 SIMPLEUI_DEFAULT_THEME = 'admin.lte.css'

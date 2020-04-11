@@ -25,4 +25,5 @@ urlpatterns = [
     re_path(r'^api/(?P<version>[v1|v2]+)/', include('file.urls', namespace='file')),
     re_path(r'^api/(?P<version>[v1|v2]+)/wiki/', include('wiki.urls', namespace='wiki')),
     re_path(r'^api/(?P<version>[v1|v2]+)/', include('settings.urls', namespace='settings')),
+    re_path(r'^api/(?P<version>[v1|v2]+)/tasks/', include('tasks.urls', namespace='tasks')),
 ]

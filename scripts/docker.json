@@ -1,0 +1,5 @@
+{
+    "registry-mirrors": ["https://registry.docker-cn.com", "http://hub-mirror.c.163.com", " https://pee6w651.mirror.aliyuncs.com"],
+    "exec-opts":["native.cgroupdriver=systemd"]
+  }
+  
