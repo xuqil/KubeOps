@@ -76,13 +76,16 @@ MIDDLEWARE = [
 ]
 
 # 跨域CORS设置
-# CORS_ORIGIN_ALLOW_ALL = False  # 默认为False，如果为True则允许所有连接
-CORS_ORIGIN_WHITELIST = (  # 配置允许访问的白名单
-    'http://localhost:8080',
-    'http://localhost:8081',
-    'http://127.0.0.1:8080',
-    'http://127.0.0.1:8081',
+CORS_ORIGIN_ALLOW_ALL = True  # 默认为False，如果为True则允许所有连接
+CORS_ORIGIN_WHITELIST = (
+    '*'
 )
+# CORS_ORIGIN_WHITELIST = (  # 配置允许访问的白名单
+#     'http://localhost:8080',
+#     'http://localhost:8081',
+#     'http://127.0.0.1:8080',
+#     'http://127.0.0.1:8081',
+# )
 
 ROOT_URLCONF = 'KubeOps.urls'
 
@@ -165,7 +168,6 @@ CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'  # Broker配置，使用Redis作�
 CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'  # BACKEND配置
 CELERY_RESULT_SERIALIZER = 'json'  # 结果序列化方案
 CELERY_TIMEZONE = 'Asia/Shanghai'
-
 
 # 指定simpleui默认的主题,指定一个文件名，相对路径就从simpleui的theme目录读取
 SIMPLEUI_DEFAULT_THEME = 'admin.lte.css'
