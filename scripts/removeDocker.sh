@@ -5,6 +5,6 @@ sudo apt-get autoremove docker docker-ce docker-engine  docker.io  containerd ru
 dpkg -l | grep docker
 sudo apt-get autoremove docker-ce-* -y
 
- sudo rm -rf /etc/systemd/system/docker.service.d
- sudo rm -rf /var/lib/docker
+sudo rm -rf /etc/systemd/system/docker.service.d
+sudo rm -rf /var/lib/docker
 
