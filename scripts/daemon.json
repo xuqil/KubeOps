@@ -1,0 +1,6 @@
+{
+  "registry-mirrors": [
+    "https://dockerhub.azk8s.cn",
+    "https://hub-mirror.c.163.com"
+  ]
+}
