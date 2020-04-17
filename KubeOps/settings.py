@@ -77,9 +77,7 @@ MIDDLEWARE = [
 
 # 跨域CORS设置
 CORS_ORIGIN_ALLOW_ALL = True  # 默认为False，如果为True则允许所有连接
-CORS_ORIGIN_WHITELIST = (
-    '*'
-)
+CORS_ORIGIN_WHITELIST = ()
 # CORS_ORIGIN_WHITELIST = (  # 配置允许访问的白名单
 #     'http://localhost:8080',
 #     'http://localhost:8081',
