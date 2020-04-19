@@ -12,15 +12,25 @@ class CPUView(APIView):
     """
 
     def get(self, request, *args, **kwargs):
+        """
+        processor     逻辑处理器的id
+        physical id   物理封装的处理器的id
+        core id       每个核心的id
+        cpu cores     位于相同物理封装的处理器中的内核数量
+        siblings      位于相同物理封装的处理器中的逻辑处理器的数量
+        """
         cpu = utils.cpu_info()
-        cpu_model = cpu['proc0']['model name']
-        cpu_core = cpu['proc0']['cpu cores']
-        thread_count = len(cpu)
-        content = {
-            'cpu_model': cpu_model,
-            'cpu_core': cpu_core,
-            'thread_count': thread_count
-        }
+        content = {}
+        for value in cpu.values():
+            tmp_dict = dict()
+            tmp_dict['physical_id'] = int(value['physical id'])
+            tmp_dict['processor'] = int(value['processor']) + 1
+            tmp_dict['cores'] = int(value['cpu cores'])
+            tmp_dict['siblings'] = int(value['siblings'])
+            tmp_dict['frequency'] = value['cpu MHz']
+            tmp_dict['model_name'] = value['model name']
+            content[value['physical id']] = tmp_dict
+        print(content)
         return Response(content)
 
 
@@ -28,6 +38,7 @@ class SystemLoadView(APIView):
     """
     获取系统负载
     """
+
     def get(self, request, *args, **kwargs):
         load_v1 = utils.load_stat()['lavg_1']
         load_v5 = utils.load_stat()['lavg_5']
