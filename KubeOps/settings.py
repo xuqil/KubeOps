@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'file',
     'wiki',
     'settings',
+    'k8s',
     'tasks'
 ]
 

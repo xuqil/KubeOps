@@ -2,64 +2,63 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from kubernetes import client, config
 
-from settings.serializers.deployment import DeploymentSerializers
+from k8s.serializers.pod import PodSerializers
 from utils.pagination import MyPageNumberPagination
 
 config.load_kube_config()
-apps_v1 = client.AppsV1Api()
+v1 = client.CoreV1Api()
 
 
-class DeploymentViews(APIView):
+class PodViews(APIView):
     """
-    Deployment
+    Pod
     """
 
     def get(self, request, *args, **kwargs):
         namespace = request.query_params.dict().get('namespace')
-        context = {'status': 200, 'msg': '获取Deployment成功!', 'results': ''}
+        context = {}
         try:
             if namespace:
-                ret = apps_v1.list_namespaced_deployment(namespace=namespace)
+                ret = v1.list_namespaced_pod(namespace=namespace)
             else:
-                ret = apps_v1.list_deployment_for_all_namespaces()
+                ret = v1.list_pod_for_all_namespaces(watch=False)
             tmp_context = []
             for i in ret.items:
                 tmp_dict = dict()
-                tmp_dict['name'] = i.metadata.name
+                tmp_dict['pod_ip'] = i.status.pod_ip
                 tmp_dict['namespace'] = i.metadata.namespace
-                tmp_dict['replicas'] = i.spec.replicas
-                tmp_dict['available_replicas'] = i.status.available_replicas
-                tmp_dict['ready_replicas'] = i.status.ready_replicas
-                tmp_dict['unavailable_replicas'] = i.status.unavailable_replicas
-                tmp_dict['updated_replicas'] = i.status.updated_replicas
+                tmp_dict['name'] = i.metadata.name
+                tmp_dict['host_ip'] = i.status.host_ip
+                tmp_dict['status'] = i.status.phase
                 tmp_context.append(tmp_dict)
             paginator = MyPageNumberPagination()
             page_publish_list = paginator.paginate_queryset(tmp_context, self.request, view=self)
-            ps = DeploymentSerializers(page_publish_list, many=True)
+            ps = PodSerializers(page_publish_list, many=True)
             response = paginator.get_paginated_response(ps.data)
             return response
         except Exception as e:
             context['status'] = 400
             context['msg'] = e
+            context['results'] = ''
         return Response(context)
 
 
-class DetailDeploymentViews(APIView):
+class DetailPodView(APIView):
     """
-    对具体的Deployment操作
+    对具体的Pod操作
     """
 
     def get(self, request, *args, **kwargs):
         name = request.query_params.dict().get('name')
         namespace = request.query_params.dict().get('namespace', 'default')
-        context = {'status': 200, 'msg': '获取Deployment信息成功!', 'results': ''}
+        context = {'status': 200, 'msg': '获取Pod信息成功!', 'results': ''}
         try:
-            ret = apps_v1.read_namespaced_deployment(name=name, namespace=namespace)
+            ret = v1.read_namespaced_pod(name=name, namespace=namespace)
             context['results'] = ret.to_dict()
         except Exception as e:
             print(e)
             context['status'] = 400
-            context['msg'] = '获取Deployment信息失败'
+            context['msg'] = '获取Pod信息失败'
         return Response(context)
 
     def delete(self, request, *args, **kwargs):
@@ -67,7 +66,7 @@ class DetailDeploymentViews(APIView):
         namespace = request.query_params.dict().get('namespace', 'default')
         context = {'status': 200, 'msg': '删除成功!', 'results': ''}
         try:
-            ret = apps_v1.delete_namespaced_deployment(name=name, namespace=namespace)
+            ret = v1.delete_namespaced_pod(name=name, namespace=namespace)
             if ret.status is None:
                 context['status'] = 400
                 context['msg'] = ret
@@ -90,36 +89,24 @@ class DetailDeploymentViews(APIView):
         spec = body.get('spec', '')
         context = {'status': 200, 'msg': '更新成功!', 'results': ''}
         try:
-            old_resp = apps_v1.read_namespaced_deployment(name=name, namespace=namespace)
+            old_resp = v1.read_namespaced_pod(name=name, namespace=namespace)
             old_resp.metadata.annotations = metadata.get('annotations')
             old_resp.metadata.labels = metadata.get('labels')
             old_resp.metadata.name = metadata.get('name')
             old_resp.metadata.namespace = metadata.get('namespace')
-            old_resp.metadata.selector = metadata.get('selector')
 
-            old_resp.spec.replicas = spec.get('replicas')
-            old_resp.spec.template.spec.affinity = spec.get('template').get('spec').get('affinity')
-            for i in range(len(old_resp.spec.template.spec.containers)):
-                old_resp.spec.template.spec.containers[i].args = \
-                    spec.get('template').get('spec').get('containers')[i].get('args')
-                old_resp.spec.template.spec.containers[i].command = \
-                    spec.get('template').get('spec').get('containers')[i].get('command')
-                old_resp.spec.template.spec.containers[i].env = \
-                    spec.get('template').get('spec').get('containers')[i].get('env')
-                old_resp.spec.template.spec.containers[i].env_from = \
-                    spec.get('template').get('spec').get('containers')[i].get('env_from')
-                old_resp.spec.template.spec.containers[i].image = \
-                    spec.get('template').get('spec').get('containers')[i].get('image')
-                old_resp.spec.template.spec.containers[i].image_pull_policy = \
-                    spec.get('template').get('spec').get('containers')[i].get('image_pull_policy')
-                old_resp.spec.template.spec.containers[i].lifecycle = \
-                    spec.get('template').get('spec').get('containers')[i].get('lifecycle')
-                old_resp.spec.template.spec.containers[i].liveness_probe = \
-                    spec.get('template').get('spec').get('containers')[i].get('liveness_probe')
-                old_resp.spec.template.spec.containers[i].name = \
-                    spec.get('template').get('spec').get('containers')[i].get('name')
-
-            apps_v1.patch_namespaced_deployment(name=name, namespace=namespace, body=old_resp)
+            old_resp.spec.affinity = spec.get('affinity')
+            for i in range(len(old_resp.spec.containers)):
+                old_resp.spec.containers[i].args = spec.get('containers')[i].get('args')
+                old_resp.spec.containers[i].command = spec.get('containers')[i].get('command')
+                old_resp.spec.containers[i].env = spec.get('containers')[i].get('env')
+                old_resp.spec.containers[i].env_from = spec.get('containers')[i].get('env_from')
+                old_resp.spec.containers[i].image = spec.get('containers')[i].get('image')
+                old_resp.spec.containers[i].image_pull_policy = spec.get('containers')[i].get('image_pull_policy')
+                old_resp.spec.containers[i].lifecycle = spec.get('containers')[i].get('lifecycle')
+                old_resp.spec.containers[i].liveness_probe = spec.get('containers')[i].get('liveness_probe')
+                old_resp.spec.containers[i].name = spec.get('containers')[i].get('name')
+            v1.replace_namespaced_pod(name=name, namespace=namespace, body=old_resp)
         except Exception as e:
             print(e)
             context['status'] = 400
@@ -133,7 +120,8 @@ class DetailDeploymentViews(APIView):
         try:
             body = yaml.safe_load(request.data.get('body'))
             deploy_type = body.get('kind')
-            if deploy_type != 'Deployment':
+            print(deploy_type)
+            if deploy_type != 'Pod':
                 context['status'] = 400
                 context['msg'] = '部署类型错误!'
                 return Response(context)
@@ -142,8 +130,9 @@ class DetailDeploymentViews(APIView):
             context['status'] = 400
             context['msg'] = e
             return Response(context)
+        print("ok")
         try:
-            apps_v1.create_namespaced_deployment(namespace=namespace, body=body)
+            v1.create_namespaced_pod(namespace=namespace, body=body)
         except Exception as e:
             print(e)
             context['status'] = 400
