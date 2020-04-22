@@ -30,7 +30,7 @@ class CPUView(APIView):
             tmp_dict['frequency'] = value['cpu MHz']
             tmp_dict['model_name'] = value['model name']
             content[value['physical id']] = tmp_dict
-        print(content)
+        # print(content)
         return Response(content)
 
 
