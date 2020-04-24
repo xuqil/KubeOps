@@ -8,13 +8,13 @@ class ServerFilter(django_filters.rest_framework.FilterSet):
     服务器过滤器
     """
     hostname = django_filters.CharFilter(field_name='hostname')
-    type = django_filters.CharFilter(field_name='type')
+    os_type = django_filters.CharFilter(field_name='os_type')
     ip = django_filters.CharFilter(field_name='ip', lookup_expr='contains')
     idc = django_filters.CharFilter(field_name='idc__name')
 
     class Meta:
         model = ServerAssets
-        fields = ['hostname', 'type', 'ip', 'idc']
+        fields = ['hostname', 'os_type', 'ip', 'idc']
 
 
 class IDCFilter(django_filters.rest_framework.FilterSet):
