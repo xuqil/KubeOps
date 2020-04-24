@@ -4,7 +4,7 @@ from tasks import views
 
 app_name = 'tasks'
 
-router = DefaultRouter()
+router = SimpleRouter()
 router.register('periodic_task', views.PeriodicTaskView, basename='periodic_task')
 router.register('periodic_tasks', views.PeriodicTasksView, basename='periodic_tasks')
 router.register('solar_schedule', views.SolarScheduleView, basename='solar_schedule')

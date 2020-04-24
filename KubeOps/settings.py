@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'django_filters',
     'corsheaders',  # Django跨域解决
     'django_celery_beat',
     'rbac',
@@ -194,5 +195,6 @@ REST_FRAMEWORK = {
     # 'DEFAULT_PERMISSION_CLASSES': [
     #     'utils.permissions.MyPermission',
     # ],
-    'DEFAULT_PAGINATION_CLASS': 'utils.pagination.MyPageNumberPagination'
+    'DEFAULT_PAGINATION_CLASS': 'utils.pagination.MyPageNumberPagination',
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }

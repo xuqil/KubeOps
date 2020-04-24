@@ -1,15 +1,22 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, filters
+from django_filters.rest_framework import DjangoFilterBackend
 
 from wiki.seriablizers.categorySerializer import *
 from wiki.seriablizers.postSerializer import *
 from wiki.seriablizers.tagSerializer import *
 from wiki.seriablizers.commentSerializer import *
 from utils.pagination import MaxPagination
+from wiki.filters import PostFilter
 
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
+    filter_class = PostFilter
+    search_fields = ['title', 'body', '=author__username']
+    ordering_fields = ('c_time', 'u_time')
+    ordering = ('-c_time', '-u_time')
 
     def get_serializer_class(self):
         if self.action == 'list':
