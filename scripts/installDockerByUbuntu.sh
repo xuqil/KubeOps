@@ -24,4 +24,9 @@ sudo sh get-docker.sh --mirror Aliyun
 
 #添加组
 sudo groupadd docker
-sudo usermod -aG docker $USER
+sudo usermod -aG docker "$USER"
+
+sudo mkdir /etc/docker/
+sudo cp daemon.json /etc/docker/
+sudo systemctl daemon-reload
+sudo systemctl restart docker

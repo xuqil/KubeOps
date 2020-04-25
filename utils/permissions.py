@@ -11,7 +11,8 @@ class MyPermission(BasePermission):
 
     def __init__(self):
         # 不需要权限的路径
-        self.common_paths = ['/login/', '/user/', '/settings/']
+        self.common_paths = ['/login/', '/user/', '/settings/', '/menu/tree/', '/cpu/', '/network/', '/hostip/',
+                             '/systemload/', '/memory/']
 
     def has_permission(self, request, view):
         current_url = request.path_info

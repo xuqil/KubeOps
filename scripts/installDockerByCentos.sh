@@ -48,3 +48,8 @@ net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables = 1
 EOF
 sudo sysctl -p
+
+sudo mkdir /etc/docker/
+sudo cp daemon.json /etc/docker/
+sudo systemctl daemon-reload
+sudo systemctl restart docker
