@@ -11,7 +11,7 @@
 
 
 
-### 安装K8S
+### 安装K8S(使用root用户执行)
 
 - installK8SByUbuntu.sh
 

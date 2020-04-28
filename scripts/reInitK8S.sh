@@ -2,11 +2,11 @@
 
 sudo kubeadm reset -f
 
-ehco   "******************************初始化******************************"
+echo   "******************************初始化******************************"
 sudo kubeadm init --kubernetes-version=1.16.0 --apiserver-advertise-address=0.0.0.0 --image-repository registry.aliyuncs.com/google_containers --service-cidr=10.1.0.0/16 --pod-network-cidr=10.244.0.0/16
 
 mkdir -p $HOME/.kube
-sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo cp -f /etc/kubernetes/admin.conf $HOME/.kube/config
 # shellcheck disable=SC2046
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
