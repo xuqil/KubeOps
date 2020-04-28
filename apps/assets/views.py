@@ -1,5 +1,4 @@
-from rest_framework import viewsets, filters
-from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import viewsets
 
 from assets.models import Tags, IDC, ServerAssets
 from assets.serializers.assets import TagsSerializers, IDCSerializers, ServerAssetsSerializers, \
@@ -19,9 +18,11 @@ class IDCView(viewsets.ModelViewSet):
     """
     IDC管理
     """
-    queryset = IDC.objects.all().order_by('-c_time')
+    queryset = IDC.objects.all()
     serializer_class = IDCSerializers
     filter_class = IDCFilter
+    ordering_fields = ('c_time', 'u_time', 'name', 'address', 'floor')
+    ordering = ('address', 'floor')
 
 
 class ServerAssetsView(viewsets.ModelViewSet):
@@ -30,10 +31,10 @@ class ServerAssetsView(viewsets.ModelViewSet):
     """
     queryset = ServerAssets.objects.all()
     serializer_class = ServerAssetsSerializers
-    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filter_class = ServerFilter
-    ordering_fields = ('c_time', 'u_time')
-    ordering = ('-c_time', '-u_time')
+    ordering_fields = ('c_time', 'u_time', 'hostname', 'ip', 'os_type', 'os_version', 'device_type', 'app_env',
+                       'status', 'idc', 'sn', 'shelves_date', 'maintenance_date', 'shelves_date', 'maintenance_date')
+    ordering = ('ip', '-c_time')
 
     def get_serializer_class(self):
         if self.action == 'list':

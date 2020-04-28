@@ -189,13 +189,14 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 # rest framework配置
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'utils.authorization.MyAuthentication'
-    ],
-    # 权限认证
-    'DEFAULT_PERMISSION_CLASSES': [
-        'utils.permissions.MyPermission',
-    ],
+    # 'DEFAULT_AUTHENTICATION_CLASSES': [
+    #     'utils.authorization.MyAuthentication'
+    # ],
+    # # 权限认证
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'utils.permissions.MyPermission',
+    # ],
     'DEFAULT_PAGINATION_CLASS': 'utils.pagination.MyPageNumberPagination',
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend',
+                                'rest_framework.filters.OrderingFilter']
 }

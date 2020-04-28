@@ -15,7 +15,7 @@ class PostViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter]
     filter_class = PostFilter
     search_fields = ['title', 'body', '=author__username']
-    ordering_fields = ('c_time', 'u_time')
+    ordering_fields = ('c_time', 'u_time', 'author')
     ordering = ('-c_time', '-u_time')
 
     def get_serializer_class(self):
