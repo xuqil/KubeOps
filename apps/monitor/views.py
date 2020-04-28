@@ -20,7 +20,7 @@ class CPUView(APIView):
         siblings      位于相同物理封装的处理器中的逻辑处理器的数量
         """
         cpu = utils.cpu_info()
-        content = {}
+        content = []
         for value in cpu.values():
             tmp_dict = dict()
             tmp_dict['physical_id'] = int(value['physical id'])
@@ -29,8 +29,7 @@ class CPUView(APIView):
             tmp_dict['siblings'] = int(value['siblings'])
             tmp_dict['frequency'] = value['cpu MHz']
             tmp_dict['model_name'] = value['model name']
-            content[value['physical id']] = tmp_dict
-        # print(content)
+            content.append(tmp_dict)
         return Response(content)
 
 

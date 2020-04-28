@@ -55,16 +55,16 @@ def net_info():
     获取网卡信息
     :return:
     """
-    net = OrderedDict()
+    net = []
     with open('/proc/net/arp') as f:
-        ip_count = 1
         flag = False
         for line in f:
+            tmp_dict = dict()
             if flag:
                 res = line.split()
-                ip = 'ip' + str(ip_count)
-                ip_count += ip_count
-                net[ip] = (res[0], res[-1])
+                tmp_dict['ip'] = res[0]
+                tmp_dict['dev'] = res[-1]
+                net.append(tmp_dict)
             flag = True
     return net
 
