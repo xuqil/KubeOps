@@ -10,7 +10,7 @@ from rest_framework.generics import UpdateAPIView
 from rbac.models import *
 from utils.jwt_token import create_token
 from rbac.serializers import userSerializers, rolesSerializers, permissionsSerializers, menuSerializers
-from utils.pagination import MenuPagination
+from utils.pagination import MenuPagination, MaxPagination
 
 
 class UsersCreateView(mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.RetrieveModelMixin,
@@ -136,6 +136,7 @@ class PermissionView(viewsets.ModelViewSet):
     """
     权限管理
     """
+    pagination_class = MaxPagination
     queryset = Permissions.objects.all()
     serializer_class = permissionsSerializers.PermissionSerializer
 

@@ -40,6 +40,6 @@ class MyPermission(BasePermission):
             path = '^{}$'.format(path)
             flag = re.match(path, url)
             if flag:
-                if method in permissions[tmp]:
+                if method in permissions[tmp] or '*' in permissions[tmp]:
                     return True
         return False
