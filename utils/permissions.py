@@ -17,8 +17,10 @@ class MyPermission(BasePermission):
     def has_permission(self, request, view):
         current_url = request.path_info
         method = request.method
-        p = re.compile(r'(/api/v[a-zA-Z]|[0-9]|[.])(/.*)')
+        p = re.compile(r'(/v[a-zA-Z]|[0-9]|[.])(/.*)')
         url = p.findall(current_url)[0][1]
+        if url == '/':
+            raise PermissionDenied('不能访问该路径')
         for i in self.common_paths:
             i = '^{}$'.format(i)
             flag = re.match(i, url)

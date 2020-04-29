@@ -15,16 +15,18 @@ Including another URLconf
 """
 from django.urls import path, re_path, include
 from django.contrib import admin
+from rest_framework.documentation import include_docs_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    re_path(r'^api/(?P<version>[v1|v2]+)/', include('rbac.urls', namespace='rbac')),
-    re_path(r'^api/(?P<version>[v1|v2]+)/', include('assets.urls', namespace='assets')),
-    re_path(r'^api/(?P<version>[v1|v2]+)/', include('webssh.urls', namespace='webssh')),
-    re_path(r'^api/(?P<version>[v1|v2]+)/', include('monitor.urls', namespace='monitor')),
-    re_path(r'^api/(?P<version>[v1|v2]+)/', include('file.urls', namespace='file')),
-    re_path(r'^api/(?P<version>[v1|v2]+)/wiki/', include('wiki.urls', namespace='wiki')),
-    re_path(r'^api/(?P<version>[v1|v2]+)/', include('settings.urls', namespace='settings')),
-    re_path(r'^api/(?P<version>[v1|v2]+)/', include('k8s.urls', namespace='k8s')),
-    re_path(r'^api/(?P<version>[v1|v2]+)/tasks/', include('tasks.urls', namespace='tasks')),
+    path('docs/', include_docs_urls(title='KubeOps API文档', public=False)),
+    re_path(r'^(?P<version>[v1|v2]+)/', include('rbac.urls', namespace='rbac')),
+    re_path(r'^(?P<version>[v1|v2]+)/', include('assets.urls', namespace='assets')),
+    re_path(r'^(?P<version>[v1|v2]+)/', include('webssh.urls', namespace='webssh')),
+    re_path(r'^(?P<version>[v1|v2]+)/', include('monitor.urls', namespace='monitor')),
+    re_path(r'^(?P<version>[v1|v2]+)/', include('file.urls', namespace='file')),
+    re_path(r'^(?P<version>[v1|v2]+)/wiki/', include('wiki.urls', namespace='wiki')),
+    re_path(r'^(?P<version>[v1|v2]+)/', include('settings.urls', namespace='settings')),
+    re_path(r'^(?P<version>[v1|v2]+)/', include('k8s.urls', namespace='k8s')),
+    re_path(r'^(?P<version>[v1|v2]+)/tasks/', include('tasks.urls', namespace='tasks')),
 ]
