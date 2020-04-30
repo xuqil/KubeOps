@@ -48,4 +48,5 @@ class PermissionPath(APIView):
 
     def get(self, request, *args, **kwargs):
         path = get_all_paths(urls.urlpatterns, pre_fix="/", result=[], )
-        return Response({'path': path})
+        result = list(map(lambda x: '/' + x, path))
+        return Response({'path': result})

@@ -6,7 +6,7 @@ class Category(models.Model):
     name = models.CharField(max_length=100, unique=True, verbose_name=u"类别")
 
     class Meta:
-        verbose_name = u"分类"
+        verbose_name = u"wiki分类"
         verbose_name_plural = verbose_name
 
     def __str__(self):
@@ -17,7 +17,7 @@ class Tag(models.Model):
     name = models.CharField(max_length=100, unique=True, verbose_name=u"标签")
 
     class Meta:
-        verbose_name = u"标签云"
+        verbose_name = u"wiki标签"
         verbose_name_plural = verbose_name
 
     def __str__(self):
@@ -39,7 +39,7 @@ class Post(models.Model):
         return self.title
 
     class Meta:
-        verbose_name = u"文章"
+        verbose_name = u"wiki文章"
         verbose_name_plural = verbose_name
         ordering = ['-c_time']
 
@@ -63,7 +63,7 @@ class Comment(models.Model):
                                   related_name='c_comment', on_delete=models.CASCADE)
 
     class Meta:
-        verbose_name = u'评论'
+        verbose_name = u'wiki评论'
         verbose_name_plural = verbose_name
 
     def __str__(self):

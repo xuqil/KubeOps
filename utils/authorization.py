@@ -9,6 +9,9 @@ class MyAuthentication(BaseAuthentication):
     """
 
     def authenticate(self, request):
+        # 放行API文档
+        if request.path_info == '/docs/':
+            return 'docs', 'read'
         authorization = request.META.get('HTTP_AUTHORIZATION', '')
         auth = authorization.split()
         if not auth:

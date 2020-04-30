@@ -17,7 +17,7 @@ urlpatterns = [
     path('password/', user.UpdatePasswordView.as_view()),
     path('menu/tree/', menu.MenuTreeView.as_view()),
     path('init_permission/', permission.InitPermission.as_view()),
-    path('path_permission/', permission.PermissionPath.as_view()),
+    path('paths/', permission.PermissionPath.as_view()),
 
     path('', include(router.urls)),
 

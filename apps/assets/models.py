@@ -60,7 +60,7 @@ class Tags(DateAbstract):
         return self.name
 
     class Meta:
-        verbose_name = '标签表'
+        verbose_name = '资产标签'
         verbose_name_plural = verbose_name
 
 
@@ -80,8 +80,8 @@ class ServerAssets(AssetsAbstract, DateAbstract):
     port = models.CharField(verbose_name='服务器端口号', max_length=30, blank=True)
 
     class Meta:
-        verbose_name = '服务器资产表'
-        verbose_name_plural = '服务器资产表'
+        verbose_name = '服务器资产主机'
+        verbose_name_plural = verbose_name
 
     def __str__(self):
         return self.ip

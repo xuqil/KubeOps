@@ -20,6 +20,9 @@ class MyPermission(BasePermission):
         current_url = request.path_info
         method = request.method
         p = re.compile(r'(/v[a-zA-Z]|[0-9]|[.])(/.*)')
+        # 放行API文档
+        if current_url == '/docs/':
+            return True
         url = p.findall(current_url)[0][1]
         if url == '/':
             raise PermissionDenied('不能访问该路径')
@@ -57,7 +60,7 @@ def get_all_paths(patterns, pre_fix, result):
         part = item.pattern.regex.pattern.strip("^$")
         if isinstance(item, URLPattern):
             if not pre_fix.startswith('/admin'):
-                result.append(pre_fix + part)
+                result.append(pre_fix.lstrip(r'/(?P<version>[v1|v2]+)') + part)
         else:
             get_all_paths(item.url_patterns, pre_fix + part, result=result)
     return result
