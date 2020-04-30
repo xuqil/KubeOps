@@ -1,75 +1,76 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 
 class Menu(models.Model):
     """
     菜单
     """
-    title = models.CharField(verbose_name='菜单', max_length=32)
-    icon = models.CharField(verbose_name='图标', max_length=32)
-    path = models.CharField(verbose_name="链接地址", help_text="如果有子菜单，不需要填写该字段", blank=True, max_length=100)
-    sort = models.IntegerField(verbose_name='排序', blank=True)
-    pid = models.ForeignKey("self", verbose_name="父级菜单", null=True, blank=True, on_delete=models.SET_NULL)
+    name = models.CharField(verbose_name='菜单名称', max_length=32, unique=True)
+    icon = models.CharField(verbose_name='图标', max_length=32, blank=True)
+    path = models.CharField(verbose_name='链接地址', help_text='如果有子菜单，不需要填写该字段', blank=True, max_length=100)
+    is_active = models.BooleanField(verbose_name='激活状态', default=True)
+    sort = models.IntegerField(verbose_name='排序标记', blank=True)
+    pid = models.ForeignKey("self", verbose_name="上级菜单", null=True, blank=True, on_delete=models.SET_NULL)
 
     class Meta:
-        ordering = ['sort']
         verbose_name = '菜单'
-        verbose_name_plural = '菜单'
+        verbose_name_plural = verbose_name
+        ordering = ['id']
 
     def __str__(self):
-        return self.title
+        return self.name
 
 
-class Permissions(models.Model):
+class Permission(models.Model):
     """
-    权限表
+    权限
     """
-    title = models.CharField(verbose_name='标题', max_length=32)
-    path = models.CharField(verbose_name='含正则的URL', max_length=128)
-    action = models.CharField(verbose_name='动作', max_length=16, default='')
+    name = models.CharField(verbose_name='权限名称', max_length=32, unique=True)
+    path = models.CharField(verbose_name='含正则的URL', blank=True, max_length=128)
+    method = models.CharField(verbose_name='方法', max_length=16, default='GET')
+    pid = models.ForeignKey('self', verbose_name='上级权限', null=True, blank=True, on_delete=models.SET_NULL)
 
     class Meta:
-        ordering = ['id']
         verbose_name = '权限'
-        verbose_name_plural = '权限'
+        verbose_name_plural = verbose_name
+        ordering = ['id']
 
     def __str__(self):
-        return self.title
+        return self.name
 
 
 class Role(models.Model):
     """
     角色
     """
-    title = models.CharField(verbose_name='角色名称', max_length=32)
-    permissions = models.ManyToManyField(verbose_name='拥有的所有权限', to='Permissions', blank=True)
+    name = models.CharField(verbose_name='角色名称', max_length=32, unique=True)
+    permissions = models.ManyToManyField('Permission', verbose_name='权限', blank=True)
+    menus = models.ManyToManyField('Menu', verbose_name='菜单', blank=True)
     desc = models.CharField(verbose_name='描述', max_length=50, blank=True)
 
     class Meta:
-        ordering = ['id']
         verbose_name = '角色'
-        verbose_name_plural = '角色'
+        verbose_name_plural = verbose_name
+        ordering = ['id']
 
     def __str__(self):
-        return self.title
+        return self.name
 
 
-class UserProfile(models.Model):
+class UserProfile(AbstractUser):
     """
-    用户表
+    用户
     """
-    username = models.CharField(verbose_name='用户名', max_length=32, unique=True)
-    password = models.CharField(verbose_name='密码', max_length=100)
-    email = models.CharField(verbose_name='邮箱', max_length=32, blank=True)
     mobile = models.CharField(verbose_name='电话', max_length=32, blank=True)
-    active = models.BooleanField(verbose_name="状态", default=True, blank=True)
-    roles = models.ManyToManyField(verbose_name='拥有的所有角色', to='Role', blank=True)
-    c_time = models.DateTimeField(verbose_name='加入时间', auto_now_add=True)
+    position = models.CharField(verbose_name='职位', max_length=50, null=True, blank=True)
+    superior = models.ForeignKey('self', verbose_name='上级', null=True, blank=True, on_delete=models.SET_NULL)
+    roles = models.ManyToManyField('Role', verbose_name='角色', blank=True)
 
     class Meta:
-        ordering = ['c_time']
         verbose_name = '用户'
-        verbose_name_plural = '用户'
+        verbose_name_plural = verbose_name
+        ordering = ['id']
 
     def __str__(self):
         return self.username

@@ -11,7 +11,7 @@ class PostSerializer(serializers.ModelSerializer):
 
 class PostListSerializer(serializers.ModelSerializer):
     author = serializers.CharField(source='author.username')
-    category = serializers.CharField(source='category.name')
+    category = serializers.CharField(source='category.name', allow_null=True)
     tags = serializers.StringRelatedField(many=True)
 
     class Meta:

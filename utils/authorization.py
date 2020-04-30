@@ -5,8 +5,7 @@ from utils.jwt_token import parse_payload
 
 class MyAuthentication(BaseAuthentication):
     """
-    自定义token认证
-    对应的请求头：Authorization:jwt eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzM1NTU1NzksInVzZXJuYW1lIjoid3VwZWlxaSIsInVzZXJfaWQiOjF9.xj-7qSts6Yg5Ui55-aUOHJS4KSaeLq5weXMui2IIEJU
+    token认证
     """
 
     def authenticate(self, request):

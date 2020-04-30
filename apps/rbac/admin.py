@@ -4,7 +4,7 @@ from .models import *
 # Register your models here.
 admin.site.register(UserProfile)
 admin.site.register(Role)
-admin.site.register(Permissions)
+admin.site.register(Permission)
 admin.site.register(Menu)
 
 # 修改网页title和站点header。

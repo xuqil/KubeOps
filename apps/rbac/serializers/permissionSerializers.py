@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from rbac.models import Permissions
+from rbac.models import Permission
 
 
 class PermissionSerializer(serializers.ModelSerializer):
@@ -9,5 +9,5 @@ class PermissionSerializer(serializers.ModelSerializer):
     """
 
     class Meta:
-        model = Permissions
+        model = Permission
         fields = '__all__'

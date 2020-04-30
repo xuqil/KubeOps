@@ -61,7 +61,7 @@ class UserListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserProfile
-        fields = ['id', 'username', 'mobile', 'email', 'c_time', 'active', 'roles']
+        fields = ['id', 'username', 'mobile', 'email', 'date_joined', 'is_active', 'is_staff', 'roles', 'last_login']
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):
@@ -71,7 +71,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserProfile
-        fields = ['username', 'mobile', 'email', 'active', 'roles']
+        fields = ['username', 'mobile', 'email', 'is_active', 'roles']
 
 
 class UserUpdateRolesSerializer(serializers.ModelSerializer):
@@ -91,7 +91,17 @@ class UserUpdateActiveSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserProfile
-        fields = ['active']
+        fields = ['is_active']
+
+
+class UserUpdateStaffSerializer(serializers.ModelSerializer):
+    """
+    修改用户管理员信息
+    """
+
+    class Meta:
+        model = UserProfile
+        fields = ['is_staff']
 
 
 class UserUpdateOtherActiveSerializer(serializers.ModelSerializer):

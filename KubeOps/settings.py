@@ -118,7 +118,7 @@ DATABASES = {
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'kubeops_dev',
+        'NAME': 'kubeops_rbac',
         'USER': 'root',
         'PASSWORD': '19218xql',
         'PORT': '3306',
@@ -163,6 +163,8 @@ USE_TZ = True
 # 数据库存储使用时间，True时间会被存为UTC的时间
 # USE_TZ = False
 
+AUTH_USER_MODEL = 'rbac.UserProfile'
+
 # CELERY配置
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'  # Broker配置，使用Redis作为消息中间件
 CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'  # BACKEND配置
@@ -189,13 +191,13 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 # rest framework配置
 REST_FRAMEWORK = {
-    # 'DEFAULT_AUTHENTICATION_CLASSES': [
-    #     'utils.authorization.MyAuthentication'
-    # ],
-    # # 权限认证
-    # 'DEFAULT_PERMISSION_CLASSES': [
-    #     'utils.permissions.MyPermission',
-    # ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'utils.authorization.MyAuthentication'
+    ],
+    # 权限认证
+    'DEFAULT_PERMISSION_CLASSES': [
+        'utils.permissions.MyPermission',
+    ],
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
     'DEFAULT_PAGINATION_CLASS': 'utils.pagination.MyPageNumberPagination',
     'DEFAULT_FILTER_BACKENDS': [

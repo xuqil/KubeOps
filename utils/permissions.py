@@ -1,5 +1,7 @@
 from rest_framework.permissions import BasePermission
 from rest_framework.exceptions import PermissionDenied
+from django.urls import URLPattern
+
 import re
 from utils.jwt_token import parse_payload
 
@@ -45,3 +47,17 @@ class MyPermission(BasePermission):
                 if method in permissions[tmp] or '*' in permissions[tmp]:
                     return True
         return False
+
+
+def get_all_paths(patterns, pre_fix, result):
+    """
+    获取项目URL
+    """
+    for item in patterns:
+        part = item.pattern.regex.pattern.strip("^$")
+        if isinstance(item, URLPattern):
+            if not pre_fix.startswith('/admin'):
+                result.append(pre_fix + part)
+        else:
+            get_all_paths(item.url_patterns, pre_fix + part, result=result)
+    return result
