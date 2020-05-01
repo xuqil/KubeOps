@@ -14,7 +14,6 @@ class RoleView(ModelViewSet):
     serializer_class = rolesSerializers.RoleListSerializer
 
     def get_serializer_class(self):
-        print(self.action)
         if self.action == 'list' or self.action == 'retrieve':
             return rolesSerializers.RoleListSerializer
         return rolesSerializers.RoleModifySerializer
@@ -49,7 +48,6 @@ class RoleView(ModelViewSet):
         """
         instance = self.get_object()
         serializer = self.get_serializer(instance)
-        print(serializer.data)
         permissions = treeFilter(serializer.data['permissions'])
         menus = treeFilter(serializer.data['menus'])
         serializer.data['permissions'] = permissions
