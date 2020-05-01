@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.29, for Linux (x86_64)
 --
--- Host: localhost    Database: kubeops
+-- Host: localhost    Database: kubeops_rbac
 -- ------------------------------------------------------
 -- Server version	5.7.29-0ubuntu0.18.04.1
 
@@ -40,7 +40,7 @@ CREATE TABLE `assets_idc` (
 
 LOCK TABLES `assets_idc` WRITE;
 /*!40000 ALTER TABLE `assets_idc` DISABLE KEYS */;
-INSERT INTO `assets_idc` VALUES (1,'2020-03-23 15:20:08.626545','2020-03-23 15:20:08.626580','蜂巢','广州大学城','','一楼'),(2,'2020-03-23 15:21:27.737932','2020-03-23 15:21:27.737973','开发','广州大学城A楼','13429842676','三楼');
+INSERT INTO `assets_idc` VALUES (1,'2020-04-30 07:14:48.538662','2020-04-30 07:14:48.538755','开发','大学城A区','21448756829','二楼'),(2,'2020-04-30 07:15:20.898523','2020-04-30 07:15:20.898648','生产环境','大学城B区','3232424','3楼');
 /*!40000 ALTER TABLE `assets_idc` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -76,10 +76,10 @@ CREATE TABLE `assets_serverassets` (
   `port` varchar(30) NOT NULL,
   `idc_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `assets_serverassets_ip_061b5a5f_uniq` (`ip`),
+  UNIQUE KEY `ip` (`ip`),
   KEY `assets_serverassets_idc_id_08f438e4_fk_assets_idc_id` (`idc_id`),
   CONSTRAINT `assets_serverassets_idc_id_08f438e4_fk_assets_idc_id` FOREIGN KEY (`idc_id`) REFERENCES `assets_idc` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -88,7 +88,7 @@ CREATE TABLE `assets_serverassets` (
 
 LOCK TABLES `assets_serverassets` WRITE;
 /*!40000 ALTER TABLE `assets_serverassets` DISABLE KEYS */;
-INSERT INTO `assets_serverassets` VALUES (1,'2020-03-23 15:41:31.159452','2020-03-24 14:48:24.746665','本机服务器','2020-3-20','无','xqlMagicBook','MagicBook2019','MagicBook','物理机','使用中','无','192.168.1.11','localhost','开发平台','界面和SSH','Python3.7','Linux','Ubuntu19','xql','19218xql','22',2),(2,'2020-03-23 15:43:27.399388','2020-03-23 15:43:27.399416','','2020-3-20','无','MagicBook','MagicBook2019','MagicBook','物理机','使用中','无','192.168.1.12','localhost','生产环境','SSH','Python3.7','Linux','CentOS7','kubeops','kubeops','22',1),(4,'2020-03-24 11:37:25.326920','2020-03-24 14:12:32.930119','DD','D','D','2123','','','','使用中','','127.0.0.1','localhost','D','','','Linux','Ubuntu19.0','','','',1),(5,'2020-03-24 13:50:51.521529','2020-03-24 14:46:10.977396','','2020-3-20','','','','','docker容器','使用中','','192.168.1.13','localhost','','SSH','','Linux','CentOS7','','','',1),(6,'2020-04-01 16:09:22.913685','2020-04-01 16:09:22.913777','','','','','','','','使用中','','192.168.1.15','xql','','','','Linux','','xql','19218xql','22',NULL);
+INSERT INTO `assets_serverassets` VALUES (1,'2020-04-30 07:14:04.342850','2020-04-30 07:20:45.162604','','2020-3-20','2023-3-20','abcf','MagicBook','华为','笔记本','使用中','','192.168.1.15','xql','','SSH','python3.7','Linux','Ubuntu19.10','kubeops','kubeops','22',1),(2,'2020-04-30 07:19:58.559125','2020-04-30 11:12:25.057371','','','','bggepjgg','Hornor','华为','docker容器','使用中','','192.168.1.11','localhost','','SSH','python3','Linux','CentOS7.5','xql','19218xql','22',NULL);
 /*!40000 ALTER TABLE `assets_serverassets` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -108,7 +108,7 @@ CREATE TABLE `assets_serverassets_tags` (
   KEY `assets_serverassets_tags_tags_id_8666876c_fk_assets_tags_id` (`tags_id`),
   CONSTRAINT `assets_serverassets__serverassets_id_e52a3f3c_fk_assets_se` FOREIGN KEY (`serverassets_id`) REFERENCES `assets_serverassets` (`id`),
   CONSTRAINT `assets_serverassets_tags_tags_id_8666876c_fk_assets_tags_id` FOREIGN KEY (`tags_id`) REFERENCES `assets_tags` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -117,7 +117,7 @@ CREATE TABLE `assets_serverassets_tags` (
 
 LOCK TABLES `assets_serverassets_tags` WRITE;
 /*!40000 ALTER TABLE `assets_serverassets_tags` DISABLE KEYS */;
-INSERT INTO `assets_serverassets_tags` VALUES (9,1,1),(10,1,2),(11,1,3),(3,2,1),(4,2,2),(7,5,1),(8,5,2);
+INSERT INTO `assets_serverassets_tags` VALUES (2,1,1),(1,1,4);
 /*!40000 ALTER TABLE `assets_serverassets_tags` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -136,7 +136,7 @@ CREATE TABLE `assets_tags` (
   `desc` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -145,7 +145,7 @@ CREATE TABLE `assets_tags` (
 
 LOCK TABLES `assets_tags` WRITE;
 /*!40000 ALTER TABLE `assets_tags` DISABLE KEYS */;
-INSERT INTO `assets_tags` VALUES (1,'2020-03-23 15:35:10.374926','2020-03-23 15:35:10.374952','本地服务器','本地服务器'),(2,'2020-03-23 16:29:01.622853','2020-03-23 16:29:01.622878','物理机','物理机'),(3,'2020-03-24 06:47:21.360245','2020-03-24 07:03:21.427526','测试机','测试部');
+INSERT INTO `assets_tags` VALUES (1,'2020-04-30 07:15:46.260895','2020-04-30 07:15:46.260970','开发','用于开发的主机'),(2,'2020-04-30 07:15:58.929224','2020-04-30 07:15:58.929313','测试','用于测试的主机'),(3,'2020-04-30 07:16:15.972430','2020-04-30 07:16:15.972534','生产环境','生产环境的主机'),(4,'2020-04-30 07:16:42.883458','2020-04-30 07:16:42.883575','KubeOps','用于部署KubeOps');
 /*!40000 ALTER TABLE `assets_tags` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -159,9 +159,9 @@ DROP TABLE IF EXISTS `auth_group`;
 CREATE TABLE `auth_group` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(150) NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `name` (`name`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -184,12 +184,12 @@ CREATE TABLE `auth_group_permissions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `group_id` int(11) NOT NULL,
   `permission_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `auth_group_permissions_group_id_permission_id_0cd325b0_uniq` (`group_id`,`permission_id`) USING BTREE,
-  KEY `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` (`permission_id`) USING BTREE,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `auth_group_permissions_group_id_permission_id_0cd325b0_uniq` (`group_id`,`permission_id`),
+  KEY `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` (`permission_id`),
   CONSTRAINT `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
   CONSTRAINT `auth_group_permissions_group_id_b120cbf9_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -213,10 +213,10 @@ CREATE TABLE `auth_permission` (
   `name` varchar(255) NOT NULL,
   `content_type_id` int(11) NOT NULL,
   `codename` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `auth_permission_content_type_id_codename_01ab375a_uniq` (`content_type_id`,`codename`) USING BTREE,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `auth_permission_content_type_id_codename_01ab375a_uniq` (`content_type_id`,`codename`),
   CONSTRAINT `auth_permission_content_type_id_2f476e4b_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=204 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -225,98 +225,8 @@ CREATE TABLE `auth_permission` (
 
 LOCK TABLES `auth_permission` WRITE;
 /*!40000 ALTER TABLE `auth_permission` DISABLE KEYS */;
-INSERT INTO `auth_permission` VALUES (1,'Can add log entry',1,'add_logentry'),(2,'Can change log entry',1,'change_logentry'),(3,'Can delete log entry',1,'delete_logentry'),(4,'Can view log entry',1,'view_logentry'),(5,'Can add permission',2,'add_permission'),(6,'Can change permission',2,'change_permission'),(7,'Can delete permission',2,'delete_permission'),(8,'Can view permission',2,'view_permission'),(9,'Can add group',3,'add_group'),(10,'Can change group',3,'change_group'),(11,'Can delete group',3,'delete_group'),(12,'Can view group',3,'view_group'),(13,'Can add user',4,'add_user'),(14,'Can change user',4,'change_user'),(15,'Can delete user',4,'delete_user'),(16,'Can view user',4,'view_user'),(17,'Can add content type',5,'add_contenttype'),(18,'Can change content type',5,'change_contenttype'),(19,'Can delete content type',5,'delete_contenttype'),(20,'Can view content type',5,'view_contenttype'),(21,'Can add session',6,'add_session'),(22,'Can change session',6,'change_session'),(23,'Can delete session',6,'delete_session'),(24,'Can view session',6,'view_session'),(25,'Can add menu',7,'add_menu'),(26,'Can change menu',7,'change_menu'),(27,'Can delete menu',7,'delete_menu'),(28,'Can view menu',7,'view_menu'),(29,'Can add permission',8,'add_permission'),(30,'Can change permission',8,'change_permission'),(31,'Can delete permission',8,'delete_permission'),(32,'Can view permission',8,'view_permission'),(33,'Can add role',9,'add_role'),(34,'Can change role',9,'change_role'),(35,'Can delete role',9,'delete_role'),(36,'Can view role',9,'view_role'),(37,'Can add user profile',10,'add_userprofile'),(38,'Can change user profile',10,'change_userprofile'),(39,'Can delete user profile',10,'delete_userprofile'),(40,'Can view user profile',10,'view_userprofile'),(41,'Can add permissions',8,'add_permissions'),(42,'Can change permissions',8,'change_permissions'),(43,'Can delete permissions',8,'delete_permissions'),(44,'Can view permissions',8,'view_permissions'),(45,'Can add 标签表',11,'add_tags'),(46,'Can change 标签表',11,'change_tags'),(47,'Can delete 标签表',11,'delete_tags'),(48,'Can view 标签表',11,'view_tags'),(49,'Can add IDC数据中心',12,'add_idc'),(50,'Can change IDC数据中心',12,'change_idc'),(51,'Can delete IDC数据中心',12,'delete_idc'),(52,'Can view IDC数据中心',12,'view_idc'),(53,'Can add 服务器资产表',13,'add_serverassets'),(54,'Can change 服务器资产表',13,'change_serverassets'),(55,'Can delete 服务器资产表',13,'delete_serverassets'),(56,'Can view 服务器资产表',13,'view_serverassets'),(160,'Can add 分类',39,'add_category'),(161,'Can change 分类',39,'change_category'),(162,'Can delete 分类',39,'delete_category'),(163,'Can view 分类',39,'view_category'),(164,'Can add 评论',40,'add_comment'),(165,'Can change 评论',40,'change_comment'),(166,'Can delete 评论',40,'delete_comment'),(167,'Can view 评论',40,'view_comment'),(168,'Can add 标签云',41,'add_tag'),(169,'Can change 标签云',41,'change_tag'),(170,'Can delete 标签云',41,'delete_tag'),(171,'Can view 标签云',41,'view_tag'),(172,'Can add 文章',42,'add_post'),(173,'Can change 文章',42,'change_post'),(174,'Can delete 文章',42,'delete_post'),(175,'Can view 文章',42,'view_post'),(176,'Can add background settings',43,'add_backgroundsettings'),(177,'Can change background settings',43,'change_backgroundsettings'),(178,'Can delete background settings',43,'delete_backgroundsettings'),(179,'Can view background settings',43,'view_backgroundsettings'),(180,'Can add crontab',44,'add_crontabschedule'),(181,'Can change crontab',44,'change_crontabschedule'),(182,'Can delete crontab',44,'delete_crontabschedule'),(183,'Can view crontab',44,'view_crontabschedule'),(184,'Can add interval',45,'add_intervalschedule'),(185,'Can change interval',45,'change_intervalschedule'),(186,'Can delete interval',45,'delete_intervalschedule'),(187,'Can view interval',45,'view_intervalschedule'),(188,'Can add periodic task',46,'add_periodictask'),(189,'Can change periodic task',46,'change_periodictask'),(190,'Can delete periodic task',46,'delete_periodictask'),(191,'Can view periodic task',46,'view_periodictask'),(192,'Can add periodic tasks',47,'add_periodictasks'),(193,'Can change periodic tasks',47,'change_periodictasks'),(194,'Can delete periodic tasks',47,'delete_periodictasks'),(195,'Can view periodic tasks',47,'view_periodictasks'),(196,'Can add solar event',48,'add_solarschedule'),(197,'Can change solar event',48,'change_solarschedule'),(198,'Can delete solar event',48,'delete_solarschedule'),(199,'Can view solar event',48,'view_solarschedule'),(200,'Can add clocked',49,'add_clockedschedule'),(201,'Can change clocked',49,'change_clockedschedule'),(202,'Can delete clocked',49,'delete_clockedschedule'),(203,'Can view clocked',49,'view_clockedschedule');
+INSERT INTO `auth_permission` VALUES (1,'Can add log entry',1,'add_logentry'),(2,'Can change log entry',1,'change_logentry'),(3,'Can delete log entry',1,'delete_logentry'),(4,'Can view log entry',1,'view_logentry'),(5,'Can add permission',2,'add_permission'),(6,'Can change permission',2,'change_permission'),(7,'Can delete permission',2,'delete_permission'),(8,'Can view permission',2,'view_permission'),(9,'Can add group',3,'add_group'),(10,'Can change group',3,'change_group'),(11,'Can delete group',3,'delete_group'),(12,'Can view group',3,'view_group'),(13,'Can add content type',4,'add_contenttype'),(14,'Can change content type',4,'change_contenttype'),(15,'Can delete content type',4,'delete_contenttype'),(16,'Can view content type',4,'view_contenttype'),(17,'Can add session',5,'add_session'),(18,'Can change session',5,'change_session'),(19,'Can delete session',5,'delete_session'),(20,'Can view session',5,'view_session'),(21,'Can add crontab',6,'add_crontabschedule'),(22,'Can change crontab',6,'change_crontabschedule'),(23,'Can delete crontab',6,'delete_crontabschedule'),(24,'Can view crontab',6,'view_crontabschedule'),(25,'Can add interval',7,'add_intervalschedule'),(26,'Can change interval',7,'change_intervalschedule'),(27,'Can delete interval',7,'delete_intervalschedule'),(28,'Can view interval',7,'view_intervalschedule'),(29,'Can add periodic task',8,'add_periodictask'),(30,'Can change periodic task',8,'change_periodictask'),(31,'Can delete periodic task',8,'delete_periodictask'),(32,'Can view periodic task',8,'view_periodictask'),(33,'Can add periodic tasks',9,'add_periodictasks'),(34,'Can change periodic tasks',9,'change_periodictasks'),(35,'Can delete periodic tasks',9,'delete_periodictasks'),(36,'Can view periodic tasks',9,'view_periodictasks'),(37,'Can add solar event',10,'add_solarschedule'),(38,'Can change solar event',10,'change_solarschedule'),(39,'Can delete solar event',10,'delete_solarschedule'),(40,'Can view solar event',10,'view_solarschedule'),(41,'Can add clocked',11,'add_clockedschedule'),(42,'Can change clocked',11,'change_clockedschedule'),(43,'Can delete clocked',11,'delete_clockedschedule'),(44,'Can view clocked',11,'view_clockedschedule'),(45,'Can add 菜单',12,'add_menu'),(46,'Can change 菜单',12,'change_menu'),(47,'Can delete 菜单',12,'delete_menu'),(48,'Can view 菜单',12,'view_menu'),(49,'Can add 权限',13,'add_permission'),(50,'Can change 权限',13,'change_permission'),(51,'Can delete 权限',13,'delete_permission'),(52,'Can view 权限',13,'view_permission'),(53,'Can add 角色',14,'add_role'),(54,'Can change 角色',14,'change_role'),(55,'Can delete 角色',14,'delete_role'),(56,'Can view 角色',14,'view_role'),(57,'Can add 用户',15,'add_userprofile'),(58,'Can change 用户',15,'change_userprofile'),(59,'Can delete 用户',15,'delete_userprofile'),(60,'Can view 用户',15,'view_userprofile'),(61,'Can add IDC数据中心',16,'add_idc'),(62,'Can change IDC数据中心',16,'change_idc'),(63,'Can delete IDC数据中心',16,'delete_idc'),(64,'Can view IDC数据中心',16,'view_idc'),(65,'Can add 标签表',17,'add_tags'),(66,'Can change 标签表',17,'change_tags'),(67,'Can delete 标签表',17,'delete_tags'),(68,'Can view 标签表',17,'view_tags'),(69,'Can add 服务器资产表',18,'add_serverassets'),(70,'Can change 服务器资产表',18,'change_serverassets'),(71,'Can delete 服务器资产表',18,'delete_serverassets'),(72,'Can view 服务器资产表',18,'view_serverassets'),(73,'Can add 分类',19,'add_category'),(74,'Can change 分类',19,'change_category'),(75,'Can delete 分类',19,'delete_category'),(76,'Can view 分类',19,'view_category'),(77,'Can add 标签云',20,'add_tag'),(78,'Can change 标签云',20,'change_tag'),(79,'Can delete 标签云',20,'delete_tag'),(80,'Can view 标签云',20,'view_tag'),(81,'Can add 文章',21,'add_post'),(82,'Can change 文章',21,'change_post'),(83,'Can delete 文章',21,'delete_post'),(84,'Can view 文章',21,'view_post'),(85,'Can add 评论',22,'add_comment'),(86,'Can change 评论',22,'change_comment'),(87,'Can delete 评论',22,'delete_comment'),(88,'Can view 评论',22,'view_comment'),(89,'Can add 背景颜色',23,'add_backgroundsettings'),(90,'Can change 背景颜色',23,'change_backgroundsettings'),(91,'Can delete 背景颜色',23,'delete_backgroundsettings'),(92,'Can view 背景颜色',23,'view_backgroundsettings');
 /*!40000 ALTER TABLE `auth_permission` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `auth_user`
---
-
-DROP TABLE IF EXISTS `auth_user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `auth_user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `password` varchar(128) NOT NULL,
-  `last_login` datetime(6) DEFAULT NULL,
-  `is_superuser` tinyint(1) NOT NULL,
-  `username` varchar(150) NOT NULL,
-  `first_name` varchar(30) NOT NULL,
-  `last_name` varchar(150) NOT NULL,
-  `email` varchar(254) NOT NULL,
-  `is_staff` tinyint(1) NOT NULL,
-  `is_active` tinyint(1) NOT NULL,
-  `date_joined` datetime(6) NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `username` (`username`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `auth_user`
---
-
-LOCK TABLES `auth_user` WRITE;
-/*!40000 ALTER TABLE `auth_user` DISABLE KEYS */;
-INSERT INTO `auth_user` VALUES (1,'pbkdf2_sha256$180000$UFPPmUwQyabM$kNnk0cKZmv5zryPIYleeR4Ipln/NBjxVZ7YvsLaR7JE=','2020-04-10 23:28:33.496456',1,'admin','','','',1,1,'2020-03-17 08:09:11.997050');
-/*!40000 ALTER TABLE `auth_user` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `auth_user_groups`
---
-
-DROP TABLE IF EXISTS `auth_user_groups`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `auth_user_groups` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `group_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `auth_user_groups_user_id_group_id_94350c0c_uniq` (`user_id`,`group_id`) USING BTREE,
-  KEY `auth_user_groups_group_id_97559544_fk_auth_group_id` (`group_id`) USING BTREE,
-  CONSTRAINT `auth_user_groups_group_id_97559544_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
-  CONSTRAINT `auth_user_groups_user_id_6a12ed8b_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `auth_user_groups`
---
-
-LOCK TABLES `auth_user_groups` WRITE;
-/*!40000 ALTER TABLE `auth_user_groups` DISABLE KEYS */;
-/*!40000 ALTER TABLE `auth_user_groups` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `auth_user_user_permissions`
---
-
-DROP TABLE IF EXISTS `auth_user_user_permissions`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `auth_user_user_permissions` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `permission_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `auth_user_user_permissions_user_id_permission_id_14a6b632_uniq` (`user_id`,`permission_id`) USING BTREE,
-  KEY `auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm` (`permission_id`) USING BTREE,
-  CONSTRAINT `auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
-  CONSTRAINT `auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `auth_user_user_permissions`
---
-
-LOCK TABLES `auth_user_user_permissions` WRITE;
-/*!40000 ALTER TABLE `auth_user_user_permissions` DISABLE KEYS */;
-/*!40000 ALTER TABLE `auth_user_user_permissions` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -335,12 +245,12 @@ CREATE TABLE `django_admin_log` (
   `change_message` longtext NOT NULL,
   `content_type_id` int(11) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `django_admin_log_content_type_id_c4bce8eb_fk_django_co` (`content_type_id`) USING BTREE,
-  KEY `django_admin_log_user_id_c564eba6_fk_auth_user_id` (`user_id`) USING BTREE,
+  PRIMARY KEY (`id`),
+  KEY `django_admin_log_content_type_id_c4bce8eb_fk_django_co` (`content_type_id`),
+  KEY `django_admin_log_user_id_c564eba6_fk_rbac_userprofile_id` (`user_id`),
   CONSTRAINT `django_admin_log_content_type_id_c4bce8eb_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`),
-  CONSTRAINT `django_admin_log_user_id_c564eba6_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=152 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+  CONSTRAINT `django_admin_log_user_id_c564eba6_fk_rbac_userprofile_id` FOREIGN KEY (`user_id`) REFERENCES `rbac_userprofile` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -349,7 +259,7 @@ CREATE TABLE `django_admin_log` (
 
 LOCK TABLES `django_admin_log` WRITE;
 /*!40000 ALTER TABLE `django_admin_log` DISABLE KEYS */;
-INSERT INTO `django_admin_log` VALUES (1,'2020-03-17 08:13:19.847670','1','系统首页',1,'[{\"added\": {}}]',7,1),(2,'2020-03-17 08:13:30.484117','2','平台管理',1,'[{\"added\": {}}]',7,1),(3,'2020-03-17 08:14:22.500667','3','资产管理',1,'[{\"added\": {}}]',7,1),(4,'2020-03-17 08:14:37.811705','4','应用部署',1,'[{\"added\": {}}]',7,1),(5,'2020-03-17 08:14:55.021588','5','任务管理',1,'[{\"added\": {}}]',7,1),(6,'2020-03-17 08:15:09.637927','6','用户管理',1,'[{\"added\": {}}]',7,1),(7,'2020-03-17 08:15:31.568354','7','用户列表',1,'[{\"added\": {}}]',7,1),(8,'2020-03-17 08:15:40.479671','8','权限管理',1,'[{\"added\": {}}]',7,1),(9,'2020-03-17 08:15:50.774618','9','账户设置',1,'[{\"added\": {}}]',7,1),(10,'2020-03-17 08:17:41.215393','1','查看用户',1,'[{\"added\": {}}]',8,1),(11,'2020-03-17 08:18:40.564751','1','查看用户',2,'[{\"changed\": {\"fields\": [\"\\u83dc\\u5355\"]}}]',8,1),(12,'2020-03-17 08:19:10.225653','2','添加用户',1,'[{\"added\": {}}]',8,1),(13,'2020-03-17 08:19:29.625222','3','删除用户',1,'[{\"added\": {}}]',8,1),(14,'2020-03-17 08:19:49.026494','4','编辑用户',1,'[{\"added\": {}}]',8,1),(15,'2020-03-17 08:20:12.369906','5','查看角色',1,'[{\"added\": {}}]',8,1),(16,'2020-03-17 08:20:31.082238','6','添加角色',1,'[{\"added\": {}}]',8,1),(17,'2020-03-17 08:21:02.225305','7','删除角色',1,'[{\"added\": {}}]',8,1),(18,'2020-03-17 08:21:23.553461','8','编辑角色',1,'[{\"added\": {}}]',8,1),(19,'2020-03-17 08:21:41.649419','3','删除用户',2,'[{\"changed\": {\"fields\": [\"\\u542b\\u6b63\\u5219\\u7684URL\"]}}]',8,1),(20,'2020-03-17 08:22:52.779833','10','角色管理',1,'[{\"added\": {}}]',7,1),(21,'2020-03-17 08:22:55.128651','9','角色管理',1,'[{\"added\": {}}]',8,1),(22,'2020-03-17 08:23:04.981792','5','查看角色',2,'[{\"changed\": {\"fields\": [\"\\u9ed8\\u8ba4\\u9009\\u4e2d\\u6743\\u9650\"]}}]',8,1),(23,'2020-03-17 08:23:09.983637','6','添加角色',2,'[{\"changed\": {\"fields\": [\"\\u9ed8\\u8ba4\\u9009\\u4e2d\\u6743\\u9650\"]}}]',8,1),(24,'2020-03-17 08:23:14.701905','8','编辑角色',2,'[{\"changed\": {\"fields\": [\"\\u9ed8\\u8ba4\\u9009\\u4e2d\\u6743\\u9650\"]}}]',8,1),(25,'2020-03-17 08:24:48.022944','1','主管',1,'[{\"added\": {}}]',9,1),(26,'2020-03-17 08:25:01.642782','2','组长A',1,'[{\"added\": {}}]',9,1),(27,'2020-03-17 08:25:17.580444','3','人事',1,'[{\"added\": {}}]',9,1),(28,'2020-03-17 08:26:35.083760','1','001',1,'[{\"added\": {}}]',10,1),(29,'2020-03-17 08:26:44.797189','2','002',1,'[{\"added\": {}}]',10,1),(30,'2020-03-17 08:26:53.189542','3','003',1,'[{\"added\": {}}]',10,1),(31,'2020-03-17 10:51:49.720128','10','admin',1,'[{\"added\": {}}]',8,1),(32,'2020-03-17 10:52:01.529080','1','主管',2,'[{\"changed\": {\"fields\": [\"\\u62e5\\u6709\\u7684\\u6240\\u6709\\u6743\\u9650\"]}}]',9,1),(33,'2020-03-17 12:11:19.169038','11','查看具体用户',1,'[{\"added\": {}}]',8,1),(34,'2020-03-17 12:11:29.691025','3','人事',2,'[{\"changed\": {\"fields\": [\"\\u62e5\\u6709\\u7684\\u6240\\u6709\\u6743\\u9650\"]}}]',9,1),(35,'2020-03-17 12:14:32.944577','11','查看具体用户',3,'',8,1),(36,'2020-03-17 20:32:00.819218','4','admin',2,'[{\"changed\": {\"fields\": [\"\\u62e5\\u6709\\u7684\\u6240\\u6709\\u89d2\\u8272\"]}}]',10,1),(37,'2020-03-17 20:32:11.753221','1','001',3,'',10,1),(38,'2020-03-17 20:32:16.215209','2','002',3,'',10,1),(39,'2020-03-17 20:32:24.797267','3','003',3,'',10,1),(40,'2020-03-17 20:33:26.296291','5','001',2,'[{\"changed\": {\"fields\": [\"\\u62e5\\u6709\\u7684\\u6240\\u6709\\u89d2\\u8272\"]}}]',10,1),(41,'2020-03-17 20:33:29.387269','4','admin',2,'[]',10,1),(42,'2020-03-17 20:33:32.723265','6','002',2,'[{\"changed\": {\"fields\": [\"\\u62e5\\u6709\\u7684\\u6240\\u6709\\u89d2\\u8272\"]}}]',10,1),(43,'2020-03-17 20:33:35.696261','7','003',2,'[{\"changed\": {\"fields\": [\"\\u62e5\\u6709\\u7684\\u6240\\u6709\\u89d2\\u8272\"]}}]',10,1),(44,'2020-03-17 22:11:26.619254','1','系统首页',2,'[{\"changed\": {\"fields\": [\"\\u94fe\\u63a5\\u5730\\u5740\"]}}]',7,1),(45,'2020-03-17 22:11:36.531603','7','用户列表',2,'[{\"changed\": {\"fields\": [\"\\u94fe\\u63a5\\u5730\\u5740\"]}}]',7,1),(46,'2020-03-17 22:12:25.236593','2','平台管理',2,'[{\"changed\": {\"fields\": [\"\\u94fe\\u63a5\\u5730\\u5740\"]}}]',7,1),(47,'2020-03-17 22:12:28.344580','1','系统首页',2,'[]',7,1),(48,'2020-03-17 22:12:42.236623','8','权限管理',2,'[{\"changed\": {\"fields\": [\"\\u94fe\\u63a5\\u5730\\u5740\"]}}]',7,1),(49,'2020-03-17 22:12:56.513618','6','用户管理',2,'[{\"changed\": {\"fields\": [\"\\u94fe\\u63a5\\u5730\\u5740\"]}}]',7,1),(50,'2020-03-17 22:13:19.663568','7','用户列表',2,'[{\"changed\": {\"fields\": [\"\\u94fe\\u63a5\\u5730\\u5740\", \"\\u7236\\u7ea7\\u83dc\\u5355\"]}}]',7,1),(51,'2020-03-17 22:13:28.498726','8','权限管理',2,'[]',7,1),(52,'2020-03-17 22:13:48.021594','10','角色管理',2,'[{\"changed\": {\"fields\": [\"\\u94fe\\u63a5\\u5730\\u5740\", \"\\u6392\\u5e8f\", \"\\u7236\\u7ea7\\u83dc\\u5355\"]}}]',7,1),(53,'2020-03-17 22:14:21.284650','4','应用部署',2,'[{\"changed\": {\"fields\": [\"\\u94fe\\u63a5\\u5730\\u5740\"]}}]',7,1),(54,'2020-03-17 22:14:31.886388','5','任务管理',2,'[{\"changed\": {\"fields\": [\"\\u94fe\\u63a5\\u5730\\u5740\"]}}]',7,1),(55,'2020-03-17 22:50:03.229605','3','资产管理',2,'[{\"changed\": {\"fields\": [\"\\u94fe\\u63a5\\u5730\\u5740\"]}}]',7,1),(56,'2020-03-17 22:57:30.550588','11','权限列表',1,'[{\"added\": {}}]',7,1),(57,'2020-03-17 23:09:53.109604','1','系统首页',2,'[{\"changed\": {\"fields\": [\"\\u94fe\\u63a5\\u5730\\u5740\"]}}]',7,1),(58,'2020-03-17 23:09:55.282418','1','系统首页',2,'[]',7,1),(59,'2020-03-17 23:10:00.134098','10','角色管理',2,'[{\"changed\": {\"fields\": [\"\\u94fe\\u63a5\\u5730\\u5740\"]}}]',7,1),(60,'2020-03-17 23:10:04.653583','10','角色管理',2,'[{\"changed\": {\"fields\": [\"\\u94fe\\u63a5\\u5730\\u5740\"]}}]',7,1),(61,'2020-03-17 23:10:26.023412','7','用户列表',2,'[]',7,1),(62,'2020-03-17 23:10:30.979577','1','系统首页',2,'[{\"changed\": {\"fields\": [\"\\u94fe\\u63a5\\u5730\\u5740\"]}}]',7,1),(63,'2020-03-17 23:10:35.466571','10','角色管理',2,'[{\"changed\": {\"fields\": [\"\\u94fe\\u63a5\\u5730\\u5740\"]}}]',7,1),(64,'2020-03-17 23:16:02.438107','9','账户设置',2,'[{\"changed\": {\"fields\": [\"\\u56fe\\u6807\", \"\\u94fe\\u63a5\\u5730\\u5740\"]}}]',7,1),(65,'2020-03-17 23:21:02.677582','7','用户列表',2,'[{\"changed\": {\"fields\": [\"\\u94fe\\u63a5\\u5730\\u5740\"]}}]',7,1),(66,'2020-03-17 23:21:57.934220','7','用户列表',2,'[{\"changed\": {\"fields\": [\"\\u94fe\\u63a5\\u5730\\u5740\"]}}]',7,1),(67,'2020-03-17 23:59:49.855582','5','任务管理',2,'[{\"changed\": {\"fields\": [\"\\u56fe\\u6807\"]}}]',7,1),(68,'2020-03-18 00:05:19.204613','8','权限管理',2,'[{\"changed\": {\"fields\": [\"\\u56fe\\u6807\"]}}]',7,1),(69,'2020-03-18 00:05:40.769297','9','账户设置',2,'[{\"changed\": {\"fields\": [\"\\u7236\\u7ea7\\u83dc\\u5355\"]}}]',7,1),(70,'2020-03-18 00:07:05.526595','10','角色管理',2,'[{\"changed\": {\"fields\": [\"\\u56fe\\u6807\"]}}]',7,1),(71,'2020-03-18 00:07:35.767333','10','角色列表',2,'[{\"changed\": {\"fields\": [\"\\u83dc\\u5355\"]}}]',7,1),(72,'2020-03-18 00:09:39.382679','12','文件管理',1,'[{\"added\": {}}]',7,1),(73,'2020-03-18 00:10:04.239668','13','文件上传',1,'[{\"added\": {}}]',7,1),(74,'2020-03-18 00:10:32.111608','14','文件下载',1,'[{\"added\": {}}]',7,1),(75,'2020-03-18 00:10:58.214563','15','WIKI',1,'[{\"added\": {}}]',7,1),(76,'2020-03-18 00:11:22.436560','16','监控管理',1,'[{\"added\": {}}]',7,1),(77,'2020-03-18 13:31:30.671947','11','权限列表',2,'[{\"changed\": {\"fields\": [\"\\u94fe\\u63a5\\u5730\\u5740\"]}}]',7,1),(78,'2020-03-18 13:48:26.181549','10','角色列表',2,'[{\"changed\": {\"fields\": [\"\\u94fe\\u63a5\\u5730\\u5740\"]}}]',7,1),(79,'2020-03-18 13:53:23.283874','1','主管',2,'[{\"changed\": {\"fields\": [\"\\u63cf\\u8ff0\"]}}]',9,1),(80,'2020-03-18 13:53:39.638997','2','组长A',2,'[{\"changed\": {\"fields\": [\"\\u63cf\\u8ff0\"]}}]',9,1),(81,'2020-03-18 13:54:01.382157','3','人事',2,'[{\"changed\": {\"fields\": [\"\\u63cf\\u8ff0\"]}}]',9,1),(82,'2020-03-18 13:54:04.298940','4','经理',2,'[]',9,1),(83,'2020-03-19 00:05:14.851473','9','账户设置',2,'[{\"changed\": {\"fields\": [\"\\u94fe\\u63a5\\u5730\\u5740\", \"\\u6392\\u5e8f\"]}}]',7,1),(84,'2020-03-23 15:20:08.627511','1','蜂巢',1,'[{\"added\": {}}]',12,1),(85,'2020-03-23 15:21:27.739284','2','开发',1,'[{\"added\": {}}]',12,1),(86,'2020-03-23 15:35:10.375585','1','本地服务器',1,'[{\"added\": {}}]',11,1),(87,'2020-03-23 15:41:31.162580','1','ServerAssets object (1)',1,'[{\"added\": {}}]',13,1),(88,'2020-03-23 15:41:46.747404','1','ServerAssets object (1)',2,'[]',13,1),(89,'2020-03-23 15:43:27.403548','2','ServerAssets object (2)',1,'[{\"added\": {}}]',13,1),(90,'2020-03-23 16:29:01.623519','2','物理机',1,'[{\"added\": {}}]',11,1),(91,'2020-03-23 16:29:04.685435','1','192.168.1.11',2,'[{\"changed\": {\"fields\": [\"\\u8d44\\u4ea7\\u6807\\u7b7e\"]}}]',13,1),(92,'2020-03-23 16:29:26.794690','2','192.168.1.12',2,'[{\"changed\": {\"fields\": [\"\\u8d44\\u4ea7\\u6807\\u7b7e\"]}}]',13,1),(93,'2020-03-24 06:01:32.178371','17','主机管理',1,'[{\"added\": {}}]',7,1),(94,'2020-03-24 06:02:24.208456','18','IDC',1,'[{\"added\": {}}]',7,1),(95,'2020-03-24 06:03:18.693729','19','标签',1,'[{\"added\": {}}]',7,1),(96,'2020-03-24 06:11:26.228446','19','标签',2,'[{\"changed\": {\"fields\": [\"\\u94fe\\u63a5\\u5730\\u5740\"]}}]',7,1),(97,'2020-03-24 06:51:41.264333','3','测试机',2,'[{\"changed\": {\"fields\": [\"\\u63cf\\u8ff0\"]}}]',11,1),(98,'2020-03-24 08:34:35.319628','18','IDC机房',2,'[{\"changed\": {\"fields\": [\"\\u83dc\\u5355\"]}}]',7,1),(99,'2020-03-24 08:34:49.753806','19','标签管理',2,'[{\"changed\": {\"fields\": [\"\\u83dc\\u5355\"]}}]',7,1),(100,'2020-03-24 08:40:21.484443','20','远程管理',1,'[{\"added\": {}}]',7,1),(101,'2020-03-24 13:40:10.774338','4','127.0.0.1',2,'[{\"changed\": {\"fields\": [\"IDC\"]}}]',13,1),(102,'2020-03-24 13:50:51.526675','5','192.168.1.13',1,'[{\"added\": {}}]',13,1),(103,'2020-04-01 00:14:09.119631','13','文件上传',2,'[{\"changed\": {\"fields\": [\"\\u94fe\\u63a5\\u5730\\u5740\"]}}]',7,1),(104,'2020-04-01 15:20:49.707903','12','文件管理',2,'[{\"changed\": {\"fields\": [\"\\u94fe\\u63a5\\u5730\\u5740\"]}}]',7,1),(105,'2020-04-01 15:20:56.628258','14','文件下载',3,'',7,1),(106,'2020-04-01 15:21:00.194920','13','文件上传',3,'',7,1),(107,'2020-04-03 20:46:53.598537','15','WIKI',2,'[{\"changed\": {\"fields\": [\"\\u94fe\\u63a5\\u5730\\u5740\"]}}]',7,1),(108,'2020-04-03 20:47:23.864444','21','话题',1,'[{\"added\": {}}]',7,1),(109,'2020-04-03 20:48:13.723129','22','管理',1,'[{\"added\": {}}]',7,1),(110,'2020-04-03 20:48:38.147143','22','添加wiki文章',2,'[{\"changed\": {\"fields\": [\"\\u83dc\\u5355\"]}}]',7,1),(111,'2020-04-03 20:48:53.255139','22','添加wiki文章',2,'[{\"changed\": {\"fields\": [\"\\u94fe\\u63a5\\u5730\\u5740\"]}}]',7,1),(112,'2020-04-03 20:49:12.773700','22','添加wiki文章',2,'[{\"changed\": {\"fields\": [\"\\u94fe\\u63a5\\u5730\\u5740\"]}}]',7,1),(113,'2020-04-03 20:52:27.480383','22','添加wiki文章',2,'[{\"changed\": {\"fields\": [\"\\u94fe\\u63a5\\u5730\\u5740\"]}}]',7,1),(114,'2020-04-03 20:54:16.958655','22','添加wiki文章',2,'[{\"changed\": {\"fields\": [\"\\u94fe\\u63a5\\u5730\\u5740\"]}}]',7,1),(115,'2020-04-03 21:20:16.754447','23','系统设置',1,'[{\"added\": {}}]',7,1),(116,'2020-04-04 01:25:39.955711','1','主管',2,'[{\"changed\": {\"fields\": [\"\\u62e5\\u6709\\u7684\\u6240\\u6709\\u6743\\u9650\"]}}]',9,1),(117,'2020-04-04 01:33:13.363624','1','查看用户',2,'[{\"changed\": {\"fields\": [\"\\u52a8\\u4f5c\"]}}]',8,1),(118,'2020-04-04 01:33:19.542012','2','添加用户',2,'[{\"changed\": {\"fields\": [\"\\u52a8\\u4f5c\"]}}]',8,1),(119,'2020-04-04 01:33:26.614575','3','删除用户',2,'[{\"changed\": {\"fields\": [\"\\u52a8\\u4f5c\"]}}]',8,1),(120,'2020-04-04 01:33:32.424198','4','编辑用户',2,'[{\"changed\": {\"fields\": [\"\\u52a8\\u4f5c\"]}}]',8,1),(121,'2020-04-04 01:33:36.991305','5','查看角色',2,'[{\"changed\": {\"fields\": [\"\\u52a8\\u4f5c\"]}}]',8,1),(122,'2020-04-04 01:33:41.940911','7','删除角色',2,'[{\"changed\": {\"fields\": [\"\\u52a8\\u4f5c\"]}}]',8,1),(123,'2020-04-04 01:33:47.724526','8','编辑角色',2,'[{\"changed\": {\"fields\": [\"\\u52a8\\u4f5c\"]}}]',8,1),(124,'2020-04-04 01:34:01.101544','9','角色管理',2,'[{\"changed\": {\"fields\": [\"\\u52a8\\u4f5c\"]}}]',8,1),(125,'2020-04-04 01:34:09.546928','10','admin',2,'[{\"changed\": {\"fields\": [\"\\u52a8\\u4f5c\"]}}]',8,1),(126,'2020-04-04 01:34:24.987566','9','角色管理',2,'[{\"changed\": {\"fields\": [\"\\u52a8\\u4f5c\"]}}]',8,1),(127,'2020-04-04 01:34:30.599609','10','admin',2,'[{\"changed\": {\"fields\": [\"\\u52a8\\u4f5c\"]}}]',8,1),(128,'2020-04-04 01:34:34.438426','10','admin',2,'[]',8,1),(129,'2020-04-04 01:34:37.369351','9','角色管理',2,'[]',8,1),(130,'2020-04-04 01:34:40.255082','8','编辑角色',2,'[]',8,1),(131,'2020-04-04 01:34:42.676798','7','删除角色',2,'[]',8,1),(132,'2020-04-04 01:34:45.362498','1','查看用户',2,'[]',8,1),(133,'2020-04-04 01:43:43.956611','1','主管',2,'[]',9,1),(134,'2020-04-04 01:43:53.417692','4','admin',2,'[]',10,1),(135,'2020-04-04 01:45:38.537951','4','admin',2,'[{\"changed\": {\"fields\": [\"\\u62e5\\u6709\\u7684\\u6240\\u6709\\u89d2\\u8272\"]}}]',10,1),(136,'2020-04-06 16:31:42.261441','24','节点管理',1,'[{\"added\": {}}]',7,1),(137,'2020-04-06 16:32:30.619361','25','kubernetes管理',1,'[{\"added\": {}}]',7,1),(138,'2020-04-06 16:32:38.508275','24','节点管理',2,'[{\"changed\": {\"fields\": [\"\\u6392\\u5e8f\"]}}]',7,1),(139,'2020-04-06 16:33:07.316679','25','kubernetes管理',2,'[{\"changed\": {\"fields\": [\"\\u94fe\\u63a5\\u5730\\u5740\"]}}]',7,1),(140,'2020-04-06 16:37:53.838870','24','节点管理',3,'',7,1),(141,'2020-04-11 00:22:36.140271','1','2020-04-11 00:22:00 True',1,'[{\"added\": {}}]',49,1),(142,'2020-04-11 00:28:20.921868','1','every 2 minutes',1,'[{\"added\": {}}]',45,1),(143,'2020-04-11 00:30:02.894128','2','测试: every 2 minutes',1,'[{\"added\": {}}]',46,1),(144,'2020-04-10 16:46:50.050010','26','任务列表',1,'[{\"added\": {}}]',7,1),(145,'2020-04-10 16:47:26.481423','27','定时管理',1,'[{\"added\": {}}]',7,1),(146,'2020-04-11 09:29:06.178181','3','蜂巢: every 2 minutes',1,'[{\"added\": {}}]',46,1),(147,'2020-04-11 09:52:51.662246','27','Crontab',2,'[{\"changed\": {\"fields\": [\"\\u83dc\\u5355\", \"\\u94fe\\u63a5\\u5730\\u5740\"]}}]',7,1),(148,'2020-04-11 09:55:34.693184','28','时间间隔',1,'[{\"added\": {}}]',7,1),(149,'2020-04-11 09:56:12.023643','29','关闭时间',1,'[{\"added\": {}}]',7,1),(150,'2020-04-11 09:56:35.347502','28','时间间隔',2,'[{\"changed\": {\"fields\": [\"\\u7236\\u7ea7\\u83dc\\u5355\"]}}]',7,1),(151,'2020-04-11 09:58:05.100652','29','计时',2,'[{\"changed\": {\"fields\": [\"\\u83dc\\u5355\"]}}]',7,1);
+INSERT INTO `django_admin_log` VALUES (1,'2020-04-29 16:53:55.547312','29','查看菜单',2,'[{\"changed\": {\"fields\": [\"\\u542b\\u6b63\\u5219\\u7684URL\"]}}]',13,1),(2,'2020-04-29 16:55:46.371996','1','管理员',1,'[{\"added\": {}}]',14,1),(3,'2020-04-29 16:56:14.033494','77','管理员',1,'[{\"added\": {}}]',13,1),(4,'2020-04-29 16:57:36.812133','1','管理员',2,'[{\"changed\": {\"fields\": [\"\\u6743\\u9650\"]}}]',14,1),(5,'2020-04-29 16:58:18.667831','1','首页',1,'[{\"added\": {}}]',12,1),(6,'2020-04-29 16:58:50.980626','1','管理员',2,'[{\"changed\": {\"fields\": [\"\\u83dc\\u5355\"]}}]',14,1),(7,'2020-04-29 17:02:56.135147','1','admin',2,'[{\"changed\": {\"fields\": [\"Last login\", \"\\u89d2\\u8272\"]}}]',15,1),(8,'2020-04-30 05:38:32.035861','1','首页',2,'[{\"changed\": {\"fields\": [\"\\u94fe\\u63a5\\u5730\\u5740\"]}}]',12,1),(9,'2020-04-30 05:39:05.680295','1','首页',2,'[{\"changed\": {\"fields\": [\"\\u56fe\\u6807\"]}}]',12,1),(10,'2020-04-30 05:40:00.508284','1','系统首页',2,'[{\"changed\": {\"fields\": [\"\\u83dc\\u5355\\u540d\\u79f0\"]}}]',12,1),(11,'2020-04-30 05:42:53.555980','1','系统首页',2,'[{\"changed\": {\"fields\": [\"\\u6fc0\\u6d3b\\u72b6\\u6001\"]}}]',12,1),(12,'2020-04-30 05:43:05.753107','1','系统首页',2,'[{\"changed\": {\"fields\": [\"\\u6fc0\\u6d3b\\u72b6\\u6001\"]}}]',12,1),(13,'2020-04-30 05:45:27.381951','2','平台管理',1,'[{\"added\": {}}]',12,1),(14,'2020-04-30 05:45:53.867631','3','系统设置',1,'[{\"added\": {}}]',12,1),(15,'2020-04-30 05:46:15.664266','4','kubernetes管理',1,'[{\"added\": {}}]',12,1),(16,'2020-04-30 05:47:05.527467','5','资产管理',1,'[{\"added\": {}}]',12,1),(17,'2020-04-30 05:47:22.779657','6','主机管理',1,'[{\"added\": {}}]',12,1),(18,'2020-04-30 05:47:36.607729','7','IDC机房',1,'[{\"added\": {}}]',12,1),(19,'2020-04-30 05:47:51.305337','8','标签管理',1,'[{\"added\": {}}]',12,1),(20,'2020-04-30 05:48:10.250551','9','远程管理',1,'[{\"added\": {}}]',12,1),(21,'2020-04-30 05:48:17.188919','8','标签管理',2,'[{\"changed\": {\"fields\": [\"\\u6392\\u5e8f\\u6807\\u8bb0\"]}}]',12,1),(22,'2020-04-30 05:48:56.181110','10','应用部署',1,'[{\"added\": {}}]',12,1),(23,'2020-04-30 05:49:40.146694','11','任务管理',1,'[{\"added\": {}}]',12,1),(24,'2020-04-30 05:49:50.511248','12','任务列表',1,'[{\"added\": {}}]',12,1),(25,'2020-04-30 05:50:21.300398','13','Crontab',1,'[{\"added\": {}}]',12,1),(26,'2020-04-30 05:50:39.115808','14','时间间隔',1,'[{\"added\": {}}]',12,1),(27,'2020-04-30 05:50:54.137400','15','计时',1,'[{\"added\": {}}]',12,1),(28,'2020-04-30 05:51:17.407075','16','用户管理',1,'[{\"added\": {}}]',12,1),(29,'2020-04-30 05:52:15.887617','17','用户列表',1,'[{\"added\": {}}]',12,1),(30,'2020-04-30 05:52:51.885163','18','账户设置',1,'[{\"added\": {}}]',12,1),(31,'2020-04-30 05:53:25.055972','19','权限管理',1,'[{\"added\": {}}]',12,1),(32,'2020-04-30 05:53:34.065876','19','权限管理',2,'[]',12,1),(33,'2020-04-30 05:54:34.628666','20','角色列表',1,'[{\"added\": {}}]',12,1),(34,'2020-04-30 05:54:48.429563','21','权限列表',1,'[{\"added\": {}}]',12,1),(35,'2020-04-30 05:55:07.816063','22','文件管理',1,'[{\"added\": {}}]',12,1),(36,'2020-04-30 05:55:22.494042','23','WIKI',1,'[{\"added\": {}}]',12,1),(37,'2020-04-30 05:55:41.574288','24','话题',1,'[{\"added\": {}}]',12,1),(38,'2020-04-30 05:55:54.984375','25','添加wiki文章',1,'[{\"added\": {}}]',12,1),(39,'2020-04-30 05:56:26.507622','1','管理员',2,'[{\"changed\": {\"fields\": [\"\\u83dc\\u5355\"]}}]',14,1),(40,'2020-04-30 06:02:16.496022','1','蜂巢',1,'[{\"added\": {}}]',19,1),(41,'2020-04-30 06:02:23.026627','1','用户管理',1,'[{\"added\": {}}]',20,1),(42,'2020-04-30 06:06:25.597916','7','IDC机房',2,'[{\"changed\": {\"fields\": [\"\\u4e0a\\u7ea7\\u83dc\\u5355\"]}}]',12,1),(43,'2020-04-30 06:31:24.909039','2','001',2,'[{\"changed\": {\"fields\": [\"Staff status\"]}}]',15,1),(44,'2020-04-30 06:39:48.228199','1','admin',2,'[{\"changed\": {\"fields\": [\"\\u89d2\\u8272\"]}}]',15,1),(45,'2020-04-30 06:40:48.989469','1','管理员',2,'[{\"changed\": {\"fields\": [\"\\u63cf\\u8ff0\"]}}]',14,1),(46,'2020-04-30 07:23:33.330272','1','顶部导航栏',1,'[{\"added\": {}}]',23,1),(47,'2020-04-30 07:23:50.252182','2','侧边菜单栏',1,'[{\"added\": {}}]',23,1),(48,'2020-04-30 07:24:06.841111','3','平台主体',1,'[{\"added\": {}}]',23,1),(49,'2020-04-30 07:42:17.894070','3','测试人员',2,'[{\"changed\": {\"fields\": [\"\\u83dc\\u5355\"]}}]',14,1),(50,'2020-04-30 07:42:45.891051','2','001',2,'[{\"changed\": {\"fields\": [\"Last login\", \"Active\"]}}]',15,1),(51,'2020-04-30 12:41:13.598081','79','用户管理',1,'[{\"added\": {}}]',13,1),(52,'2020-04-30 12:41:25.498077','41','查看用户',2,'[{\"changed\": {\"fields\": [\"\\u4e0a\\u7ea7\\u6743\\u9650\"]}}]',13,1),(53,'2020-04-30 12:41:46.337050','42','添加用户',2,'[{\"changed\": {\"fields\": [\"\\u4e0a\\u7ea7\\u6743\\u9650\"]}}]',13,1),(54,'2020-04-30 12:42:00.322559','43','删除用户',2,'[{\"changed\": {\"fields\": [\"\\u4e0a\\u7ea7\\u6743\\u9650\"]}}]',13,1),(55,'2020-05-01 06:23:14.062966','3','测试人员',2,'[{\"changed\": {\"fields\": [\"\\u6743\\u9650\"]}}]',14,1);
 /*!40000 ALTER TABLE `django_admin_log` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -374,7 +284,7 @@ CREATE TABLE `django_celery_beat_clockedschedule` (
 
 LOCK TABLES `django_celery_beat_clockedschedule` WRITE;
 /*!40000 ALTER TABLE `django_celery_beat_clockedschedule` DISABLE KEYS */;
-INSERT INTO `django_celery_beat_clockedschedule` VALUES (1,'2020-04-11 00:22:00.000000',1),(2,'2020-04-09 16:00:00.000000',1);
+INSERT INTO `django_celery_beat_clockedschedule` VALUES (1,'2020-04-30 16:00:00.000000',1),(2,'2020-04-20 16:00:00.000000',1);
 /*!40000 ALTER TABLE `django_celery_beat_clockedschedule` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -394,7 +304,7 @@ CREATE TABLE `django_celery_beat_crontabschedule` (
   `month_of_year` varchar(64) NOT NULL,
   `timezone` varchar(63) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -403,7 +313,7 @@ CREATE TABLE `django_celery_beat_crontabschedule` (
 
 LOCK TABLES `django_celery_beat_crontabschedule` WRITE;
 /*!40000 ALTER TABLE `django_celery_beat_crontabschedule` DISABLE KEYS */;
-INSERT INTO `django_celery_beat_crontabschedule` VALUES (1,'0','4','*','*','*','UTC'),(2,'2','*','*','*','*','UTC'),(3,'0','4','*','*','*','Asia/Shanghai');
+INSERT INTO `django_celery_beat_crontabschedule` VALUES (1,'1','*','*','*','*','Asia/Shanghai'),(2,'0','4','*','*','*','Asia/Shanghai');
 /*!40000 ALTER TABLE `django_celery_beat_crontabschedule` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -419,7 +329,7 @@ CREATE TABLE `django_celery_beat_intervalschedule` (
   `every` int(11) NOT NULL,
   `period` varchar(24) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -428,7 +338,7 @@ CREATE TABLE `django_celery_beat_intervalschedule` (
 
 LOCK TABLES `django_celery_beat_intervalschedule` WRITE;
 /*!40000 ALTER TABLE `django_celery_beat_intervalschedule` DISABLE KEYS */;
-INSERT INTO `django_celery_beat_intervalschedule` VALUES (1,2,'hours'),(2,1,'minutes');
+INSERT INTO `django_celery_beat_intervalschedule` VALUES (1,1,'minutes');
 /*!40000 ALTER TABLE `django_celery_beat_intervalschedule` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -473,7 +383,7 @@ CREATE TABLE `django_celery_beat_periodictask` (
   CONSTRAINT `django_celery_beat_p_crontab_id_d3cba168_fk_django_ce` FOREIGN KEY (`crontab_id`) REFERENCES `django_celery_beat_crontabschedule` (`id`),
   CONSTRAINT `django_celery_beat_p_interval_id_a8ca27da_fk_django_ce` FOREIGN KEY (`interval_id`) REFERENCES `django_celery_beat_intervalschedule` (`id`),
   CONSTRAINT `django_celery_beat_p_solar_id_a87ce72c_fk_django_ce` FOREIGN KEY (`solar_id`) REFERENCES `django_celery_beat_solarschedule` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -482,7 +392,7 @@ CREATE TABLE `django_celery_beat_periodictask` (
 
 LOCK TABLES `django_celery_beat_periodictask` WRITE;
 /*!40000 ALTER TABLE `django_celery_beat_periodictask` DISABLE KEYS */;
-INSERT INTO `django_celery_beat_periodictask` VALUES (1,'celery.backend_cleanup','celery.backend_cleanup','[]','{}',NULL,NULL,NULL,NULL,1,NULL,0,'2020-04-11 14:55:21.493109','',3,NULL,NULL,0,NULL,NULL,'{}',NULL,43200),(3,'蜂巢','apps.tasks.tasks.add','[21,21]','{}',NULL,NULL,NULL,NULL,0,NULL,0,'2020-04-11 12:42:32.384493','',NULL,1,NULL,0,'2020-04-11 09:28:00.000000',NULL,'{}',NULL,NULL),(4,'测试','apps.tasks.tasks.add','[100,100]','{}',NULL,NULL,NULL,NULL,0,NULL,93,'2020-04-11 15:10:52.609360','',NULL,2,NULL,0,NULL,1,'{}',NULL,1);
+INSERT INTO `django_celery_beat_periodictask` VALUES (1,'celery.backend_cleanup','celery.backend_cleanup','[]','{}',NULL,NULL,NULL,NULL,1,NULL,0,'2020-04-30 12:03:16.264686','',2,NULL,NULL,0,NULL,NULL,'{}',NULL,43200),(2,'测试','apps.tasks.tasks.add','[22,100]','{}',NULL,NULL,NULL,NULL,0,NULL,9,'2020-04-30 12:13:31.487762','测试任务',NULL,1,NULL,0,NULL,NULL,'{}',NULL,NULL),(3,'乘法测试','apps.tasks.tasks.mul','[100,100]','{}',NULL,NULL,NULL,NULL,0,NULL,6,'2020-04-30 12:13:31.477375','乘法测试',NULL,1,NULL,0,'2020-04-30 12:06:59.000000',NULL,'{}',NULL,NULL);
 /*!40000 ALTER TABLE `django_celery_beat_periodictask` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -506,7 +416,7 @@ CREATE TABLE `django_celery_beat_periodictasks` (
 
 LOCK TABLES `django_celery_beat_periodictasks` WRITE;
 /*!40000 ALTER TABLE `django_celery_beat_periodictasks` DISABLE KEYS */;
-INSERT INTO `django_celery_beat_periodictasks` VALUES (1,'2020-04-11 15:10:52.594829');
+INSERT INTO `django_celery_beat_periodictasks` VALUES (1,'2020-04-30 12:13:29.354454');
 /*!40000 ALTER TABLE `django_celery_beat_periodictasks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -547,9 +457,9 @@ CREATE TABLE `django_content_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `app_label` varchar(100) NOT NULL,
   `model` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `django_content_type_app_label_model_76bd3d3b_uniq` (`app_label`,`model`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `django_content_type_app_label_model_76bd3d3b_uniq` (`app_label`,`model`)
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -558,7 +468,7 @@ CREATE TABLE `django_content_type` (
 
 LOCK TABLES `django_content_type` WRITE;
 /*!40000 ALTER TABLE `django_content_type` DISABLE KEYS */;
-INSERT INTO `django_content_type` VALUES (1,'admin','logentry'),(12,'assets','idc'),(13,'assets','serverassets'),(11,'assets','tags'),(3,'auth','group'),(2,'auth','permission'),(4,'auth','user'),(5,'contenttypes','contenttype'),(49,'django_celery_beat','clockedschedule'),(44,'django_celery_beat','crontabschedule'),(45,'django_celery_beat','intervalschedule'),(46,'django_celery_beat','periodictask'),(47,'django_celery_beat','periodictasks'),(48,'django_celery_beat','solarschedule'),(18,'django_nyt','notification'),(16,'django_nyt','notificationtype'),(17,'django_nyt','settings'),(19,'django_nyt','subscription'),(14,'file','filemodel'),(7,'rbac','menu'),(8,'rbac','permissions'),(9,'rbac','role'),(10,'rbac','userprofile'),(6,'sessions','session'),(43,'settings','backgroundsettings'),(39,'wiki','category'),(40,'wiki','comment'),(42,'wiki','post'),(41,'wiki','tag');
+INSERT INTO `django_content_type` VALUES (1,'admin','logentry'),(16,'assets','idc'),(18,'assets','serverassets'),(17,'assets','tags'),(3,'auth','group'),(2,'auth','permission'),(4,'contenttypes','contenttype'),(11,'django_celery_beat','clockedschedule'),(6,'django_celery_beat','crontabschedule'),(7,'django_celery_beat','intervalschedule'),(8,'django_celery_beat','periodictask'),(9,'django_celery_beat','periodictasks'),(10,'django_celery_beat','solarschedule'),(12,'rbac','menu'),(13,'rbac','permission'),(14,'rbac','role'),(15,'rbac','userprofile'),(5,'sessions','session'),(23,'settings','backgroundsettings'),(19,'wiki','category'),(22,'wiki','comment'),(21,'wiki','post'),(20,'wiki','tag');
 /*!40000 ALTER TABLE `django_content_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -574,8 +484,8 @@ CREATE TABLE `django_migrations` (
   `app` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `applied` datetime(6) NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -584,7 +494,7 @@ CREATE TABLE `django_migrations` (
 
 LOCK TABLES `django_migrations` WRITE;
 /*!40000 ALTER TABLE `django_migrations` DISABLE KEYS */;
-INSERT INTO `django_migrations` VALUES (1,'contenttypes','0001_initial','2020-03-17 08:06:44.795915'),(2,'auth','0001_initial','2020-03-17 08:06:45.005930'),(3,'admin','0001_initial','2020-03-17 08:06:45.663982'),(4,'admin','0002_logentry_remove_auto_add','2020-03-17 08:06:45.805991'),(5,'admin','0003_logentry_add_action_flag_choices','2020-03-17 08:06:45.818993'),(6,'contenttypes','0002_remove_content_type_name','2020-03-17 08:06:45.953002'),(7,'auth','0002_alter_permission_name_max_length','2020-03-17 08:06:46.029008'),(8,'auth','0003_alter_user_email_max_length','2020-03-17 08:06:46.073012'),(9,'auth','0004_alter_user_username_opts','2020-03-17 08:06:46.089013'),(10,'auth','0005_alter_user_last_login_null','2020-03-17 08:06:46.158019'),(11,'auth','0006_require_contenttypes_0002','2020-03-17 08:06:46.163019'),(12,'auth','0007_alter_validators_add_error_messages','2020-03-17 08:06:46.177020'),(13,'auth','0008_alter_user_username_max_length','2020-03-17 08:06:46.324031'),(14,'auth','0009_alter_user_last_name_max_length','2020-03-17 08:06:46.415039'),(15,'auth','0010_alter_group_name_max_length','2020-03-17 08:06:46.446039'),(16,'auth','0011_update_proxy_permissions','2020-03-17 08:06:46.460042'),(17,'rbac','0001_initial','2020-03-17 08:06:46.655055'),(18,'sessions','0001_initial','2020-03-17 08:06:47.187095'),(19,'rbac','0002_auto_20200317_1626','2020-03-17 08:26:22.537749'),(20,'rbac','0003_userprofile_active','2020-03-17 08:38:42.853443'),(21,'rbac','0004_auto_20200317_1650','2020-03-17 08:51:02.335406'),(22,'rbac','0005_auto_20200317_2024','2020-03-17 12:24:55.474634'),(23,'rbac','0002_auto_20200317_2159','2020-03-17 21:59:36.293487'),(24,'rbac','0003_auto_20200317_2210','2020-03-17 22:10:45.810287'),(25,'rbac','0004_auto_20200318_2023','2020-03-18 20:24:04.513244'),(26,'assets','0001_initial','2020-03-23 15:19:22.229800'),(27,'assets','0002_auto_20200324_0849','2020-03-24 08:49:32.162202'),(28,'rbac','0002_auto_20200324_0849','2020-03-24 08:49:32.185758'),(29,'assets','0003_auto_20200324_0852','2020-03-24 08:52:59.788766'),(30,'file','0001_initial','2020-03-31 23:53:14.761848'),(50,'file','0002_delete_filemodel','2020-04-03 01:30:54.323389'),(51,'wiki','0001_initial','2020-04-03 02:22:33.548060'),(52,'wiki','0002_auto_20200403_0223','2020-04-03 02:23:17.681247'),(53,'wiki','0003_auto_20200403_0240','2020-04-03 02:40:40.129173'),(54,'wiki','0004_auto_20200403_0243','2020-04-03 02:43:18.160884'),(55,'settings','0001_initial','2020-04-03 22:35:53.466028'),(56,'wiki','0005_auto_20200403_2235','2020-04-03 22:35:53.602960'),(57,'settings','0002_auto_20200403_2242','2020-04-03 22:42:40.882137'),(58,'settings','0003_backgroundsettings_code','2020-04-03 22:43:53.942078'),(59,'django_celery_beat','0001_initial','2020-04-10 18:29:26.967309'),(60,'django_celery_beat','0002_auto_20161118_0346','2020-04-10 18:29:27.105899'),(61,'django_celery_beat','0003_auto_20161209_0049','2020-04-10 18:29:27.133070'),(62,'django_celery_beat','0004_auto_20170221_0000','2020-04-10 18:29:27.146018'),(63,'django_celery_beat','0005_add_solarschedule_events_choices','2020-04-10 18:29:27.154395'),(64,'django_celery_beat','0006_auto_20180322_0932','2020-04-10 18:29:27.289028'),(65,'django_celery_beat','0007_auto_20180521_0826','2020-04-10 18:29:27.373705'),(66,'django_celery_beat','0008_auto_20180914_1922','2020-04-10 18:29:27.403430'),(67,'django_celery_beat','0006_auto_20180210_1226','2020-04-10 18:29:27.417188'),(68,'django_celery_beat','0006_periodictask_priority','2020-04-10 18:29:27.454042'),(69,'django_celery_beat','0009_periodictask_headers','2020-04-10 18:29:27.496164'),(70,'django_celery_beat','0010_auto_20190429_0326','2020-04-10 18:29:27.776379'),(71,'django_celery_beat','0011_auto_20190508_0153','2020-04-10 18:29:27.857623'),(72,'django_celery_beat','0012_periodictask_expire_seconds','2020-04-10 18:29:27.902710');
+INSERT INTO `django_migrations` VALUES (1,'contenttypes','0001_initial','2020-04-29 15:32:01.863107'),(2,'contenttypes','0002_remove_content_type_name','2020-04-29 15:32:01.926214'),(3,'auth','0001_initial','2020-04-29 15:32:02.004573'),(4,'auth','0002_alter_permission_name_max_length','2020-04-29 15:32:02.156623'),(5,'auth','0003_alter_user_email_max_length','2020-04-29 15:32:02.168252'),(6,'auth','0004_alter_user_username_opts','2020-04-29 15:32:02.175352'),(7,'auth','0005_alter_user_last_login_null','2020-04-29 15:32:02.183538'),(8,'auth','0006_require_contenttypes_0002','2020-04-29 15:32:02.186215'),(9,'auth','0007_alter_validators_add_error_messages','2020-04-29 15:32:02.192336'),(10,'auth','0008_alter_user_username_max_length','2020-04-29 15:32:02.204435'),(11,'auth','0009_alter_user_last_name_max_length','2020-04-29 15:32:02.210756'),(12,'auth','0010_alter_group_name_max_length','2020-04-29 15:32:02.248108'),(13,'auth','0011_update_proxy_permissions','2020-04-29 15:32:02.259831'),(14,'rbac','0001_initial','2020-04-29 15:32:02.451034'),(15,'admin','0001_initial','2020-04-29 15:32:02.943974'),(16,'admin','0002_logentry_remove_auto_add','2020-04-29 15:32:03.019103'),(17,'admin','0003_logentry_add_action_flag_choices','2020-04-29 15:32:03.030730'),(18,'assets','0001_initial','2020-04-29 15:32:03.136085'),(19,'django_celery_beat','0001_initial','2020-04-29 15:32:03.341340'),(20,'django_celery_beat','0002_auto_20161118_0346','2020-04-29 15:32:03.480425'),(21,'django_celery_beat','0003_auto_20161209_0049','2020-04-29 15:32:03.498964'),(22,'django_celery_beat','0004_auto_20170221_0000','2020-04-29 15:32:03.511897'),(23,'django_celery_beat','0005_add_solarschedule_events_choices','2020-04-29 15:32:03.519543'),(24,'django_celery_beat','0006_auto_20180322_0932','2020-04-29 15:32:03.657637'),(25,'django_celery_beat','0007_auto_20180521_0826','2020-04-29 15:32:03.743784'),(26,'django_celery_beat','0008_auto_20180914_1922','2020-04-29 15:32:03.764841'),(27,'django_celery_beat','0006_auto_20180210_1226','2020-04-29 15:32:03.781995'),(28,'django_celery_beat','0006_periodictask_priority','2020-04-29 15:32:03.827822'),(29,'django_celery_beat','0009_periodictask_headers','2020-04-29 15:32:03.871132'),(30,'django_celery_beat','0010_auto_20190429_0326','2020-04-29 15:32:04.133834'),(31,'django_celery_beat','0011_auto_20190508_0153','2020-04-29 15:32:04.215474'),(32,'django_celery_beat','0012_periodictask_expire_seconds','2020-04-29 15:32:04.267921'),(33,'file','0001_initial','2020-04-29 15:32:04.295514'),(34,'file','0002_delete_filemodel','2020-04-29 15:32:04.309397'),(35,'sessions','0001_initial','2020-04-29 15:32:04.332307'),(36,'settings','0001_initial','2020-04-29 15:32:04.372728'),(37,'wiki','0001_initial','2020-04-29 15:32:04.508633');
 /*!40000 ALTER TABLE `django_migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -599,9 +509,9 @@ CREATE TABLE `django_session` (
   `session_key` varchar(40) NOT NULL,
   `session_data` longtext NOT NULL,
   `expire_date` datetime(6) NOT NULL,
-  PRIMARY KEY (`session_key`) USING BTREE,
-  KEY `django_session_expire_date_a5c62663` (`expire_date`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+  PRIMARY KEY (`session_key`),
+  KEY `django_session_expire_date_a5c62663` (`expire_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -610,7 +520,7 @@ CREATE TABLE `django_session` (
 
 LOCK TABLES `django_session` WRITE;
 /*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
-INSERT INTO `django_session` VALUES ('0lcup0ylsvk6838z8h0nbfuhwml0623q','MTEzODFhMmQ2YzdjNjg2MDQyYjQ4ODE3Y2IzNmY2OTU2YzIzZjhkOTp7ImxvZ2luX3JlZmVyZXIiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvd2lraS9taXNzaW5nLXJvb3QvIiwidGVzdGNvb2tpZSI6IndvcmtlZCIsIl9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJkNWQ4NWUxNDgwNDhhYmI1NTQwNzgwMjVjOTY0OGU4ZjQwMzlmNTYyIn0=','2020-04-17 00:39:22.016183'),('6tv69pdv2a59y55yceyfjsf9gzykjl8w','ZDQ5MmQ5NTA2NjA5YmIxNDI1YWZlZjY5OTc3ODk0MmU2ZThjM2MxMDp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJlNDJhMWQzYWU0NGRkNzcwNGYwMTkyZGJiMjQ0ODRjODBhNDAwNWU1In0=','2020-03-31 08:47:43.221200'),('7hk8xlzlm2p72m5hph5wycyx4lnek8eh','ODllNjIzYmJkYWZhMWJkNDgwMjRmNzhkNzYzOGZkZWMzNDUzYTZlZjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJkNWQ4NWUxNDgwNDhhYmI1NTQwNzgwMjVjOTY0OGU4ZjQwMzlmNTYyIn0=','2020-04-17 01:52:13.066241'),('7kcn46ywegaufrhm7u99q5jkwoqqsxt6','MTEzODFhMmQ2YzdjNjg2MDQyYjQ4ODE3Y2IzNmY2OTU2YzIzZjhkOTp7ImxvZ2luX3JlZmVyZXIiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvd2lraS9taXNzaW5nLXJvb3QvIiwidGVzdGNvb2tpZSI6IndvcmtlZCIsIl9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJkNWQ4NWUxNDgwNDhhYmI1NTQwNzgwMjVjOTY0OGU4ZjQwMzlmNTYyIn0=','2020-04-17 00:30:46.135786'),('ahaj84e9r6alrkgbrsnfyhmfjvu64c4j','ODllNjIzYmJkYWZhMWJkNDgwMjRmNzhkNzYzOGZkZWMzNDUzYTZlZjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJkNWQ4NWUxNDgwNDhhYmI1NTQwNzgwMjVjOTY0OGU4ZjQwMzlmNTYyIn0=','2020-03-31 20:30:59.906065'),('b6t544gsp409t42cv2ynh0egmmepwjdf','ZDQ5MmQ5NTA2NjA5YmIxNDI1YWZlZjY5OTc3ODk0MmU2ZThjM2MxMDp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJlNDJhMWQzYWU0NGRkNzcwNGYwMTkyZGJiMjQ0ODRjODBhNDAwNWU1In0=','2020-03-31 08:11:01.713312'),('cig55n42z2kwof3gwswebkq8hifx486a','ODllNjIzYmJkYWZhMWJkNDgwMjRmNzhkNzYzOGZkZWMzNDUzYTZlZjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJkNWQ4NWUxNDgwNDhhYmI1NTQwNzgwMjVjOTY0OGU4ZjQwMzlmNTYyIn0=','2020-04-15 00:13:54.221038'),('d9u335dxj3zcatmfyoulkntlzoavlcx5','ODJkNjJkZTZlMzVhZWRiMDYwYThlYTI0ZjAzNjA1ZWQxYTg0OGQ4ODp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJkNWQ4NWUxNDgwNDhhYmI1NTQwNzgwMjVjOTY0OGU4ZjQwMzlmNTYyIiwic2ltcGxldWlfMjAyMDA0MDYiOnRydWV9','2020-04-20 00:40:29.344872'),('dxiwckc984hrwyu8uhswywk58yi0pxpl','Y2ZiMTA4ZmMyMGYwOGJkZTEwMGI4ZTE3ZTFhNTllNDc2MzU0ZjRkNjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJkNWQ4NWUxNDgwNDhhYmI1NTQwNzgwMjVjOTY0OGU4ZjQwMzlmNTYyIiwic2ltcGxldWlfMjAyMDA0MTAiOnRydWV9','2020-04-24 18:36:23.983744'),('gkyi3mqmiytyvjthcgtuqi720w9rvwxq','ODllNjIzYmJkYWZhMWJkNDgwMjRmNzhkNzYzOGZkZWMzNDUzYTZlZjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJkNWQ4NWUxNDgwNDhhYmI1NTQwNzgwMjVjOTY0OGU4ZjQwMzlmNTYyIn0=','2020-04-06 15:19:59.040502'),('kywbfwbjxz0xlzr1zq67ogdsn02pmngl','OGM3NTAyMDliNzUwZWY2ZWJkYjNkNTE3ZTA0MzgxZTk0MGI1ZjBhNzp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJkNWQ4NWUxNDgwNDhhYmI1NTQwNzgwMjVjOTY0OGU4ZjQwMzlmNTYyIiwic2ltcGxldWlfMjAyMDA0MDUiOnRydWUsInNpbXBsZXVpXzIwMjAwNDA2Ijp0cnVlfQ==','2020-04-20 00:19:07.948038'),('zy6wmaiy3kljq68phgkprgxecgq9e418','ZDcxZjhlMDM4Y2FiNzA4ZjA1OTE1ZmQ3YzQ0NmY2NWQ0Yjk1NmNiZTp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJkNWQ4NWUxNDgwNDhhYmI1NTQwNzgwMjVjOTY0OGU4ZjQwMzlmNTYyIiwic2ltcGxldWlfMjAyMDA0MTAiOnRydWUsInNpbXBsZXVpXzIwMjAwNDExIjp0cnVlfQ==','2020-04-25 00:19:42.107114');
+INSERT INTO `django_session` VALUES ('ufmu5bdlnub8rwof64ueb9irjf0ni7ow','MmRmMTc1ZWFhYWYwMmQ1ZmVjMjQ4NzQ3MWZhZTZkYmZjNzEwYTY3ODp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiIwNWI1NDQ1MjE5ODk0MWM3NmMzZjM4NjY3NmNmMzkzZDE5MDUxMTI1Iiwic2ltcGxldWlfMjAyMDA0MjkiOnRydWUsInNpbXBsZXVpXzIwMjAwNDMwIjp0cnVlLCJzaW1wbGV1aV8yMDIwMDUwMSI6dHJ1ZX0=','2020-05-15 05:26:03.218973');
 /*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -623,15 +533,17 @@ DROP TABLE IF EXISTS `rbac_menu`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `rbac_menu` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(32) NOT NULL,
+  `name` varchar(32) NOT NULL,
   `icon` varchar(32) NOT NULL,
-  `sort` int(11) NOT NULL,
   `path` varchar(100) NOT NULL,
+  `is_active` tinyint(1) NOT NULL,
+  `sort` int(11) NOT NULL,
   `pid_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`),
   KEY `rbac_menu_pid_id_a43b3c84_fk_rbac_menu_id` (`pid_id`),
   CONSTRAINT `rbac_menu_pid_id_a43b3c84_fk_rbac_menu_id` FOREIGN KEY (`pid_id`) REFERENCES `rbac_menu` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -640,34 +552,38 @@ CREATE TABLE `rbac_menu` (
 
 LOCK TABLES `rbac_menu` WRITE;
 /*!40000 ALTER TABLE `rbac_menu` DISABLE KEYS */;
-INSERT INTO `rbac_menu` VALUES (1,'系统首页','el-icon-s-home',0,'/home',NULL),(2,'平台管理','el-icon-setting',1,'/platform',NULL),(3,'资产管理','el-icon-goods',2,'/assets',NULL),(4,'应用部署','el-icon-bangzhu',3,'/deploy',NULL),(5,'任务管理','el-icon-time',4,'/task',NULL),(6,'用户管理','el-icon-user',5,'/users/',NULL),(7,'用户列表','el-icon-menu',1,'/users',6),(8,'权限管理','el-icon-office-building',2,'/rights',NULL),(9,'账户设置','el-icon-menu',2,'/user',6),(10,'角色列表','el-icon-menu',1,'/roles',8),(11,'权限列表','el-icon-menu',2,'/rights',8),(12,'文件管理','el-icon-folder',6,'/files',NULL),(15,'WIKI','el-icon-chat-line-square',7,'',NULL),(16,'监控管理','el-icon-monitor',8,'/monitor',NULL),(17,'主机管理','el-icon-menu',1,'/server',3),(18,'IDC机房','el-icon-menu',2,'/idc',3),(19,'标签管理','el-icon-menu',3,'/tags',3),(20,'远程管理','el-icon-menu',2,'/webssh',3),(21,'话题','el-icon-menu',1,'/wiki',15),(22,'添加wiki文章','el-icon-menu',2,'/wiki/add',15),(23,'系统设置','el-icon-menu',0,'/settings',2),(25,'kubernetes管理','el-icon-menu',2,'/Kubernetes',2),(26,'任务列表','el-icon-menu',1,'/tasks',5),(27,'Crontab','el-icon-menu',2,'/crontab',5),(28,'时间间隔','el-icon-menu',3,'/intervals',5),(29,'计时','el-icon-menu',5,'/clocked',5);
+INSERT INTO `rbac_menu` VALUES (1,'系统首页','el-icon-s-home','/home',1,0,NULL),(2,'平台管理','el-icon-setting','/platform',1,1,NULL),(3,'系统设置','el-icon-menu','/settings',1,1,2),(4,'kubernetes管理','el-icon-menu','/Kubernetes',1,2,2),(5,'资产管理','el-icon-goods','/assets',1,2,NULL),(6,'主机管理','el-icon-menu','/server',1,1,5),(7,'IDC机房','el-icon-menu','/idc',1,2,5),(8,'标签管理','el-icon-menu','/tags',1,4,5),(9,'远程管理','el-icon-menu','/webssh',1,3,5),(10,'应用部署','el-icon-bangzhu','/deploy',1,3,NULL),(11,'任务管理','el-icon-time','/task',1,4,NULL),(12,'任务列表','el-icon-menu','/tasks',1,1,11),(13,'Crontab','el-icon-menu','/crontab',1,2,11),(14,'时间间隔','el-icon-menu','/intervals',1,3,11),(15,'计时','el-icon-menu','/clocked',1,4,11),(16,'用户管理','el-icon-user','/users/',1,5,NULL),(17,'用户列表','el-icon-menu','/users',1,1,16),(18,'账户设置','el-icon-menu','/user',1,2,16),(19,'权限管理','el-icon-office-building','/rights',1,6,NULL),(20,'角色列表','el-icon-menu','/roles',1,1,19),(21,'权限列表','el-icon-menu','/rights',1,2,19),(22,'文件管理','el-icon-folder','/files',1,7,NULL),(23,'WIKI','el-icon-chat-line-square','',1,8,NULL),(24,'话题','el-icon-menu','/wiki',1,1,23),(25,'添加wiki文章','el-icon-menu','/wiki/add',1,2,23);
 /*!40000 ALTER TABLE `rbac_menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `rbac_permissions`
+-- Table structure for table `rbac_permission`
 --
 
-DROP TABLE IF EXISTS `rbac_permissions`;
+DROP TABLE IF EXISTS `rbac_permission`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `rbac_permissions` (
+CREATE TABLE `rbac_permission` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(32) NOT NULL,
+  `name` varchar(32) NOT NULL,
   `path` varchar(128) NOT NULL,
-  `action` varchar(16) NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+  `method` varchar(16) NOT NULL,
+  `pid_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`),
+  KEY `rbac_permission_pid_id_6939354d_fk_rbac_permission_id` (`pid_id`),
+  CONSTRAINT `rbac_permission_pid_id_6939354d_fk_rbac_permission_id` FOREIGN KEY (`pid_id`) REFERENCES `rbac_permission` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=117 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `rbac_permissions`
+-- Dumping data for table `rbac_permission`
 --
 
-LOCK TABLES `rbac_permissions` WRITE;
-/*!40000 ALTER TABLE `rbac_permissions` DISABLE KEYS */;
-INSERT INTO `rbac_permissions` VALUES (1,'查看用户','/users/','GET'),(2,'添加用户','/users/','POST'),(3,'删除用户','/users/(\\d+)/','DELETE'),(4,'编辑用户','/users/','PUT'),(5,'查看角色','/roles/','GET'),(7,'删除角色','/roles/(\\d+)/','DELETE'),(8,'编辑角色','/roles/(\\d+)/','PUT'),(9,'角色管理','/roles/','GET'),(10,'admin','.*','GET');
-/*!40000 ALTER TABLE `rbac_permissions` ENABLE KEYS */;
+LOCK TABLES `rbac_permission` WRITE;
+/*!40000 ALTER TABLE `rbac_permission` DISABLE KEYS */;
+INSERT INTO `rbac_permission` VALUES (1,'查看日志记录','/logs/','GET',NULL),(5,'查看solar event','/tasks/solar_schedule/','GET',102),(6,'添加solar event','/tasks/solar_schedule/','POST',102),(7,'删除solar event','/tasks/solar_schedule/(?P<pk>[^/.]+)/','DELETE',102),(8,'修改solar event','/tasks/solar_schedule/(?P<pk>[^/.]+)/','PUT',102),(9,'查看interval','/tasks/interval_schedule/','GET',103),(10,'添加interval','/tasks/interval_schedule/','POST',103),(11,'删除interval','/tasks/interval_schedule/(?P<pk>[^/.]+)/','DELETE',103),(12,'修改interval','/tasks/interval_schedule/(?P<pk>[^/.]+)/','PUT',103),(13,'查看clocked','/tasks/clocked_schedule/','GET',104),(14,'添加clocked','/tasks/clocked_schedule/','POST',104),(15,'删除clocked','/tasks/clocked_schedule/(?P<pk>[^/.]+)/','DELETE',104),(16,'修改clocked','/tasks/clocked_schedule/(?P<pk>[^/.]+)/','PUT',104),(17,'查看crontab','/tasks/crontab_schedule/','GET',105),(18,'添加crontab','/tasks/crontab_schedule/','POST',105),(19,'删除crontab','/tasks/crontab_schedule/(?P<pk>[^/.]+)/','DELETE',105),(20,'修改crontab','/tasks/crontab_schedule/(?P<pk>[^/.]+)/','PUT',105),(21,'查看periodic tasks','/tasks/periodic_tasks/','GET',116),(22,'添加periodic tasks','/tasks/periodic_tasks/','POST',116),(23,'删除periodic tasks','/tasks/periodic_tasks/','DELETE',116),(24,'修改periodic tasks','/tasks/periodic_tasks/','PUT',116),(25,'查看periodic task','/tasks/periodic_task/','GET',106),(26,'添加periodic task','/tasks/periodic_task/','POST',106),(27,'删除periodic task','/tasks/periodic_task/(?P<pk>[^/.]+)/','DELETE',106),(28,'修改periodic task','/tasks/periodic_task/(?P<pk>[^/.]+)/','PUT',106),(29,'查看菜单','/power/menu/','GET',83),(30,'添加菜单','/power/menu/','POST',83),(31,'删除菜单','/power/menu/(?P<pk>[^/.]+)/','DELETE',83),(32,'修改菜单','/power/menu/(?P<pk>[^/.]+)/','PUT',83),(33,'查看权限','/power/permissions/','GET',107),(34,'添加权限','/power/permissions/','POST',107),(35,'删除权限','/power/permissions/(?P<pk>[^/.]+)/','DELETE',107),(36,'修改权限','/power/permissions/(?P<pk>[^/.]+)/','PUT',107),(37,'查看角色','/power/roles/','GET',109),(38,'添加角色','/power/roles/','POST',109),(39,'删除角色','/power/roles/(?P<pk>[^/.]+)/','DELETE',109),(40,'修改角色','/power/roles/(?P<pk>[^/.]+)/','PUT',109),(41,'查看用户','/power/users/','GET',108),(42,'添加用户','/power/user/','POST',108),(43,'删除用户','/power/users/(?P<pk>[^/.]+)/','DELETE',108),(44,'修改用户','/power/users/(?P<pk>[^/.]+)/','PUT',108),(45,'查看IDC数据中心','/assets/idc/','GET',110),(46,'添加IDC数据中心','/assets/idc/','POST',110),(47,'删除IDC数据中心','/assets/idc/(?P<pk>[^/.]+)/','DELETE',110),(48,'修改IDC数据中心','/assets/idc/(?P<pk>[^/.]+)/','PUT',110),(49,'查看资产标签','/assets/tags/','GET',111),(50,'添加资产标签','/assets/tags/','POST',111),(51,'删除资产标签','/assets/tags/(?P<pk>[^/.]+)/','DELETE',111),(52,'修改资产标签','/assets/tags/(?P<pk>[^/.]+)/','PUT',111),(53,'查看服务器资产主机','/assets/servers/','GET',88),(54,'添加服务器资产主机','/assets/servers/','POST',88),(55,'删除服务器资产主机','/assets/servers/(?P<pk>[^/.]+)/','DELETE',88),(56,'修改服务器资产主机','/assets/servers/(?P<pk>[^/.]+)/','PUT',88),(57,'查看wiki分类','/wiki/categories/','GET',112),(58,'添加wiki分类','/wiki/categories/','POST',112),(59,'删除wiki分类','/wiki/categories/(?P<pk>[^/.]+)/','DELETE',112),(60,'修改wiki分类','/wiki/categories/(?P<pk>[^/.]+)/','PUT',112),(61,'查看wiki标签','/wiki/tags/','GET',113),(62,'添加wiki标签','/wiki/tags/','POST',113),(63,'删除wiki标签','/wiki/tags/(?P<pk>[^/.]+)/','DELETE',113),(64,'修改wiki标签','/wiki/tags/(?P<pk>[^/.]+)/','PUT',113),(65,'查看wiki文章','/wiki/posts/','GET',114),(66,'添加wiki文章','/wiki/posts/','POST',114),(67,'删除wiki文章','/wiki/posts/(?P<pk>[^/.]+)/','DELETE',114),(68,'修改wiki文章','/wiki/posts/(?P<pk>[^/.]+)/','PUT',114),(69,'查看wiki评论','/wiki/comments/','GET',115),(70,'添加wiki评论','/wiki/comments/','POST',115),(71,'删除wiki评论','/wiki/comments/(?P<pk>[^/.]+)/','DELETE',115),(72,'修改wiki评论','/wiki/comments/(?P<pk>[^/.]+)/','PUT',115),(73,'查看背景颜色','/platform/settings/','GET',86),(76,'修改背景颜色','/platform/settings/(?P<pk>[^/.]+)/','PUT',86),(77,'管理员','.*','*',NULL),(78,'获取首页菜单','/power/menu/tree/','GET',NULL),(79,'用户管理','/users','GET',NULL),(80,'权限管理','/power/permissions/','*',NULL),(81,'获取所有权限(添加和编辑权限时)','/power/permissions/all/','GET',80),(82,'任务管理','/tasks/task/','*',NULL),(83,'菜单管理','/abc/','*',NULL),(84,'资产管理','/abc/','*',NULL),(85,'wiki管理','/abc/','*',NULL),(86,'设置管理','/abc/','*',NULL),(87,'查看wiki文章详情','/wiki/posts/(?P<pk>[^/.]+)/','GET',85),(88,'主机管理','/abc/','*',84),(89,'查看solar event详情','/tasks/solar_schedule/(?P<pk>[^/.]+)/','GET',102),(90,'查看interval详情','/tasks/interval_schedule/(?P<pk>[^/.]+)/','GET',103),(91,'查看clocked详情','/tasks/clocked_schedule/(?P<pk>[^/.]+)/','GET',104),(92,'查看crontab详情','/tasks/crontab_schedule/(?P<pk>[^/.]+)/','GET',105),(93,'查看periodic tasks详情','/tasks/periodic_task/(?P<pk>[^/.]+)/','GET',116),(94,'查看periodic task详情','/tasks/periodic_task/(?P<pk>[^/.]+)/','GET',106),(95,'查看菜单详情','/power/menu/(?P<pk>[^/.]+)/','GET',83),(96,'查看权限详情','/power/permissions/(?P<pk>[^/.]+)/','GET',107),(97,'查看角色详情','/power/roles/(?P<pk>[^/.]+)/','GET',109),(98,'查看用户详情','/power/users/(?P<pk>[^/.]+)/','GET',108),(99,'修改用户密码','/power/password/','PUT',108),(100,'查看IDC数据中心详情','/assets/idc/(?P<pk>[^/.]+)/','GET',110),(101,'查看服务器资产主机详情','/assets/servers/(?P<pk>[^/.]+)/','GET',88),(102,'solar','/abc/','*',82),(103,'interval','/abc/','*',82),(104,'clocked','/abc/','*',82),(105,'crontab','/abc/','*',82),(106,'任务','/abc/','*',82),(107,'权限','/abc/','*',80),(108,'用户','/abc/','*',80),(109,'角色','/abc/','*',80),(110,'IDC','/abc/','*',84),(111,'资产标签','/abc/','*',84),(112,'wiki分类','/abc/','*',85),(113,'wiki标签','/abc/','*',85),(114,'wiki文章','/abc/','*',85),(115,'wiki评论','/abc/','*',85),(116,'periodic tasks','/abc/','*',82);
+/*!40000 ALTER TABLE `rbac_permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -679,10 +595,11 @@ DROP TABLE IF EXISTS `rbac_role`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `rbac_role` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(32) NOT NULL,
+  `name` varchar(32) NOT NULL,
   `desc` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -691,8 +608,37 @@ CREATE TABLE `rbac_role` (
 
 LOCK TABLES `rbac_role` WRITE;
 /*!40000 ALTER TABLE `rbac_role` DISABLE KEYS */;
-INSERT INTO `rbac_role` VALUES (1,'主管','运维部副主管1'),(2,'组长A','运维部组长'),(3,'人事','人事经理'),(4,'经理','副经理'),(8,'测试人员','A组测试人员');
+INSERT INTO `rbac_role` VALUES (1,'管理员','管理员'),(3,'测试人员','测试人员'),(4,'普通人员','普通用户');
 /*!40000 ALTER TABLE `rbac_role` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `rbac_role_menus`
+--
+
+DROP TABLE IF EXISTS `rbac_role_menus`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `rbac_role_menus` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `role_id` int(11) NOT NULL,
+  `menu_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `rbac_role_menus_role_id_menu_id_579f5861_uniq` (`role_id`,`menu_id`),
+  KEY `rbac_role_menus_menu_id_180f4f9a_fk_rbac_menu_id` (`menu_id`),
+  CONSTRAINT `rbac_role_menus_menu_id_180f4f9a_fk_rbac_menu_id` FOREIGN KEY (`menu_id`) REFERENCES `rbac_menu` (`id`),
+  CONSTRAINT `rbac_role_menus_role_id_323259a4_fk_rbac_role_id` FOREIGN KEY (`role_id`) REFERENCES `rbac_role` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `rbac_role_menus`
+--
+
+LOCK TABLES `rbac_role_menus` WRITE;
+/*!40000 ALTER TABLE `rbac_role_menus` DISABLE KEYS */;
+INSERT INTO `rbac_role_menus` VALUES (1,1,1),(2,1,2),(3,1,3),(4,1,4),(5,1,5),(6,1,6),(7,1,7),(8,1,8),(9,1,9),(10,1,10),(11,1,11),(12,1,12),(13,1,13),(14,1,14),(15,1,15),(16,1,16),(17,1,17),(18,1,18),(19,1,19),(20,1,20),(21,1,21),(22,1,22),(23,1,23),(24,1,24),(25,1,25),(27,3,1),(35,3,2),(41,3,3),(29,3,5),(30,3,6),(31,3,7),(32,3,8),(33,3,9),(64,3,16),(65,3,18),(28,3,23),(26,3,24),(34,3,25),(45,4,1),(46,4,2),(47,4,4),(48,4,5),(49,4,6),(50,4,7),(51,4,8),(52,4,9),(53,4,11),(54,4,12),(55,4,13),(56,4,14),(57,4,15),(62,4,16),(63,4,18),(58,4,22),(59,4,23),(60,4,24),(61,4,25);
+/*!40000 ALTER TABLE `rbac_role_menus` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -705,13 +651,13 @@ DROP TABLE IF EXISTS `rbac_role_permissions`;
 CREATE TABLE `rbac_role_permissions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `role_id` int(11) NOT NULL,
-  `permissions_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `rbac_role_permissions_role_id_permission_id_d01303da_uniq` (`role_id`,`permissions_id`) USING BTREE,
-  KEY `rbac_role_permission_permission_id_f5e1e866_fk_rbac_perm` (`permissions_id`) USING BTREE,
-  CONSTRAINT `rbac_role_permission_permissions_id_e81352e3_fk_rbac_perm` FOREIGN KEY (`permissions_id`) REFERENCES `rbac_permissions` (`id`),
+  `permission_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `rbac_role_permissions_role_id_permission_id_d01303da_uniq` (`role_id`,`permission_id`),
+  KEY `rbac_role_permission_permission_id_f5e1e866_fk_rbac_perm` (`permission_id`),
+  CONSTRAINT `rbac_role_permission_permission_id_f5e1e866_fk_rbac_perm` FOREIGN KEY (`permission_id`) REFERENCES `rbac_permission` (`id`),
   CONSTRAINT `rbac_role_permissions_role_id_d10416cb_fk_rbac_role_id` FOREIGN KEY (`role_id`) REFERENCES `rbac_role` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=286 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -720,7 +666,7 @@ CREATE TABLE `rbac_role_permissions` (
 
 LOCK TABLES `rbac_role_permissions` WRITE;
 /*!40000 ALTER TABLE `rbac_role_permissions` DISABLE KEYS */;
-INSERT INTO `rbac_role_permissions` VALUES (1,1,1),(2,1,2),(3,1,3),(4,1,4),(5,1,5),(7,1,7),(8,1,8),(9,1,9),(120,1,10),(20,2,2),(21,2,3),(101,3,2),(103,4,1),(104,4,2),(118,4,3),(119,4,4),(113,8,2),(114,8,3),(115,8,4),(116,8,5),(117,8,7);
+INSERT INTO `rbac_role_permissions` VALUES (1,1,77),(108,3,5),(215,3,6),(216,3,7),(217,3,8),(218,3,9),(219,3,10),(220,3,11),(221,3,12),(222,3,13),(223,3,14),(224,3,15),(225,3,16),(226,3,17),(227,3,18),(228,3,19),(229,3,20),(230,3,21),(231,3,22),(232,3,23),(233,3,24),(234,3,25),(235,3,26),(236,3,27),(237,3,28),(20,3,29),(50,3,30),(51,3,31),(52,3,32),(110,3,33),(111,3,34),(112,3,35),(113,3,36),(114,3,37),(115,3,38),(116,3,39),(117,3,40),(238,3,41),(106,3,42),(92,3,43),(239,3,44),(105,3,45),(94,3,46),(95,3,47),(96,3,48),(97,3,49),(182,3,50),(89,3,51),(100,3,52),(101,3,53),(102,3,54),(103,3,55),(104,3,56),(86,3,57),(179,3,58),(70,3,59),(71,3,60),(88,3,61),(72,3,62),(181,3,63),(74,3,64),(5,3,65),(180,3,66),(76,3,67),(77,3,68),(8,3,69),(78,3,70),(79,3,71),(80,3,72),(120,3,73),(81,3,76),(83,3,78),(99,3,79),(118,3,80),(119,3,81),(107,3,82),(46,3,83),(90,3,84),(48,3,85),(49,3,86),(85,3,87),(109,3,88),(240,3,89),(241,3,90),(242,3,91),(243,3,92),(244,3,93),(245,3,94),(196,3,95),(192,3,96),(193,3,97),(194,3,98),(195,3,99),(246,3,100),(247,3,101),(248,3,102),(267,3,103),(268,3,104),(269,3,105),(270,3,106),(271,3,107),(272,3,108),(273,3,109),(274,3,110),(275,3,111),(276,3,112),(277,3,113),(278,3,114),(279,3,115),(280,3,116),(121,4,5),(122,4,6),(123,4,7),(124,4,8),(125,4,9),(126,4,10),(127,4,11),(128,4,12),(129,4,13),(130,4,14),(131,4,15),(132,4,16),(133,4,17),(134,4,18),(135,4,19),(136,4,20),(137,4,21),(138,4,22),(139,4,23),(140,4,24),(141,4,25),(142,4,26),(143,4,27),(144,4,28),(283,4,29),(284,4,30),(285,4,31),(281,4,32),(202,4,33),(203,4,34),(204,4,35),(205,4,36),(206,4,37),(207,4,38),(208,4,39),(209,4,40),(251,4,41),(252,4,42),(255,4,43),(256,4,44),(145,4,45),(146,4,46),(147,4,47),(148,4,48),(149,4,49),(150,4,50),(151,4,51),(152,4,52),(153,4,53),(154,4,54),(155,4,55),(156,4,56),(157,4,57),(158,4,58),(159,4,59),(160,4,60),(161,4,61),(162,4,62),(163,4,63),(164,4,64),(165,4,65),(166,4,66),(167,4,67),(168,4,68),(169,4,69),(170,4,70),(171,4,71),(172,4,72),(197,4,73),(212,4,76),(173,4,78),(189,4,80),(213,4,81),(174,4,82),(266,4,83),(175,4,84),(176,4,85),(198,4,86),(177,4,87),(178,4,88),(183,4,89),(184,4,90),(185,4,91),(186,4,92),(187,4,93),(188,4,94),(214,4,95),(201,4,96),(210,4,97),(190,4,98),(191,4,99),(199,4,100),(200,4,101),(211,4,102),(249,4,103),(250,4,104),(258,4,105),(259,4,106),(253,4,107),(254,4,108),(257,4,109),(260,4,110),(261,4,111),(262,4,112),(263,4,113),(264,4,114),(265,4,115),(282,4,116);
 /*!40000 ALTER TABLE `rbac_role_permissions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -733,15 +679,24 @@ DROP TABLE IF EXISTS `rbac_userprofile`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `rbac_userprofile` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(32) NOT NULL,
-  `password` varchar(100) NOT NULL,
-  `email` varchar(32) NOT NULL,
+  `password` varchar(128) NOT NULL,
+  `last_login` datetime(6) DEFAULT NULL,
+  `is_superuser` tinyint(1) NOT NULL,
+  `username` varchar(150) NOT NULL,
+  `first_name` varchar(30) NOT NULL,
+  `last_name` varchar(150) NOT NULL,
+  `email` varchar(254) NOT NULL,
+  `is_staff` tinyint(1) NOT NULL,
+  `is_active` tinyint(1) NOT NULL,
+  `date_joined` datetime(6) NOT NULL,
   `mobile` varchar(32) NOT NULL,
-  `c_time` datetime(6) NOT NULL,
-  `active` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `rbac_userprofile_username_d0c01eff_uniq` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+  `position` varchar(50) DEFAULT NULL,
+  `superior_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`),
+  KEY `rbac_userprofile_superior_id_5d0a3780_fk_rbac_userprofile_id` (`superior_id`),
+  CONSTRAINT `rbac_userprofile_superior_id_5d0a3780_fk_rbac_userprofile_id` FOREIGN KEY (`superior_id`) REFERENCES `rbac_userprofile` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -750,8 +705,36 @@ CREATE TABLE `rbac_userprofile` (
 
 LOCK TABLES `rbac_userprofile` WRITE;
 /*!40000 ALTER TABLE `rbac_userprofile` DISABLE KEYS */;
-INSERT INTO `rbac_userprofile` VALUES (4,'admin','pbkdf2_sha256$180000$xfYkb2k6qkeG$WEUliPGuWB09Ompj8onCzR4zGC6tMYAzntbd7rx23K8=','13829072355@qq.com','13829072374','2020-03-17 12:25:01.184180',1),(9,'root','pbkdf2_sha256$180000$5WQPNvVF0N2w$0VpoV9KQq3OjdO6k0iiWSkZ1D0OxRqfHfL1vmjSCsLE=','eee@qq.com','13742586745','2020-03-18 00:25:43.790266',0),(10,'CEO','pbkdf2_sha256$180000$eW6FgWRcokn7$3pxbca0cGBbzi5P4M7KMTKNYY4KJX60cStNL97QBqcE=','CEO@QQ.COM','13828832467','2020-03-18 19:25:53.532038',1),(11,'001','pbkdf2_sha256$180000$knuF7TNieI4J$f38z4cTzjdlq4Di9niT3PPQy1FTQTZ6+Uq+pqHRc7gw=','001@qq.com','13834587690','2020-03-18 20:00:41.843961',0),(12,'002','pbkdf2_sha256$180000$ADHiFdLeczwv$9Lf1BzDU7n8rwvCRTmn41zf01xg+UGYudb6QR3oXcGk=','002@qq.com','13834843848','2020-03-18 23:07:23.362929',1),(13,'003','pbkdf2_sha256$180000$fK2arLpEqJyv$WWUtlZAp+ZWKiXpliuL40jy2zGHB0I7c6ICkKhrXIlA=','003@qq.com','13237364758','2020-03-18 23:57:23.747078',1);
+INSERT INTO `rbac_userprofile` VALUES (1,'pbkdf2_sha256$180000$eYxMOX36jXYG$ElfM5hfPYENqAD90WqNa6686Z7dJkzR8Oxo6Xyc7vy4=','2020-05-01 07:52:39.841675',1,'admin','','','admin@kubeops.com',1,1,'2020-04-29 15:32:00.000000','',NULL,NULL),(2,'pbkdf2_sha256$180000$3wOHgm1aJwcM$28TbC5jaZFusD2ZpfdlNo0Wj8mkUuitJsC6Okjpzpfs=','2020-05-01 07:27:02.356675',0,'001','','','1114@11.com',1,1,'2020-04-30 06:29:00.000000','13828732678',NULL,NULL),(3,'pbkdf2_sha256$180000$Q1z78YjGPLxC$LZWp710yJeuQ3LGv1nOCCEBwDaTtX6adZ0GTLAYFY0E=','2020-05-01 07:52:10.353667',0,'test','','','test@kubeops.com',0,1,'2020-05-01 07:32:33.798655','13267487537',NULL,NULL);
 /*!40000 ALTER TABLE `rbac_userprofile` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `rbac_userprofile_groups`
+--
+
+DROP TABLE IF EXISTS `rbac_userprofile_groups`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `rbac_userprofile_groups` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userprofile_id` int(11) NOT NULL,
+  `group_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `rbac_userprofile_groups_userprofile_id_group_id_4d710b30_uniq` (`userprofile_id`,`group_id`),
+  KEY `rbac_userprofile_groups_group_id_2c47610b_fk_auth_group_id` (`group_id`),
+  CONSTRAINT `rbac_userprofile_gro_userprofile_id_9cacde37_fk_rbac_user` FOREIGN KEY (`userprofile_id`) REFERENCES `rbac_userprofile` (`id`),
+  CONSTRAINT `rbac_userprofile_groups_group_id_2c47610b_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `rbac_userprofile_groups`
+--
+
+LOCK TABLES `rbac_userprofile_groups` WRITE;
+/*!40000 ALTER TABLE `rbac_userprofile_groups` DISABLE KEYS */;
+/*!40000 ALTER TABLE `rbac_userprofile_groups` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -765,12 +748,12 @@ CREATE TABLE `rbac_userprofile_roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userprofile_id` int(11) NOT NULL,
   `role_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `rbac_userprofile_roles_userprofile_id_role_id_ba9254c5_uniq` (`userprofile_id`,`role_id`) USING BTREE,
-  KEY `rbac_userprofile_roles_role_id_ddc12d7e_fk_rbac_role_id` (`role_id`) USING BTREE,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `rbac_userprofile_roles_userprofile_id_role_id_ba9254c5_uniq` (`userprofile_id`,`role_id`),
+  KEY `rbac_userprofile_roles_role_id_ddc12d7e_fk_rbac_role_id` (`role_id`),
   CONSTRAINT `rbac_userprofile_rol_userprofile_id_3a7afbe9_fk_rbac_user` FOREIGN KEY (`userprofile_id`) REFERENCES `rbac_userprofile` (`id`),
   CONSTRAINT `rbac_userprofile_roles_role_id_ddc12d7e_fk_rbac_role_id` FOREIGN KEY (`role_id`) REFERENCES `rbac_role` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -779,8 +762,36 @@ CREATE TABLE `rbac_userprofile_roles` (
 
 LOCK TABLES `rbac_userprofile_roles` WRITE;
 /*!40000 ALTER TABLE `rbac_userprofile_roles` DISABLE KEYS */;
-INSERT INTO `rbac_userprofile_roles` VALUES (46,4,1),(58,4,2),(59,4,3),(60,4,4),(57,4,8),(54,9,3),(47,10,2),(52,11,4),(56,12,2),(51,13,8);
+INSERT INTO `rbac_userprofile_roles` VALUES (4,1,1),(5,2,3),(6,3,4);
 /*!40000 ALTER TABLE `rbac_userprofile_roles` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `rbac_userprofile_user_permissions`
+--
+
+DROP TABLE IF EXISTS `rbac_userprofile_user_permissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `rbac_userprofile_user_permissions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userprofile_id` int(11) NOT NULL,
+  `permission_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `rbac_userprofile_user_pe_userprofile_id_permissio_16bbd20f_uniq` (`userprofile_id`,`permission_id`),
+  KEY `rbac_userprofile_use_permission_id_740ad67c_fk_auth_perm` (`permission_id`),
+  CONSTRAINT `rbac_userprofile_use_permission_id_740ad67c_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
+  CONSTRAINT `rbac_userprofile_use_userprofile_id_38afd71d_fk_rbac_user` FOREIGN KEY (`userprofile_id`) REFERENCES `rbac_userprofile` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `rbac_userprofile_user_permissions`
+--
+
+LOCK TABLES `rbac_userprofile_user_permissions` WRITE;
+/*!40000 ALTER TABLE `rbac_userprofile_user_permissions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `rbac_userprofile_user_permissions` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -821,7 +832,7 @@ CREATE TABLE `wiki_category` (
   `name` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -830,7 +841,7 @@ CREATE TABLE `wiki_category` (
 
 LOCK TABLES `wiki_category` WRITE;
 /*!40000 ALTER TABLE `wiki_category` DISABLE KEYS */;
-INSERT INTO `wiki_category` VALUES (1,'物联平台组'),(2,'蜂巢');
+INSERT INTO `wiki_category` VALUES (1,'蜂巢');
 /*!40000 ALTER TABLE `wiki_category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -849,12 +860,12 @@ CREATE TABLE `wiki_comment` (
   `post_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`nid`),
-  KEY `comment_parent_id_id_47868c13_fk_comment_nid` (`parent_id_id`),
-  KEY `comment_post_id_d299ca5f_fk_post_id` (`post_id`),
-  KEY `comment_user_id_2224f9d1_fk_rbac_userprofile_id` (`user_id`),
-  CONSTRAINT `comment_parent_id_id_47868c13_fk_comment_nid` FOREIGN KEY (`parent_id_id`) REFERENCES `wiki_comment` (`nid`),
-  CONSTRAINT `comment_post_id_d299ca5f_fk_post_id` FOREIGN KEY (`post_id`) REFERENCES `wiki_post` (`id`),
-  CONSTRAINT `comment_user_id_2224f9d1_fk_rbac_userprofile_id` FOREIGN KEY (`user_id`) REFERENCES `rbac_userprofile` (`id`)
+  KEY `wiki_comment_parent_id_id_a262e031_fk_wiki_comment_nid` (`parent_id_id`),
+  KEY `wiki_comment_post_id_3b7dbaf4_fk_wiki_post_id` (`post_id`),
+  KEY `wiki_comment_user_id_b436f931_fk_rbac_userprofile_id` (`user_id`),
+  CONSTRAINT `wiki_comment_parent_id_id_a262e031_fk_wiki_comment_nid` FOREIGN KEY (`parent_id_id`) REFERENCES `wiki_comment` (`nid`),
+  CONSTRAINT `wiki_comment_post_id_3b7dbaf4_fk_wiki_post_id` FOREIGN KEY (`post_id`) REFERENCES `wiki_post` (`id`),
+  CONSTRAINT `wiki_comment_user_id_b436f931_fk_rbac_userprofile_id` FOREIGN KEY (`user_id`) REFERENCES `rbac_userprofile` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -878,19 +889,19 @@ CREATE TABLE `wiki_post` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(70) NOT NULL,
   `body` longtext NOT NULL,
+  `c_time` datetime(6) NOT NULL,
+  `u_time` datetime(6) NOT NULL,
   `excerpt` varchar(200) NOT NULL,
   `views` int(10) unsigned NOT NULL,
   `author_id` int(11) NOT NULL,
   `category_id` int(11) DEFAULT NULL,
-  `c_time` datetime(6) NOT NULL,
-  `u_time` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `title` (`title`),
-  KEY `post_author_id_2343ddae_fk_rbac_userprofile_id` (`author_id`),
+  KEY `wiki_post_author_id_907c2b12_fk_rbac_userprofile_id` (`author_id`),
   KEY `wiki_post_category_id_680167b5_fk_wiki_category_id` (`category_id`),
-  CONSTRAINT `post_author_id_2343ddae_fk_rbac_userprofile_id` FOREIGN KEY (`author_id`) REFERENCES `rbac_userprofile` (`id`),
+  CONSTRAINT `wiki_post_author_id_907c2b12_fk_rbac_userprofile_id` FOREIGN KEY (`author_id`) REFERENCES `rbac_userprofile` (`id`),
   CONSTRAINT `wiki_post_category_id_680167b5_fk_wiki_category_id` FOREIGN KEY (`category_id`) REFERENCES `wiki_category` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -899,7 +910,7 @@ CREATE TABLE `wiki_post` (
 
 LOCK TABLES `wiki_post` WRITE;
 /*!40000 ALTER TABLE `wiki_post` DISABLE KEYS */;
-INSERT INTO `wiki_post` VALUES (2,'6月份英语四六级考试取消不实','教育部辟谣：6月份英语四六级考试取消不实 @人民日报：【教育部辟谣：6月份英语四六级考试取消不实】针对近日“原6月份大学英语四六级考试取消，与下半年考试合并”的传言，记者3日从教育部考试中心证实，教育部考试中心已于2月底发布公告，推迟全国范围内2020年上半年全国大学英语四六级考试（CET）、全国大学英语四六级口语考试（CET-SET）、全国外语水平考试（WSK）、书画等级考试（CCPT）网上报名工作，并未发布取消考试的通知。（新华社）','教育部辟谣：6月份英语四六级考试取消不实',0,4,1,'2020-04-03 12:49:08.730149','2020-04-03 12:49:08.730187'),(4,'v-if vs v-show','v-if 是“真正”的条件渲染，因为它会确保在切换过程中条件块内的事件监听器和子组件适当地被销毁和重建。\n\nv-if 也是惰性的：如果在初始渲染时条件为假，则什么也不做——直到条件第一次变为真时，才会开始渲染条件块。\n\n相比之下，v-show 就简单得多——不管初始条件是什么，元素总是会被渲染，并且只是简单地基于 CSS 进行切换。\n\n一般来说，v-if 有更高的切换开销，而 v-show 有更高的初始渲染开销。因此，如果需要非常频繁地切换，则使用 v-show 较好；如果在运行时条件很少改变，则使用 v-if 较好。<p><br></p>','v-if 是“真正”的条件渲染，因为它会确保在切换过程中条件块内的事件监听器和子组件适当地被销毁和重建。\n\nv-if 也是惰性的：如果在初始渲染时条件为假，则什么也不做——直到条件第一次变为真时，才会开始渲染条件块。\n\n相比之下，v-show 就简单得多——不管初始条件是什么，元素总是会被渲染，并且...',0,4,2,'2020-04-03 17:33:54.283572','2020-04-03 20:32:16.646179'),(5,'v-if 也是惰性的','销毁和重建。&nbsp;\n<h2>v-if 也是惰性的：如果在初始渲染时条件为假，</h2><div>则什么也不做——直到条件第一<span style=\"font-family: 微软雅黑;\">次变为真时，才会开始</span>渲染条件块。\n\n相比<span style=\"color: rgb(139, 170, 74);\">之下，v-show 就简单得多——不管初始条件是什么，元素总是会被渲染，并且只是简单地基</span>于 CSS 进行切换。</div><div>&nbsp;一般来说，v-if 有更高的切换开销，而 v-show 有更高的初始渲染开销。因此，如果需要非常频繁地切换，则使用 v-show 较好；如果在运行时条件很少改变，则反反复复<pre><code>created() {<br>      this.postId = this.$route.params.id;<br>      this.getPostDetail(this.postId);<br>    },</code></pre><p><br></p></div>','销毁和重建。v-if 也是惰性的：如果在初始渲染时条件为假，则什么也不做——直到条件第一次变为真时，才会开始渲染条件块。相比之下，v-show 就简单得多——不管初始条件是什么，元素总是会被渲染，并且只是简单地基于 CSS 进行切换。一般来说，v-if 有更高的切换开销，而',0,4,1,'2020-04-03 17:35:49.855026','2020-04-03 20:42:58.188383'),(7,'javascript获取当前时间','<p style=\"word-spacing: 0.05em; line-height: 1.6em; margin-top: 1.2em; margin-bottom: -1.2em; padding-bottom: 1.2em; position: relative; z-index: 1; color: rgb(48, 68, 85); font-family: &quot;Source Sans Pro&quot;, &quot;Helvetica Neue&quot;, Arial, sans-serif; font-size: 16px; background-color: rgb(255, 255, 255);\">模板内的表达式非常便利，但是设计它们的初衷是用于简单运算的。在模板中放入太多的逻辑会让模板过重且难以维护。例如：</p><pre style=\"border-radius: 2px; position: relative; font-family: &quot;Roboto Mono&quot;, Monaco, courier, monospace; font-size: 0.85em; background-color: rgb(248, 248, 248); -webkit-font-smoothing: initial; color: rgb(48, 68, 85);\"><code style=\"font-family: &quot;Roboto Mono&quot;, Monaco, courier, monospace; font-size: 0.85rem; background-color: rgb(248, 248, 248); -webkit-font-smoothing: initial; color: rgb(82, 82, 82); padding: 1.2em 1.4em; margin-right: 2px; margin-left: 2px; border-radius: 2px; overflow-x: auto; line-height: 1.6rem;\"><span style=\"color: rgb(41, 115, 183);\">&lt;div id=<span style=\"color: rgb(66, 185, 131);\">\"example\"</span>&gt;</span>\n  {{ message.split(\'\').reverse().join(\'\') }}\n<span style=\"color: rgb(41, 115, 183);\">&lt;/div&gt;</span></code></pre><p style=\"word-spacing: 0.05em; line-height: 1.6em; margin-top: 1.2em; margin-bottom: -1.2em; padding-bottom: 1.2em; position: relative; z-index: 1; color: rgb(48, 68, 85); font-family: &quot;Source Sans Pro&quot;, &quot;Helvetica Neue&quot;, Arial, sans-serif; font-size: 16px; background-color: rgb(255, 255, 255);\">在这个地方，模板不再是简单的声明式逻辑。你必须看一段时间才能意识到，这里是想要显示变量&nbsp;<code style=\"font-family: &quot;Roboto Mono&quot;, Monaco, courier, monospace; font-size: 0.85em; background-color: rgb(248, 248, 248); -webkit-font-smoothing: initial; color: rgb(214, 50, 0); margin-right: 2px; margin-left: 2px; border-radius: 2px; white-space: nowrap;\">message</code>&nbsp;的翻转字符串。当你想要在模板中多次引用此处的翻转字符串时，就会更加难以处理。</p><p style=\"word-spacing: 0.05em; line-height: 1.6em; margin-top: 1.2em; margin-bottom: -1.2em; padding-bottom: 1.2em; position: relative; z-index: 1; color: rgb(48, 68, 85); font-family: &quot;Source Sans Pro&quot;, &quot;Helvetica Neue&quot;, Arial, sans-serif; font-size: 16px; background-color: rgb(255, 255, 255);\">所以，对于任何复杂逻辑，你都应当使用<span style=\"font-weight: 600; color: rgb(39, 56, 73);\">计算属性</span>。</p>','<p style=\"word-spacing: 0.05em; line-height: 1.6em; margin-top: 1.2em; margin-bottom: -1.2em; padding-bottom: 1.2em; position: relative; z-index: 1; c...',0,4,2,'2020-04-03 21:04:36.460459','2020-04-03 21:04:50.294935'),(8,'分栏间隔','<pre><code>\n&lt;el-row :gutter=\"20\"&gt;<br>  &lt;el-col :span=\"6\"&gt;&lt;div class=\"grid-content bg-purple\"&gt;&lt;/div&gt;&lt;/el-col&gt;<br>  &lt;el-col :span=\"6\"&gt;&lt;div class=\"grid-content bg-purple\"&gt;&lt;/div&gt;&lt;/el-col&gt;<br>  &lt;el-col :span=\"6\"&gt;&lt;div class=\"grid-content bg-purple\"&gt;&lt;/div&gt;&lt;/el-col&gt;<br>  &lt;el-col :span=\"6\"&gt;&lt;div class=\"grid-content bg-purple\"&gt;&lt;/div&gt;&lt;/el-col&gt;<br>&lt;/el-row&gt;<br><br>&lt;style&gt;<br>  .el-row {<br>    margin-bottom: 20px;<br>    &amp;:last-child {<br>      margin-bottom: 0;<br>    }<br>  }<br>  .el-col {<br>    border-radius: 4px;<br>  }<br>  .bg-purple-dark {<br>    background: #99a9bf;<br>  }<br>  .bg-purple {<br>    background: #d3dce6;<br>  }<br>  .bg-purple-light {<br>    background: #e5e9f2;<br>  }<br>  .grid-content {<br>    border-radius: 4px;<br>    min-height: 36px;<br>  }<br>  .row-bg {<br>    padding: 10px 0;<br>    background-color: #f9fafc;<br>  }<br>&lt;/style&gt;</code></pre><p><br></p>','<pre><code>\n&lt;el-row :gutter=\"20\"&gt;<br>  &lt;el-col :span=\"6\"&gt;&lt;div class=\"grid-content bg-purple\"&gt;&lt;/div&gt;&lt;/el-col&gt;<br>  &lt;el...',0,4,1,'2020-04-03 21:09:21.881761','2020-04-03 21:09:21.881793');
+INSERT INTO `wiki_post` VALUES (1,'Vue','<p><h3font-size: 22px;=\"\" font-weight:=\"\" 400;=\"\" color:=\"\" rgb(31,=\"\" 45,=\"\" 61);=\"\" margin:=\"\" 0px=\"\" 30px;=\"\" font-family:=\"\" &quot;helvetica=\"\" neue&quot;,=\"\" helvetica,=\"\" &quot;pingfang=\"\" sc&quot;,=\"\" &quot;hiragino=\"\" sans=\"\" gb&quot;,=\"\" &quot;microsoft=\"\" yahei&quot;,=\"\" simsun,=\"\" sans-serif;=\"\" font-style:=\"\" normal;=\"\" font-variant-ligatures:=\"\" font-variant-caps:=\"\" letter-spacing:=\"\" orphans:=\"\" 2;=\"\" text-align:=\"\" start;=\"\" text-indent:=\"\" 0px;=\"\" text-transform:=\"\" none;=\"\" white-space:=\"\" widows:=\"\" word-spacing:=\"\" -webkit-text-stroke-width:=\"\" text-decoration-style:=\"\" initial;=\"\" text-decoration-color:=\"\" initial;\"=\"\">一致性 Consistency<ulmargin-bottom: 50px;=\"\" padding-left:=\"\" 0px;=\"\" color:=\"\" rgb(0,=\"\" 0,=\"\" 0);=\"\" font-family:=\"\" &quot;helvetica=\"\" neue&quot;,=\"\" helvetica,=\"\" &quot;pingfang=\"\" sc&quot;,=\"\" &quot;hiragino=\"\" sans=\"\" gb&quot;,=\"\" &quot;microsoft=\"\" yahei&quot;,=\"\" simsun,=\"\" sans-serif;=\"\" font-size:=\"\" medium;=\"\" font-style:=\"\" normal;=\"\" font-variant-ligatures:=\"\" font-variant-caps:=\"\" font-weight:=\"\" 400;=\"\" letter-spacing:=\"\" orphans:=\"\" 2;=\"\" text-align:=\"\" start;=\"\" text-indent:=\"\" text-transform:=\"\" none;=\"\" white-space:=\"\" widows:=\"\" word-spacing:=\"\" -webkit-text-stroke-width:=\"\" text-decoration-style:=\"\" initial;=\"\" text-decoration-color:=\"\" initial;\"=\"\"><lifont-size: 14px;=\"\" margin-bottom:=\"\" 10px;=\"\" color:=\"\" rgb(153,=\"\" 169,=\"\" 191);=\"\" list-style:=\"\" none;\"=\"\"><strongcolor: rgb(94,=\"\" 109,=\"\" 130);=\"\" font-weight:=\"\" 400;\"=\"\">与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；<lifont-size: 14px;=\"\" margin-bottom:=\"\" 10px;=\"\" color:=\"\" rgb(153,=\"\" 169,=\"\" 191);=\"\" list-style:=\"\" none;\"=\"\"><strongcolor: rgb(94,=\"\" 109,=\"\" 130);=\"\" font-weight:=\"\" 400;\"=\"\">在界面中一致：所有的元素和结构需保持一致，比如：设计样式、图标和文本、元素的位置等。<h3font-size: 22px;=\"\" font-weight:=\"\" 400;=\"\" color:=\"\" rgb(31,=\"\" 45,=\"\" 61);=\"\" margin:=\"\" 0px=\"\" 30px;=\"\" font-family:=\"\" &quot;helvetica=\"\" neue&quot;,=\"\" helvetica,=\"\" &quot;pingfang=\"\" sc&quot;,=\"\" &quot;hiragino=\"\" sans=\"\" gb&quot;,=\"\" &quot;microsoft=\"\" yahei&quot;,=\"\" simsun,=\"\" sans-serif;=\"\" font-style:=\"\" normal;=\"\" font-variant-ligatures:=\"\" font-variant-caps:=\"\" letter-spacing:=\"\" orphans:=\"\" 2;=\"\" text-align:=\"\" start;=\"\" text-indent:=\"\" 0px;=\"\" text-transform:=\"\" none;=\"\" white-space:=\"\" widows:=\"\" word-spacing:=\"\" -webkit-text-stroke-width:=\"\" text-decoration-style:=\"\" initial;=\"\" text-decoration-color:=\"\" initial;\"=\"\">反馈 Feedback<ulmargin-bottom: 50px;=\"\" padding-left:=\"\" 0px;=\"\" color:=\"\" rgb(0,=\"\" 0,=\"\" 0);=\"\" font-family:=\"\" &quot;helvetica=\"\" neue&quot;,=\"\" helvetica,=\"\" &quot;pingfang=\"\" sc&quot;,=\"\" &quot;hiragino=\"\" sans=\"\" gb&quot;,=\"\" &quot;microsoft=\"\" yahei&quot;,=\"\" simsun,=\"\" sans-serif;=\"\" font-size:=\"\" medium;=\"\" font-style:=\"\" normal;=\"\" font-variant-ligatures:=\"\" font-variant-caps:=\"\" font-weight:=\"\" 400;=\"\" letter-spacing:=\"\" orphans:=\"\" 2;=\"\" text-align:=\"\" start;=\"\" text-indent:=\"\" text-transform:=\"\" none;=\"\" white-space:=\"\" widows:=\"\" word-spacing:=\"\" -webkit-text-stroke-width:=\"\" text-decoration-style:=\"\" initial;=\"\" text-decoration-color:=\"\" initial;\"=\"\"><lifont-size: 14px;=\"\" margin-bottom:=\"\" 10px;=\"\" color:=\"\" rgb(153,=\"\" 169,=\"\" 191);=\"\" list-style:=\"\" none;\"=\"\"><strongcolor: rgb(94,=\"\" 109,=\"\" 130);=\"\" font-weight:=\"\" 400;\"=\"\">控制反馈：通过界面样式和交互动效让用户可以清晰的感知自己的操作；<lifont-size: 14px;=\"\" margin-bottom:=\"\" 10px;=\"\" color:=\"\" rgb(153,=\"\" 169,=\"\" 191);=\"\" list-style:=\"\" none;\"=\"\"><strongcolor: rgb(94,=\"\" 109,=\"\" 130);=\"\" font-weight:=\"\" 400;\"=\"\">页面反馈：操作后，通过页面元素的变化清晰地展现当前状态。<h3font-size: 22px;=\"\" font-weight:=\"\" 400;=\"\" color:=\"\" rgb(31,=\"\" 45,=\"\" 61);=\"\" margin:=\"\" 0px=\"\" 30px;=\"\" font-family:=\"\" &quot;helvetica=\"\" neue&quot;,=\"\" helvetica,=\"\" &quot;pingfang=\"\" sc&quot;,=\"\" &quot;hiragino=\"\" sans=\"\" gb&quot;,=\"\" &quot;microsoft=\"\" yahei&quot;,=\"\" simsun,=\"\" sans-serif;=\"\" font-style:=\"\" normal;=\"\" font-variant-ligatures:=\"\" font-variant-caps:=\"\" letter-spacing:=\"\" orphans:=\"\" 2;=\"\" text-align:=\"\" start;=\"\" text-indent:=\"\" 0px;=\"\" text-transform:=\"\" none;=\"\" white-space:=\"\" widows:=\"\" word-spacing:=\"\" -webkit-text-stroke-width:=\"\" text-decoration-style:=\"\" initial;=\"\" text-decoration-color:=\"\" initial;\"=\"\">效率 Efficiency<ulmargin-bottom: 50px;=\"\" padding-left:=\"\" 0px;=\"\" color:=\"\" rgb(0,=\"\" 0,=\"\" 0);=\"\" font-family:=\"\" &quot;helvetica=\"\" neue&quot;,=\"\" helvetica,=\"\" &quot;pingfang=\"\" sc&quot;,=\"\" &quot;hiragino=\"\" sans=\"\" gb&quot;,=\"\" &quot;microsoft=\"\" yahei&quot;,=\"\" simsun,=\"\" sans-serif;=\"\" font-size:=\"\" medium;=\"\" font-style:=\"\" normal;=\"\" font-variant-ligatures:=\"\" font-variant-caps:=\"\" font-weight:=\"\" 400;=\"\" letter-spacing:=\"\" orphans:=\"\" 2;=\"\" text-align:=\"\" start;=\"\" text-indent:=\"\" text-transform:=\"\" none;=\"\" white-space:=\"\" widows:=\"\" word-spacing:=\"\" -webkit-text-stroke-width:=\"\" text-decoration-style:=\"\" initial;=\"\" text-decoration-color:=\"\" initial;\"=\"\"><lifont-size: 14px;=\"\" margin-bottom:=\"\" 10px;=\"\" color:=\"\" rgb(153,=\"\" 169,=\"\" 191);=\"\" list-style:=\"\" none;\"=\"\"><strongcolor: rgb(94,=\"\" 109,=\"\" 130);=\"\" font-weight:=\"\" 400;\"=\"\">简化流程：设计简洁直观的操作流程；<lifont-size: 14px;=\"\" margin-bottom:=\"\" 10px;=\"\" color:=\"\" rgb(153,=\"\" 169,=\"\" 191);=\"\" list-style:=\"\" none;\"=\"\"><strongcolor: rgb(94,=\"\" 109,=\"\" 130);=\"\" font-weight:=\"\" 400;\"=\"\">清晰明确：语言表达清晰且表意明确，让用户快速理解进而作出决策；<lifont-size: 14px;=\"\" margin-bottom:=\"\" 10px;=\"\" color:=\"\" rgb(153,=\"\" 169,=\"\" 191);=\"\" list-style:=\"\" none;\"=\"\"><strongcolor: rgb(94,=\"\" 109,=\"\" 130);=\"\" font-weight:=\"\" 400;\"=\"\">帮助用户识别：界面简单直白，让用户快速识别而非回忆，减少用户记忆负担。<h3font-size: 22px;=\"\" font-weight:=\"\" 400;=\"\" color:=\"\" rgb(31,=\"\" 45,=\"\" 61);=\"\" margin:=\"\" 0px=\"\" 30px;=\"\" font-family:=\"\" &quot;helvetica=\"\" neue&quot;,=\"\" helvetica,=\"\" &quot;pingfang=\"\" sc&quot;,=\"\" &quot;hiragino=\"\" sans=\"\" gb&quot;,=\"\" &quot;microsoft=\"\" yahei&quot;,=\"\" simsun,=\"\" sans-serif;=\"\" font-style:=\"\" normal;=\"\" font-variant-ligatures:=\"\" font-variant-caps:=\"\" letter-spacing:=\"\" orphans:=\"\" 2;=\"\" text-align:=\"\" start;=\"\" text-indent:=\"\" 0px;=\"\" text-transform:=\"\" none;=\"\" white-space:=\"\" widows:=\"\" word-spacing:=\"\" -webkit-text-stroke-width:=\"\" text-decoration-style:=\"\" initial;=\"\" text-decoration-color:=\"\" initial;\"=\"\">可控 Controllability<ulmargin-bottom: 50px;=\"\" padding-left:=\"\" 0px;=\"\" color:=\"\" rgb(0,=\"\" 0,=\"\" 0);=\"\" font-family:=\"\" &quot;helvetica=\"\" neue&quot;,=\"\" helvetica,=\"\" &quot;pingfang=\"\" sc&quot;,=\"\" &quot;hiragino=\"\" sans=\"\" gb&quot;,=\"\" &quot;microsoft=\"\" yahei&quot;,=\"\" simsun,=\"\" sans-serif;=\"\" font-size:=\"\" medium;=\"\" font-style:=\"\" normal;=\"\" font-variant-ligatures:=\"\" font-variant-caps:=\"\" font-weight:=\"\" 400;=\"\" letter-spacing:=\"\" orphans:=\"\" 2;=\"\" text-align:=\"\" start;=\"\" text-indent:=\"\" text-transform:=\"\" none;=\"\" white-space:=\"\" widows:=\"\" word-spacing:=\"\" -webkit-text-stroke-width:=\"\" text-decoration-style:=\"\" initial;=\"\" text-decoration-color:=\"\" initial;\"=\"\"><lifont-size: 14px;=\"\" margin-bottom:=\"\" 10px;=\"\" color:=\"\" rgb(153,=\"\" 169,=\"\" 191);=\"\" list-style:=\"\" none;\"=\"\"><strongcolor: rgb(94,=\"\" 109,=\"\" 130);=\"\" font-weight:=\"\" 400;\"=\"\">用户决策：根据场景可给予用户操作建议或安全提示，但不能代替用户进行决策；<lifont-size: 14px;=\"\" margin-bottom:=\"\" 10px;=\"\" color:=\"\" rgb(153,=\"\" 169,=\"\" 191);=\"\" list-style:=\"\" none;\"=\"\"><strongcolor: rgb(94,=\"\" 109,=\"\" 130);=\"\" font-weight:=\"\" 400;\"=\"\">结果可控：用户可以自由的进行操作，包括撤销、回退和终止当前操作等。</strongcolor:></lifont-size:></strongcolor:></lifont-size:></ulmargin-bottom:></h3font-size:></strongcolor:></lifont-size:></strongcolor:></lifont-size:></strongcolor:></lifont-size:></ulmargin-bottom:></h3font-size:></strongcolor:></lifont-size:></strongcolor:></lifont-size:></ulmargin-bottom:></h3font-size:></strongcolor:></lifont-size:></strongcolor:></lifont-size:></ulmargin-bottom:></h3font-size:><br></p>','2020-04-30 05:58:42.915116','2020-05-01 07:29:50.737280','一致性 Consistency与现实生活一致',0,1,1);
 /*!40000 ALTER TABLE `wiki_post` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -915,11 +926,11 @@ CREATE TABLE `wiki_post_tags` (
   `post_id` int(11) NOT NULL,
   `tag_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `post_tags_post_id_tag_id_e786772a_uniq` (`post_id`,`tag_id`),
-  KEY `post_tags_tag_id_eb42e8a6_fk_tag_id` (`tag_id`),
-  CONSTRAINT `post_tags_post_id_2b0ee768_fk_post_id` FOREIGN KEY (`post_id`) REFERENCES `wiki_post` (`id`),
-  CONSTRAINT `post_tags_tag_id_eb42e8a6_fk_tag_id` FOREIGN KEY (`tag_id`) REFERENCES `wiki_tag` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  UNIQUE KEY `wiki_post_tags_post_id_tag_id_2ce54a0d_uniq` (`post_id`,`tag_id`),
+  KEY `wiki_post_tags_tag_id_0d1e9a57_fk_wiki_tag_id` (`tag_id`),
+  CONSTRAINT `wiki_post_tags_post_id_a2c5fe07_fk_wiki_post_id` FOREIGN KEY (`post_id`) REFERENCES `wiki_post` (`id`),
+  CONSTRAINT `wiki_post_tags_tag_id_0d1e9a57_fk_wiki_tag_id` FOREIGN KEY (`tag_id`) REFERENCES `wiki_tag` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -928,7 +939,6 @@ CREATE TABLE `wiki_post_tags` (
 
 LOCK TABLES `wiki_post_tags` WRITE;
 /*!40000 ALTER TABLE `wiki_post_tags` DISABLE KEYS */;
-INSERT INTO `wiki_post_tags` VALUES (2,2,1);
 /*!40000 ALTER TABLE `wiki_post_tags` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -944,7 +954,7 @@ CREATE TABLE `wiki_tag` (
   `name` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -953,7 +963,7 @@ CREATE TABLE `wiki_tag` (
 
 LOCK TABLES `wiki_tag` WRITE;
 /*!40000 ALTER TABLE `wiki_tag` DISABLE KEYS */;
-INSERT INTO `wiki_tag` VALUES (2,'Linux'),(1,'平台');
+INSERT INTO `wiki_tag` VALUES (1,'用户管理');
 /*!40000 ALTER TABLE `wiki_tag` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -966,4 +976,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-04-14 12:26:50
+-- Dump completed on 2020-05-01 16:27:16
