@@ -9,6 +9,7 @@ from rbac.models import Permission
 from rbac.serializers import permissionSerializers
 from utils.pagination import MaxPagination
 from utils.permissions import get_all_paths
+from utils.tree import treeFilter
 
 
 class PermissionView(ModelViewSet):
@@ -18,6 +19,30 @@ class PermissionView(ModelViewSet):
     pagination_class = MaxPagination
     queryset = Permission.objects.all()
     serializer_class = permissionSerializers.PermissionSerializer
+
+
+class PermissionAll(APIView):
+    """
+    获取所有权限
+    """
+
+    def get(self, request, *args, **kwargs):
+        queryset = Permission.objects.all()
+        serializer = permissionSerializers.PermissionSerializer(queryset, many=True)
+        results = serializer.data
+        return Response(results)
+
+
+class PermissionTree(APIView):
+    """
+    权限树
+    """
+
+    def get(self, request, *args, **kwargs):
+        queryset = Permission.objects.all()
+        serializer = permissionSerializers.PermissionSerializer(queryset, many=True)
+        results = treeFilter(serializer.data)
+        return Response(results)
 
 
 class InitPermission(APIView):

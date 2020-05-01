@@ -18,6 +18,8 @@ urlpatterns = [
     path('menu/tree/', menu.MenuTreeView.as_view()),
     path('init_permission/', permission.InitPermission.as_view()),
     path('paths/', permission.PermissionPath.as_view()),
+    path('permissions/tree/', permission.PermissionTree.as_view()),
+    path('permissions/all/', permission.PermissionAll.as_view()),
 
     path('', include(router.urls)),
 

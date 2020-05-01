@@ -6,6 +6,7 @@ from rest_framework.viewsets import ModelViewSet
 from rbac.models import Menu, UserProfile
 from rbac.serializers import menuSerializers
 from utils.pagination import MenuPagination
+from utils.tree import treeFilter
 
 
 class MenuView(ModelViewSet):
@@ -37,21 +38,5 @@ class MenuTreeView(APIView):
         menus = [i.get('menus') for i in menus_list]
         queryset = Menu.objects.all()
         serializer = menuSerializers.MenuSerializer(queryset, many=True)
-        tree_dict = {}
-        tree_data = []
-        try:
-            for item in serializer.data:
-                tree_dict[item['id']] = item
-            for i in tree_dict:
-                if i not in menus:
-                    continue
-                if tree_dict[i]['pid']:
-                    pid = tree_dict[i]['pid']
-                    parent = tree_dict[pid]
-                    parent.setdefault('children', []).append(tree_dict[i])
-                else:
-                    tree_data.append(tree_dict[i])
-            results = tree_data
-        except KeyError:
-            results = serializer.data
+        results = treeFilter(serializer.data, menus)
         return Response(results)
