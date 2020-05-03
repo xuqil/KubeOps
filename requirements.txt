@@ -17,7 +17,7 @@ daphne==2.4.1
 Django==3.0.4
 django-celery-beat==2.0.0
 django-cors-headers==3.2.1
-django-filters==0.2.1
+django-filter==2.2.0
 django-simpleui==3.9.1
 django-timezone-field==4.0
 djangorestframework==3.11.0
