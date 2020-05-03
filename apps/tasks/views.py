@@ -37,6 +37,11 @@ class PeriodicTaskView(ModelViewSet):
     ordering_fields = ('name', 'interval', 'crontab', 'solar', 'clocked', 'one_off', 'start_time', 'enabled',
                        'total_run_count', 'date_changed')
 
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return PeriodicTaskListSerializer
+        return PeriodicTaskSerializer
+
 
 class PeriodicTasksView(ModelViewSet):
     queryset = PeriodicTasks.objects.all()

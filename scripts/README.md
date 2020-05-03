@@ -43,3 +43,9 @@
 
 - installNodeByUbuntu.sh
 
+
+### 创建数据库
+
+```mysql
+CREATE DATABASE kubeops DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+```

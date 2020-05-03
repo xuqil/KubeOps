@@ -8,6 +8,32 @@ class PeriodicTaskSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class PeriodicTaskListSerializer(serializers.ModelSerializer):
+    interval = serializers.SerializerMethodField()
+    solar = serializers.SerializerMethodField()
+    crontab = serializers.SerializerMethodField()
+    clocked = serializers.SerializerMethodField()
+
+    class Meta:
+        model = PeriodicTask
+        fields = ['name', 'task', 'interval', 'crontab', 'solar', 'clocked', 'args', 'kwargs', 'queue', 'exchange',
+                  'routing_key', 'headers', 'priority', 'expires', 'expire_seconds', 'one_off', 'start_time', 'enabled',
+                  'last_run_at', 'total_run_count', 'date_changed', 'description']
+        depth = 1
+
+    def get_interval(self, row):
+        return str(row.interval)
+
+    def get_crontab(self, row):
+        return str(row.crontab)
+
+    def get_solar(self, row):
+        return str(row.solar)
+
+    def get_clocked(self, row):
+        return str(row.clocked)
+
+
 class PeriodicTasksSerializer(serializers.ModelSerializer):
     class Meta:
         model = PeriodicTasks
