@@ -54,13 +54,11 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-    nid = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, verbose_name=u"用户")
     post = models.ForeignKey(Post, on_delete=models.CASCADE, verbose_name=u"文章")
     content = models.TextField(verbose_name=u"评论内容")
     c_time = models.DateTimeField(auto_now_add=True, verbose_name=u"添加时间")
-    parent_id = models.ForeignKey('Comment', verbose_name=u"子评论内容", blank=True, null=True,
-                                  related_name='c_comment', on_delete=models.CASCADE)
+    pid = models.ForeignKey('Comment', verbose_name=u"上级评论", blank=True, null=True, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = u'wiki评论'
