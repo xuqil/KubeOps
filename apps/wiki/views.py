@@ -21,7 +21,7 @@ class PostViewSet(viewsets.ModelViewSet):
     ordering = ('-c_time', '-u_time')
 
     def get_serializer_class(self):
-        if self.action == 'list' or self.action == 'retrieve':
+        if self.action == 'list':
             return PostListSerializer
         return PostSerializer
 

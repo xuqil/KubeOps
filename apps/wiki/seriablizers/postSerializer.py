@@ -24,4 +24,8 @@ class PostListSerializer(serializers.ModelSerializer):
         return row.author.username
 
     def get_category(self, row):
-        return row.category.name
+        try:
+            result = row.category.name
+        except Exception:
+            result = None
+        return result
