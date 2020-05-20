@@ -37,10 +37,22 @@ class PeriodicTaskView(ModelViewSet):
     ordering_fields = ('name', 'interval', 'crontab', 'solar', 'clocked', 'one_off', 'start_time', 'enabled',
                        'total_run_count', 'date_changed')
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.flag = 0
+
     def get_serializer_class(self):
         if self.action == 'list':
             return PeriodicTaskListSerializer
+        if self.action == 'update' and self.flag == 1:
+            return PeriodicTaskEnableSerializer
         return PeriodicTaskSerializer
+
+    def update(self, request, *args, **kwargs):
+        if request.data.get('enabled') is not None and request.data.get('name') is None:
+            self.flag = 1
+        result = super(PeriodicTaskView, self).update(request, *args, **kwargs)
+        return result
 
 
 class PeriodicTasksView(ModelViewSet):
