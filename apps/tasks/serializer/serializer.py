@@ -16,7 +16,7 @@ class PeriodicTaskListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PeriodicTask
-        fields = ['name', 'task', 'interval', 'crontab', 'solar', 'clocked', 'args', 'kwargs', 'queue', 'exchange',
+        fields = ['id', 'name', 'task', 'interval', 'crontab', 'solar', 'clocked', 'args', 'kwargs', 'queue', 'exchange',
                   'routing_key', 'headers', 'priority', 'expires', 'expire_seconds', 'one_off', 'start_time', 'enabled',
                   'last_run_at', 'total_run_count', 'date_changed', 'description']
         depth = 1
